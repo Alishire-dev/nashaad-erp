@@ -9,7 +9,7 @@ class CategoryModel extends Model
     protected $table         = 'categories';
     protected $primaryKey    = 'id';
     protected $returnType    = 'array';
-    protected $allowedFields = ['branch_id', 'category_code', 'name', 'description', 'status'];
+    protected $allowedFields = ['branch_id', 'category_code', 'parent_id', 'show_on_pos', 'name', 'description', 'status'];
 
     protected $useTimestamps = false;
     protected $createdField  = 'created_at';
@@ -20,7 +20,11 @@ class CategoryModel extends Model
 
     public function getForBranch(int $branchId): array
     {
-        return $this->where('branch_id', $branchId)->orderBy('id', 'ASC')->findAll();
+        return $this->select('categories.*, parent.name as parent_name')
+            ->join('categories as parent', 'parent.id = categories.parent_id', 'left')
+            ->where('categories.branch_id', $branchId)
+            ->orderBy('categories.id', 'ASC')
+            ->findAll();
     }
 
     /**
