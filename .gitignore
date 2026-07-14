@@ -1,0 +1,26 @@
+# --- Environment / secrets: NEVER commit real credentials ---
+.env
+
+# --- Composer dependencies: regenerated via `composer install`, not committed ---
+/vendor/
+
+# --- Runtime / writable data: sessions, cache, logs, uploads ---
+/writable/cache/*
+!/writable/cache/index.html
+/writable/logs/*
+!/writable/logs/index.html
+/writable/session/*
+!/writable/session/index.html
+/writable/uploads/*
+!/writable/uploads/index.html
+/writable/debugbar/*
+!/writable/debugbar/index.html
+
+# --- OS / editor cruft ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# --- One-time seed scripts with real creds if ever added ad hoc ---
+seed_admin.php
