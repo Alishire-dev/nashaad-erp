@@ -20,8 +20,9 @@ class CategoryModel extends Model
 
     public function getForBranch(int $branchId): array
     {
-        return $this->select('categories.*, parent.name as parent_name')
+        return $this->select('categories.*, parent.name as parent_name, branches.name as branch_name')
             ->join('categories as parent', 'parent.id = categories.parent_id', 'left')
+            ->join('branches', 'branches.id = categories.branch_id', 'left')
             ->where('categories.branch_id', $branchId)
             ->orderBy('categories.id', 'ASC')
             ->findAll();

@@ -10,9 +10,12 @@ class Categories extends BaseController
     {
         $this->requirePermission('items', 'view');
 
+        $branch = db_connect()->table('branches')->where('id', $this->branchId)->get()->getRowArray();
+
         $data = [
             'title'      => 'Categories List',
             'categories' => model(CategoryModel::class)->getForBranch($this->branchId),
+            'branchName' => $branch['name'] ?? 'Main Branch',
         ];
 
         return view('layout/header', $data)
@@ -23,27 +26,57 @@ class Categories extends BaseController
     public function add()
     {
         $this->requirePermission('items', 'add');
+        return $this->form(null);
+    }
 
+    public function edit($id)
+    {
+        $this->requirePermission('items', 'edit');
+        return $this->form((int) $id);
+    }
+
+    private function form(?int $categoryId)
+    {
         $categoryModel = model(CategoryModel::class);
+        $existing      = $categoryId ? $categoryModel->find($categoryId) : null;
+
+        if ($categoryId && ! $existing) {
+            return redirect()->to('/category/view');
+        }
 
         if ($this->request->getMethod() === 'POST') {
-            $categoryModel->createForBranch([
+            $data = [
                 'branch_id'   => $this->branchId,
                 'name'        => $this->request->getPost('name'),
                 'description' => $this->request->getPost('description'),
                 'parent_id'   => $this->request->getPost('parent_id') ?: null,
                 'show_on_pos' => $this->request->getPost('show_on_pos') === 'no' ? 0 : 1,
-            ]);
+            ];
+
+            if ($categoryId) {
+                $categoryModel->update($categoryId, $data);
+            } else {
+                $categoryModel->createForBranch($data);
+            }
 
             return redirect()->to('/category/view');
         }
 
+        return $this->renderForm($categoryId, $existing);
+    }
+
+    private function renderForm(?int $categoryId, ?array $existing)
+    {
         $branch = db_connect()->table('branches')->where('id', $this->branchId)->get()->getRowArray();
 
         $data = [
-            'title'         => 'Add Category',
+            'title'         => $categoryId ? 'Edit Category' : 'Add Category',
+            'category'      => $existing,
             'branchName'    => $branch['name'] ?? 'Main Branch',
-            'allCategories' => $categoryModel->getForBranch($this->branchId),
+            'allCategories' => array_filter(
+                model(CategoryModel::class)->getForBranch($this->branchId),
+                static fn ($c) => $c['id'] !== $categoryId // a category can't be its own parent
+            ),
         ];
 
         return view('layout/header', $data)

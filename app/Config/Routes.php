@@ -26,6 +26,8 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->get('category/view', 'Categories::index');
     $routes->get('category/add', 'Categories::add');
     $routes->post('category/add', 'Categories::add');
+    $routes->get('category/edit/(:num)', 'Categories::edit/$1');
+    $routes->post('category/edit/(:num)', 'Categories::edit/$1');
     $routes->post('category/quick-add', 'Categories::quickAdd');
 
     // Units
