@@ -24,6 +24,9 @@
 
     <div class="form-group"><label>Item Name*</label>
         <input type="text" name="name" required value="<?= esc($item['name'] ?? '') ?>">
+        <?php if ($item): ?>
+            <small>Item Code: <strong><?= esc($item['item_code'] ?? '-') ?></strong> (auto-assigned, not editable)</small>
+        <?php endif; ?>
     </div>
 
     <div style="display:flex; gap:16px;">
@@ -112,6 +115,14 @@
             <select name="allow_negative_sale">
                 <option value="no" <?= $allowNeg == 0 ? 'selected' : '' ?>>No</option>
                 <option value="yes" <?= $allowNeg == 1 ? 'selected' : '' ?>>Yes</option>
+            </select>
+        </div>
+        <div class="form-group" style="flex:1;">
+            <label>Order Item <span class="info-icon" title="No = exclude from reorder/purchase-suggestion lists (e.g. discontinued items)">ⓘ</span></label>
+            <?php $orderItem = $item['order_item'] ?? 1; ?>
+            <select name="order_item">
+                <option value="yes" <?= $orderItem == 1 ? 'selected' : '' ?>>Yes</option>
+                <option value="no" <?= $orderItem == 0 ? 'selected' : '' ?>>No</option>
             </select>
         </div>
     </div>

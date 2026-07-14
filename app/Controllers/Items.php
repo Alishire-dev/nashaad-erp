@@ -62,6 +62,7 @@ class Items extends BaseController
                 'sku'                 => $this->request->getPost('sku') ?: null,
                 'expiry_date'         => $this->request->getPost('expiry_date') ?: null,
                 'purpose'             => $this->request->getPost('purpose') ?: 'for_sale',
+                'order_item'          => $this->request->getPost('order_item') === 'no' ? 0 : 1,
                 'manage_stock'        => $this->request->getPost('manage_stock') === 'yes' ? 1 : 0,
                 'allow_negative_sale' => $this->request->getPost('allow_negative_sale') === 'yes' ? 1 : 0,
                 'alert_qty'           => $this->request->getPost('alert_qty') ?: 0,
@@ -91,7 +92,7 @@ class Items extends BaseController
 
             $isValid = $itemId
                 ? $itemModel->update($itemId, $data)
-                : $itemModel->insert($data);
+                : $itemModel->createForBranch($data);
 
             if (! $isValid) {
                 return $this->renderForm($itemId, $existing, $itemModel->errors());

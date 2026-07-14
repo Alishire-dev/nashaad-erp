@@ -10,8 +10,8 @@ class ItemModel extends Model
     protected $primaryKey    = 'id';
     protected $returnType    = 'array';
     protected $allowedFields = [
-        'branch_id', 'category_id', 'brand_id', 'unit_id', 'tax_category_id', 'tax_type',
-        'name', 'sku', 'barcode', 'image', 'purpose', 'manage_stock', 'allow_negative_sale',
+        'branch_id', 'item_code', 'category_id', 'brand_id', 'unit_id', 'tax_category_id', 'tax_type',
+        'name', 'sku', 'barcode', 'image', 'purpose', 'order_item', 'manage_stock', 'allow_negative_sale',
         'alert_qty', 'purchase_price', 'sales_price', 'wholesale_price', 'minimum_price',
         'profit_margin', 'sales_commission', 'expiry_date', 'current_stock', 'description', 'status',
     ];
@@ -29,12 +29,25 @@ class ItemModel extends Model
 
     public function getForBranch(int $branchId): array
     {
-        return $this->select('items.*, categories.name as category_name, units.short_name as unit_short')
+        return $this->select('items.*, categories.name as category_name, units.short_name as unit_short, tax_categories.rate as tax_rate')
             ->join('categories', 'categories.id = items.category_id', 'left')
             ->join('units', 'units.id = items.unit_id', 'left')
+            ->join('tax_categories', 'tax_categories.id = items.tax_category_id', 'left')
             ->where('items.branch_id', $branchId)
             ->orderBy('items.name', 'ASC')
             ->findAll();
+    }
+
+    /**
+     * Creates a new item, auto-generating a sequential ITM0001-style code
+     * per branch — separate from the user-editable SKU field.
+     */
+    public function createForBranch(array $data): int|string|false
+    {
+        $count = $this->where('branch_id', $data['branch_id'])->countAllResults();
+        $data['item_code'] = 'ITM' . str_pad((string) ($count + 1), 4, '0', STR_PAD_LEFT);
+
+        return $this->insert($data);
     }
 
     public function lowStock(int $branchId): array
