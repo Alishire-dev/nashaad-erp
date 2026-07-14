@@ -40,4 +40,20 @@ class Categories extends BaseController
             . view('categories/add')
             . view('layout/footer');
     }
+
+    /**
+     * Lightweight JSON endpoint for the Items form's inline "+" popup.
+     */
+    public function quickAdd()
+    {
+        $this->requirePermission('items', 'add');
+
+        $categoryModel = model(CategoryModel::class);
+        $id = $categoryModel->createForBranch([
+            'branch_id' => $this->branchId,
+            'name'      => $this->request->getPost('name'),
+        ]);
+
+        return $this->response->setJSON(['id' => $id, 'name' => $this->request->getPost('name')]);
+    }
 }

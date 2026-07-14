@@ -19,21 +19,26 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->get('items/list', 'Items::index');
     $routes->get('items/add', 'Items::add');
     $routes->post('items/add', 'Items::add');
+    $routes->get('items/edit/(:num)', 'Items::edit/$1');
+    $routes->post('items/edit/(:num)', 'Items::edit/$1');
 
     // Categories
     $routes->get('category/view', 'Categories::index');
     $routes->get('category/add', 'Categories::add');
     $routes->post('category/add', 'Categories::add');
+    $routes->post('category/quick-add', 'Categories::quickAdd');
 
     // Units
     $routes->get('units', 'Units::index');
     $routes->get('units/add', 'Units::add');
     $routes->post('units/add', 'Units::add');
+    $routes->post('units/quick-add', 'Units::quickAdd');
 
     // Brands
     $routes->get('brands', 'Brands::index');
     $routes->get('brands/add', 'Brands::add');
     $routes->post('brands/add', 'Brands::add');
+    $routes->post('brands/quick-add', 'Brands::quickAdd');
 
     // Stock Manager / Stock Alert
     $routes->get('stock/manager', 'StockManager::index');

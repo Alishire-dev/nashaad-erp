@@ -41,4 +41,20 @@ class Units extends BaseController
             . view('units/add')
             . view('layout/footer');
     }
+
+    /**
+     * Lightweight JSON endpoint for the Items form's inline "+" popup.
+     */
+    public function quickAdd()
+    {
+        $this->requirePermission('items', 'add');
+
+        $id = model(UnitModel::class)->createForBranch([
+            'branch_id'  => $this->branchId,
+            'name'       => $this->request->getPost('name'),
+            'short_name' => $this->request->getPost('short_name') ?: $this->request->getPost('name'),
+        ]);
+
+        return $this->response->setJSON(['id' => $id, 'name' => $this->request->getPost('name')]);
+    }
 }

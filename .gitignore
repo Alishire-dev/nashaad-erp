@@ -16,7 +16,10 @@
 /writable/debugbar/*
 !/writable/debugbar/index.html
 
-# --- OS / editor cruft ---
+# --- Uploaded item images: real files stay out of git, folder structure stays ---
+/public/uploads/items/*
+!/public/uploads/items/index.html
+
 .DS_Store
 Thumbs.db
 .vscode/
