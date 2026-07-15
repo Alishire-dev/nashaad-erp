@@ -16,9 +16,13 @@
     .badge-no { background:#c0392b; color:#fff; padding:3px 8px; border-radius:3px; font-size:12px; }
 </style>
 
-<h2>Items List</h2>
+<h2><?= isset($isArchivedView) ? 'Archived Items' : 'Items List' ?></h2>
 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-    <a class="btn green" href="<?= site_url('items/add') ?>">+ New Item</a>
+    <?php if (! isset($isArchivedView)): ?>
+        <a class="btn green" href="<?= site_url('items/add') ?>">+ New Item</a>
+    <?php else: ?>
+        <a class="btn" href="<?= site_url('items/list') ?>">&larr; Back to Items List</a>
+    <?php endif; ?>
 </div>
 
 <table id="itemsTable" class="display" style="width:100%;">
@@ -63,6 +67,12 @@
                 <?php endif; ?>
             </td>
             <td>
+                <?php if (isset($isArchivedView)): ?>
+                    <form method="post" action="<?= site_url('items/restore/' . $item['id']) ?>" style="display:inline;">
+                        <?= csrf_field() ?>
+                        <button type="submit" class="btn green">Restore</button>
+                    </form>
+                <?php else: ?>
                 <div class="action-dropdown">
                     <button class="btn" onclick="toggleDropdown(this)">Action ▾</button>
                     <div class="action-dropdown-menu">
@@ -76,6 +86,7 @@
                         </form>
                     </div>
                 </div>
+                <?php endif; ?>
             </td>
         </tr>
         <?php endforeach; ?>

@@ -184,6 +184,56 @@
     </div>
 </div>
 
+<!-- Quick Add Stock modal (from Quick Links - item picker, unlike the per-row Adjust Stock) -->
+<div class="modal-backdrop" id="quickAddStockModal">
+    <div class="modal-box">
+        <div class="modal-header">
+            <strong>➕ Add Stock</strong>
+            <span style="cursor:pointer;" onclick="closeQuickAddStock()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <form method="post" action="<?= site_url('stock/adjust') ?>">
+                <?= csrf_field() ?>
+                <div class="form-group">
+                    <label>Item*</label>
+                    <select name="item_id" required>
+                        <option value="">-Select Item-</option>
+                        <?php foreach ($items as $item): ?>
+                            <option value="<?= $item['id'] ?>"><?= esc($item['name']) ?> (<?= esc($item['item_code'] ?? '') ?>)</option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Date*</label>
+                    <input type="date" name="adjustment_date" value="<?= date('Y-m-d') ?>" required>
+                </div>
+                <input type="hidden" name="status" value="increase">
+                <div class="form-group">
+                    <label>Migration Control Account*</label>
+                    <select name="migration_control_account_id" required>
+                        <option value="">-Select-</option>
+                        <?php foreach ($migrationAccounts as $acc): ?>
+                            <option value="<?= $acc['id'] ?>"><?= esc($acc['name']) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="form-group"><label>Quantity to Add*</label><input type="number" step="0.001" name="adjust_qty" required></div>
+                <div class="form-group"><label>Narrative</label><textarea name="narrative" rows="2" placeholder="e.g. new stock received"></textarea></div>
+                <button class="btn green" type="submit">Submit</button>
+                <button class="btn" type="button" onclick="closeQuickAddStock()">Close</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function openQuickAddStock() {
+    document.getElementById('quickAddStockModal').classList.add('show');
+    document.querySelectorAll('.quick-links-menu.open').forEach(m => m.classList.remove('open'));
+}
+function closeQuickAddStock() { document.getElementById('quickAddStockModal').classList.remove('show'); }
+</script>
+
 <script>
 function toggleAll(source) {
     document.querySelectorAll('.row-check').forEach(cb => cb.checked = source.checked);

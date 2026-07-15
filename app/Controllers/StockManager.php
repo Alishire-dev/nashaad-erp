@@ -18,6 +18,7 @@ class StockManager extends BaseController
             'recent'            => model(StockAdjustmentModel::class)->recentForBranch($this->branchId),
             'items'             => model(ItemModel::class)->getForBranch($this->branchId),
             'migrationAccounts' => model(MigrationControlAccountModel::class)->getActive(),
+            'quickLinksView'    => 'stock/_quick_links',
         ];
 
         return view('layout/header', $data)

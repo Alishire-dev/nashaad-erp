@@ -24,7 +24,15 @@
 
         .sidebar {
             width:250px; background:#1a2036; color:#c9cedb; padding:12px 0; overflow-y:auto;
-            box-shadow: 2px 0 8px rgba(0,0,0,.08);
+            box-shadow: 2px 0 8px rgba(0,0,0,.08); transition: margin-left .2s ease, width .2s ease;
+        }
+        .sidebar.collapsed { margin-left:-250px; }
+        @media (max-width: 900px) {
+            .sidebar { position:fixed; height:100vh; z-index:40; margin-left:-250px; }
+            .sidebar.collapsed { margin-left:0; }
+            .content { padding:20px 16px; }
+            .topbar .brand { font-size:17px; }
+            .branch-select { display:none; }
         }
         .sidebar a {
             display:block; padding:10px 20px; color:#c9cedb; text-decoration:none; font-size:14px;
@@ -258,18 +266,10 @@
         <a class="nav-pending" href="#" title="Not yet scheduled" onclick="return false;">Settings <span class="soon-badge">soon</span></a>
     </div>
     <div class="content">
-        <div class="links-dropdown" style="display:inline-block;">
-            <button class="quick-links-btn" onclick="toggleQuickLinks()">☰ Quick Links</button>
-            <div class="quick-links-menu" id="quickLinksMenu">
-                <a href="<?= site_url('purchase/add') ?>">+ Purchase</a>
-                <a href="#" class="nav-pending" onclick="return false;">+ Sales</a>
-                <a href="#" class="nav-pending" onclick="return false;">+ Customer</a>
-                <a href="<?= site_url('suppliers/add') ?>">+ Supplier</a>
-                <a href="<?= site_url('items/add') ?>">+ Item</a>
-                <a href="#" class="nav-pending" onclick="return false;">+ Expense</a>
-            </div>
-        </div>
-        <br>
+        <?php if (isset($quickLinksView)): ?>
+            <?= view($quickLinksView) ?>
+            <br>
+        <?php endif; ?>
         <?php if (session()->getFlashdata('success')): ?>
             <div class="flash-success"><?= esc(session()->getFlashdata('success')) ?></div>
         <?php endif; ?>

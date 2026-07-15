@@ -16,13 +16,159 @@ class Items extends BaseController
 
         $itemModel = model(ItemModel::class);
         $data = [
-            'title' => 'Items List',
-            'items' => $itemModel->getForBranch($this->branchId),
+            'title'         => 'Items List',
+            'items'         => $itemModel->getForBranch($this->branchId),
+            'quickLinksView'=> 'items/_quick_links',
         ];
 
         return view('layout/header', $data)
             . view('items/list', $data)
             . view('layout/footer');
+    }
+
+    /**
+     * Archived Items — Items List filtered to status=inactive (soft-deleted
+     * items). Same columns/DataTable pattern as the main list.
+     */
+    public function archived()
+    {
+        $this->requirePermission('items', 'view');
+
+        $itemModel = model(ItemModel::class);
+        $data = [
+            'title'          => 'Archived Items',
+            'items'          => array_filter($itemModel->getForBranch($this->branchId), static fn ($i) => $i['status'] === 'inactive'),
+            'quickLinksView' => 'items/_quick_links',
+            'isArchivedView' => true,
+        ];
+
+        return view('layout/header', $data)
+            . view('items/list', $data)
+            . view('layout/footer');
+    }
+
+    /**
+     * Restores an archived (inactive) item back to active.
+     */
+    public function restore($id)
+    {
+        $this->requirePermission('items', 'edit');
+        model(ItemModel::class)->update((int) $id, ['status' => 'active']);
+        $this->session->setFlashdata('success', 'Item restored.');
+        return redirect()->to('/items/archived');
+    }
+
+    /**
+     * Download Upload Template — a blank CSV with the exact headers
+     * bulkUpload() expects, so a real spreadsheet round-trip is possible.
+     */
+    public function downloadTemplate()
+    {
+        $this->requirePermission('items', 'view');
+
+        $headers = ['item_code', 'name', 'category', 'unit', 'alert_qty', 'purchase_price', 'sales_price', 'wholesale_price', 'minimum_price'];
+        $sample  = ['', 'Sample Item Name', 'Existing Category Name', 'Existing Unit Name', '0', '0.00', '0.00', '0.00', '0.00'];
+
+        $csv = implode(',', $headers) . "\n" . implode(',', $sample) . "\n";
+
+        return $this->response
+            ->setHeader('Content-Type', 'text/csv')
+            ->setHeader('Content-Disposition', 'attachment; filename="items_upload_template.csv"')
+            ->setBody($csv);
+    }
+
+    /**
+     * Bulk Items Upload — CSV round-trip of the template above. Matches
+     * existing items by item_code (updates them); blank item_code creates
+     * a new item. Category/Unit are matched by name, created if missing —
+     * same pattern as ImportOriginalItemsSeeder, just reachable from the UI
+     * instead of the command line.
+     */
+    public function bulkUploadForm()
+    {
+        $this->requirePermission('items', 'add');
+
+        return view('layout/header', ['title' => 'Bulk Items Upload', 'quickLinksView' => 'items/_quick_links'])
+            . view('items/bulk_upload')
+            . view('layout/footer');
+    }
+
+    public function bulkUpload()
+    {
+        $this->requirePermission('items', 'add');
+
+        $file = $this->request->getFile('csv_file');
+        if (! $file || ! $file->isValid()) {
+            $this->session->setFlashdata('error', 'Please choose a valid CSV file.');
+            return redirect()->to('/items/bulk-upload');
+        }
+
+        $itemModel     = model(ItemModel::class);
+        $categoryModel = model(CategoryModel::class);
+        $unitModel     = model(UnitModel::class);
+
+        $rows = array_map('str_getcsv', file($file->getTempName()));
+        $header = array_map('trim', array_shift($rows));
+
+        $created = 0;
+        $updated = 0;
+        $skipped = 0;
+
+        foreach ($rows as $row) {
+            if (count($row) < count($header)) {
+                $skipped++;
+                continue;
+            }
+            $r = array_combine($header, $row);
+            $name = trim($r['name'] ?? '');
+            if ($name === '') {
+                $skipped++;
+                continue;
+            }
+
+            $categoryId = null;
+            if (! empty($r['category'])) {
+                $existing = array_filter($categoryModel->getForBranch($this->branchId), static fn ($c) => strcasecmp($c['name'], trim($r['category'])) === 0);
+                $categoryId = $existing ? array_values($existing)[0]['id'] : $categoryModel->createForBranch(['branch_id' => $this->branchId, 'name' => trim($r['category'])]);
+            }
+
+            $unitId = null;
+            if (! empty($r['unit'])) {
+                $existingU = array_filter($unitModel->getForBranch($this->branchId), static fn ($u) => strcasecmp($u['name'], trim($r['unit'])) === 0);
+                $unitId = $existingU ? array_values($existingU)[0]['id'] : $unitModel->createForBranch(['branch_id' => $this->branchId, 'name' => trim($r['unit']), 'short_name' => trim($r['unit'])]);
+            }
+
+            $itemCode = trim($r['item_code'] ?? '');
+            $data = [
+                'branch_id'       => $this->branchId,
+                'category_id'     => $categoryId,
+                'unit_id'         => $unitId,
+                'alert_qty'       => (float) ($r['alert_qty'] ?? 0),
+                'purchase_price'  => (float) ($r['purchase_price'] ?? 0),
+                'sales_price'     => (float) ($r['sales_price'] ?? 0),
+                'wholesale_price' => (float) ($r['wholesale_price'] ?? 0),
+                'minimum_price'   => (float) ($r['minimum_price'] ?? 0),
+                'name'            => $name,
+            ];
+
+            $existingItem = $itemCode !== '' ? $itemModel->where('item_code', $itemCode)->first() : null;
+
+            if ($existingItem) {
+                $itemModel->update($existingItem['id'], $data);
+                $updated++;
+            } else {
+                if ($itemCode !== '') {
+                    $data['item_code'] = $itemCode;
+                    $itemModel->insert($data);
+                } else {
+                    $itemModel->createForBranch($data);
+                }
+                $created++;
+            }
+        }
+
+        $this->session->setFlashdata('success', "Bulk upload complete: {$created} created, {$updated} updated, {$skipped} skipped.");
+        return redirect()->to('/items/list');
     }
 
     public function add()
