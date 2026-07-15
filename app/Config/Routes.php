@@ -48,6 +48,7 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     // Stock Manager / Stock Alert
     $routes->get('stock/manager', 'StockManager::index');
     $routes->post('stock/adjust', 'StockManager::adjust');
+    $routes->post('stock/update-price/(:num)', 'StockManager::updatePrice/$1');
     $routes->get('stock/alerts', 'StockManager::alerts');
 
     // Print Labels

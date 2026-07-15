@@ -10,7 +10,8 @@ class StockAdjustmentModel extends Model
     protected $primaryKey    = 'id';
     protected $returnType    = 'array';
     protected $allowedFields = [
-        'branch_id', 'item_id', 'direction', 'quantity', 'reason', 'note', 'created_by',
+        'branch_id', 'adjustment_date', 'item_id', 'direction', 'quantity', 'reason',
+        'migration_control_account_id', 'note', 'created_by',
     ];
 
     protected $useTimestamps = false;
@@ -31,17 +32,21 @@ class StockAdjustmentModel extends Model
         string $direction,
         string $reason,
         int $userId,
-        ?string $note = null
+        ?string $note = null,
+        ?string $adjustmentDate = null,
+        ?int $migrationControlAccountId = null
     ): bool {
         $this->insert([
-            'branch_id'  => $branchId,
-            'item_id'    => $itemId,
-            'direction'  => $direction,
-            'quantity'   => abs($qty),
-            'reason'     => $reason,
-            'note'       => $note,
-            'created_by' => $userId,
-            'created_at' => date('Y-m-d H:i:s'),
+            'branch_id'                    => $branchId,
+            'adjustment_date'              => $adjustmentDate ?: date('Y-m-d'),
+            'item_id'                      => $itemId,
+            'direction'                    => $direction,
+            'quantity'                     => abs($qty),
+            'reason'                       => $reason,
+            'migration_control_account_id' => $migrationControlAccountId,
+            'note'                         => $note,
+            'created_by'                   => $userId,
+            'created_at'                   => date('Y-m-d H:i:s'),
         ]);
 
         return model(ItemModel::class)->adjustStock($itemId, $qty, $direction);
@@ -58,9 +63,11 @@ class StockAdjustmentModel extends Model
 
     public function recentForBranch(int $branchId, int $limit = 50): array
     {
-        return $this->select('stock_adjustments.*, items.name as item_name, users.full_name as user_name')
+        return $this->select('stock_adjustments.*, items.name as item_name, users.full_name as user_name,
+                migration_control_accounts.name as account_name')
             ->join('items', 'items.id = stock_adjustments.item_id')
             ->join('users', 'users.id = stock_adjustments.created_by', 'left')
+            ->join('migration_control_accounts', 'migration_control_accounts.id = stock_adjustments.migration_control_account_id', 'left')
             ->where('stock_adjustments.branch_id', $branchId)
             ->orderBy('stock_adjustments.created_at', 'DESC')
             ->limit($limit)

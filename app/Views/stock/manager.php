@@ -2,11 +2,11 @@
     .action-dropdown { position:relative; display:inline-block; }
     .action-dropdown-menu {
         display:none; position:absolute; right:0; top:100%; background:#fff;
-        border:1px solid #ddd; border-radius:4px; box-shadow:0 2px 8px rgba(0,0,0,.15);
-        min-width:140px; z-index:10;
+        border:1px solid #ddd; border-radius:6px; box-shadow:0 4px 14px rgba(0,0,0,.18);
+        min-width:160px; z-index:10;
     }
     .action-dropdown-menu a, .action-dropdown-menu button {
-        display:block; width:100%; text-align:left; padding:8px 14px; color:#333;
+        display:block; width:100%; text-align:left; padding:9px 14px; color:#2c3038;
         text-decoration:none; font-size:13px; background:none; border:none; cursor:pointer;
     }
     .action-dropdown-menu a:hover, .action-dropdown-menu button:hover { background:#f4f5f7; }
@@ -14,7 +14,17 @@
 
     .modal-backdrop { display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:100; align-items:center; justify-content:center; }
     .modal-backdrop.show { display:flex; }
-    .modal-box { background:#fff; padding:20px; border-radius:6px; width:360px; }
+    .modal-box { background:#fff; padding:0; border-radius:8px; width:420px; max-width:92vw; overflow:hidden; }
+    .modal-header {
+        background: linear-gradient(135deg, #e88a2e, #d96f0f); color:#fff;
+        padding:14px 20px; display:flex; justify-content:space-between; align-items:center;
+    }
+    .modal-body { padding:20px; }
+
+    /* Higher-contrast grid: darker text, stronger borders, zebra striping */
+    #stockTable td { color:#1a2036; border-bottom:1px solid #e2e5ea; }
+    #stockTable tbody tr:nth-child(even) { background:#f8f9fb; }
+    #stockTable tbody tr:hover td { background:#fdeee0; }
 </style>
 
 <h2>Stock Management</h2>
@@ -59,8 +69,9 @@
                 <div class="action-dropdown">
                     <button class="btn" onclick="toggleDropdown(this)">Action ▾</button>
                     <div class="action-dropdown-menu">
-                        <a href="<?= site_url('items/edit/' . $item['id']) ?>">Edit</a>
-                        <button onclick="openAdjustModal(<?= $item['id'] ?>, '<?= esc($item['name'], 'js') ?>', <?= (float) $item['current_stock'] ?>)">Adjust Stock</button>
+                        <a href="<?= site_url('items/edit/' . $item['id']) ?>">✏️ Edit</a>
+                        <button onclick='openAdjustModal(<?= $item["id"] ?>, <?= json_encode($item["name"]) ?>, <?= (float) $item["current_stock"] ?>)'>⚖️ Adjust Stock</button>
+                        <button onclick='openPriceModal(<?= $item["id"] ?>, <?= json_encode($item["name"]) ?>, <?= (float) $item["purchase_price"] ?>, <?= (float) $item["sales_price"] ?>, <?= (float) $item["wholesale_price"] ?>, <?= (float) $item["minimum_price"] ?>)'>💲 Update Price</button>
                     </div>
                 </div>
             </td>
@@ -73,46 +84,103 @@
 
 <h3 style="margin-top:30px;">Recent Stock Movements</h3>
 <table>
-    <tr><th>Date</th><th>Item</th><th>Direction</th><th>Qty</th><th>Reason</th><th>Note</th><th>By</th></tr>
+    <tr><th>Date</th><th>Item</th><th>Direction</th><th>Qty</th><th>Reason</th><th>Account</th><th>Narrative</th><th>By</th></tr>
     <?php foreach ($recent as $r): ?>
     <tr>
-        <td><?= esc($r['created_at']) ?></td>
+        <td><?= esc($r['adjustment_date'] ?? $r['created_at']) ?></td>
         <td><?= esc($r['item_name']) ?></td>
         <td><?= $r['direction'] === 'in' ? '+ IN' : '- OUT' ?></td>
         <td><?= number_format((float) $r['quantity'], 3) ?></td>
         <td><?= esc(str_replace('_', ' ', ucfirst($r['reason']))) ?></td>
+        <td><?= esc($r['account_name'] ?? '-') ?></td>
         <td><?= esc($r['note'] ?? '') ?></td>
         <td><?= esc($r['user_name'] ?? '-') ?></td>
     </tr>
     <?php endforeach; ?>
     <?php if (empty($recent)): ?>
-    <tr><td colspan="7">No stock movements yet.</td></tr>
+    <tr><td colspan="8">No stock movements yet.</td></tr>
     <?php endif; ?>
 </table>
 
 <!-- Adjust Stock modal -->
 <div class="modal-backdrop" id="adjustModal">
     <div class="modal-box">
-        <h3>Adjust Stock: <span id="adjustItemName"></span></h3>
-        <form method="post" action="<?= site_url('stock/adjust') ?>">
-            <?= csrf_field() ?>
-            <input type="hidden" name="item_id" id="adjustItemId">
-            <div class="form-group">
-                <label>Current Stock</label>
-                <input type="text" id="adjustCurrentStock" disabled>
-            </div>
-            <div class="form-group">
-                <label>Direction*</label>
-                <select name="direction" required>
-                    <option value="in">Add Stock (+)</option>
-                    <option value="out">Remove Stock (-)</option>
-                </select>
-            </div>
-            <div class="form-group"><label>Quantity*</label><input type="number" step="0.001" name="quantity" required></div>
-            <div class="form-group"><label>Reason / Note</label><input type="text" name="note" placeholder="e.g. physical count correction"></div>
-            <button class="btn green" type="submit">Apply Adjustment</button>
-            <button class="btn" type="button" onclick="closeAdjustModal()">Cancel</button>
-        </form>
+        <div class="modal-header">
+            <strong>✏️ Adjust Stock: <span id="adjustItemName"></span></strong>
+            <span style="cursor:pointer;" onclick="closeAdjustModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <form method="post" action="<?= site_url('stock/adjust') ?>">
+                <?= csrf_field() ?>
+                <input type="hidden" name="item_id" id="adjustItemId">
+
+                <div class="form-group">
+                    <label>Date*</label>
+                    <input type="date" name="adjustment_date" value="<?= date('Y-m-d') ?>" required>
+                </div>
+                <div class="form-group">
+                    <label>Status*</label>
+                    <select name="status" required>
+                        <option value="">~~Select Type~~</option>
+                        <option value="increase">Increase (Stock In)</option>
+                        <option value="decrease">Decrease (Stock Out)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Migration Control Account* <small>(affects equity accounts)</small></label>
+                    <select name="migration_control_account_id" required>
+                        <option value="">-Select-</option>
+                        <?php foreach ($migrationAccounts as $acc): ?>
+                            <option value="<?= $acc['id'] ?>"><?= esc($acc['name']) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Current Stock</label>
+                    <input type="text" id="adjustCurrentStock" disabled>
+                </div>
+                <div class="form-group">
+                    <label>Adjust Qty*</label>
+                    <input type="number" step="0.001" name="adjust_qty" placeholder="Type number, e.g 20,30..." required>
+                </div>
+                <div class="form-group">
+                    <label>Narrative</label>
+                    <textarea name="narrative" rows="2" placeholder="Remarks"></textarea>
+                </div>
+                <button class="btn green" type="submit">Submit</button>
+                <button class="btn" type="button" onclick="closeAdjustModal()">Close</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Update Price modal -->
+<div class="modal-backdrop" id="priceModal">
+    <div class="modal-box">
+        <div class="modal-header">
+            <strong>💲 Update Stock Price: <span id="priceItemName"></span></strong>
+            <span style="cursor:pointer;" onclick="closePriceModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <form method="post" id="priceForm">
+                <?= csrf_field() ?>
+                <div class="form-group"><label>Purchase Price*</label><input type="number" step="0.01" name="purchase_price" id="priceCost" required></div>
+                <div class="form-group"><label>Sales Price (Retail)*</label><input type="number" step="0.01" name="sales_price" id="priceRetail" required></div>
+                <div class="form-group"><label>Wholesale Price*</label><input type="number" step="0.01" name="wholesale_price" id="priceWholesale" required></div>
+                <div class="form-group"><label>Promotion Price*</label><input type="number" step="0.01" name="promotion_price" id="pricePromo" required></div>
+                <div class="form-group">
+                    <label>Migration Control Account* <small>(affects equity accounts)</small></label>
+                    <select name="migration_control_account_id" required>
+                        <option value="">-Select-</option>
+                        <?php foreach ($migrationAccounts as $acc): ?>
+                            <option value="<?= $acc['id'] ?>"><?= esc($acc['name']) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <button class="btn green" type="submit">Submit</button>
+                <button class="btn" type="button" onclick="closePriceModal()">Close</button>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -138,9 +206,19 @@ function openAdjustModal(id, name, currentStock) {
     document.getElementById('adjustModal').classList.add('show');
     document.querySelectorAll('.action-dropdown.open').forEach(d => d.classList.remove('open'));
 }
-function closeAdjustModal() {
-    document.getElementById('adjustModal').classList.remove('show');
+function closeAdjustModal() { document.getElementById('adjustModal').classList.remove('show'); }
+
+function openPriceModal(id, name, cost, retail, wholesale, promo) {
+    document.getElementById('priceItemName').innerText = name;
+    document.getElementById('priceForm').action = '<?= site_url('stock/update-price') ?>/' + id;
+    document.getElementById('priceCost').value = cost.toFixed(2);
+    document.getElementById('priceRetail').value = retail.toFixed(2);
+    document.getElementById('priceWholesale').value = wholesale.toFixed(2);
+    document.getElementById('pricePromo').value = promo.toFixed(2);
+    document.getElementById('priceModal').classList.add('show');
+    document.querySelectorAll('.action-dropdown.open').forEach(d => d.classList.remove('open'));
 }
+function closePriceModal() { document.getElementById('priceModal').classList.remove('show'); }
 
 $(document).ready(function () {
     initDataTable('#stockTable', { columnDefs: [{ orderable: false, targets: [0, 13] }] });

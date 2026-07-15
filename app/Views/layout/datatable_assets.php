@@ -1,9 +1,8 @@
-<!-- Shared DataTables setup: search, sort, pagination, and Copy/CSV/Print export.
+<!-- Shared DataTables setup: search, sort, pagination, and Copy/Excel/PDF/CSV/Print export.
      Include this once per list page (after the table markup), then call:
          initDataTable('#yourTableId');
-     Excel/PDF export deliberately omitted — those need JSZip/pdfmake, which is
-     extra weight and another thing that can silently fail to load. CSV covers
-     the same "get it into a spreadsheet" need without that risk. -->
+     Excel/PDF need JSZip/pdfmake (loaded below) — real weight, but included
+     since matching the original's exact export set was explicitly requested. -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.13.11/css/jquery.dataTables.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables-buttons/2.4.3/css/buttons.dataTables.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -12,6 +11,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables-buttons/2.4.3/buttons.html5.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables-buttons/2.4.3/buttons.print.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables-buttons/2.4.3/buttons.colVis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 
 <style>
     /* Keep DataTables' default look close to the rest of the app rather than its stock blue theme */
@@ -30,7 +32,9 @@
     }
     .dataTables_length select { padding:5px 8px; border:1px solid #dde1e8; border-radius:6px; }
     table.dataTable thead th { background:#e88a2e; color:#fff; }
-    table.dataTable tbody tr:hover { background:#fafbfc; }
+    table.dataTable tbody td { color:#1a2036; border-bottom:1px solid #e2e5ea; }
+    table.dataTable tbody tr:nth-child(even) { background:#f8f9fb; }
+    table.dataTable tbody tr:hover td { background:#fdeee0; }
     .dataTables_wrapper .dataTables_paginate .paginate_button.current {
         background:#e88a2e !important; color:#fff !important; border-radius:5px; border:none !important;
     }
@@ -43,8 +47,10 @@
 function initDataTable(selector, options) {
     return $(selector).DataTable(Object.assign({
         dom: 'Bfrtip',
-        buttons: ['copy', 'csv', 'print', 'colvis'],
+        buttons: ['copy', 'excelHtml5', 'pdfHtml5', 'csv', 'print', 'colvis'],
         pageLength: 25,
+        lengthMenu: [[10, 25, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 1000, 1500, 2000],
+                     [10, 25, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 1000, 1500, 2000]],
         order: [], // don't force-sort by first column; respect server order by default
     }, options || {}));
 }
