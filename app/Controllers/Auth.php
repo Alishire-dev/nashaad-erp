@@ -34,7 +34,11 @@ class Auth extends BaseController
             $session->setFlashdata('error', 'Invalid username or password.');
         }
 
-        return view('auth/login');
+        return $this->response
+            ->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+            ->setHeader('Pragma', 'no-cache')
+            ->setHeader('X-LiteSpeed-Cache-Control', 'no-cache')
+            ->setBody(view('auth/login'));
     }
 
     public function logout()
