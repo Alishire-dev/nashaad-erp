@@ -1,0 +1,474 @@
+0492	Basto Special Kaluun		NASHAAD SOMALI LUNCH	plates	1000	0%	Yes	Active
+0491	Small Pizza-Kaluun		Pizza	pcs	1000	0%	Yes	Active
+0490	Medium Pizza-Kaluun		Pizza	pcs	1000	0%	Yes	Active
+0489	Large Pizza-Kaluun		Pizza	pcs	1000	0%	Yes	Active
+0488	Small Pizza-Hilib		Pizza	pcs	0	0%	Yes	Active
+0487	Medium Pizza-Hilib		Pizza	pcs	1000	0%	Yes	Active
+0486	Large Pizza-Hilib		Pizza	pcs	1000	0%	Yes	Active
+0485	Chips Mayai		Fries	plates	2000	0%	Yes	Active
+0484	Chapati Saldato Isbishal Kaluun		NASHAAD SOMALI LUNCH	plates	500	0%	Yes	Active
+0483	Malawax Isbishal Hilib		Breakfast	plates	5000	0%	Yes	Active
+0482	Chapati Isbishal Hilib		NASHAAD SOMALI LUNCH	plates	2000	0%	Yes	Active
+0481	Cocktail		Juices	pcs	1000	0%	No	Active
+0480	Baris Special Hilib		NASHAAD SOMALI LUNCH	plates	5000	0%	Yes	Active
+0479	Basto Saldato Isbishal Hilib		NASHAAD SOMALI LUNCH	plates	2000	0%	Yes	Active
+0478	Grilled Chicken Burgers		Burgers	plates	500	0%	Yes	Active
+0477	Fiinto		Mocktails	cup	1000	0%	No	Active
+0476	Catering service		NASHAAD SOMALI LUNCH	pcs	0	0%	No	Active
+0475	Dynamite Medium		Fries	plates	400	0%	Yes	Active
+0474	Icecream scoop 2		Ice Cream Sundae	pcs	100	0%	No	Active
+0473	Icecream scoop 1		Ice Cream Sundae	pcs	100	0%	No	Active
+0472	Icecream shake-Mango		Classic Milk Shake	pcs	3000	0%	No	Active
+0471	Loaded fries		Fries	plates	2000	0%	Yes	Active
+0470	Nashaad Special Baris(Chinese)		Somali	plates	5000	0%	Yes	Active
+0469	Banana waffle		Snacks	pcs	0	0%	No	Active
+0468	Dynamite Large		Snacks	plates	500	0%	Yes	Active
+0467	Bread 800gm		Bread	pcs	2000	0%	Yes	Active
+0466	Chicken stir fry		Chicken	plates	2000	0%	Yes	Active
+0465	Sprite soda		Juices	unit	300	0%	No	Active
+0464	Bread 600gm		Bread	pcs	300	0%	Yes	Active
+0463	Bread 400gm		Bread	pcs	300	0%	Yes	Active
+0462	Stewed Fish		Fish	plates	50000	0%	Yes	Active
+0461	Chapati Saldato Isbishal hilib		NASHAAD LUNCH	plates	0	0%	Yes	Active
+0460	Hilib Geel		NASHAAD LUNCH	plates	0	0%	Yes	Active
+0459	Feet Babaay		Fruit Based(salads)	pcs	50000	0%	No	Active
+0458	Basto Saldato Isbishal Kaluun		Pasta	plates	99999999	0%	Yes	Active
+0457	Baris Saldato Isbishal Hilib		NASHAAD SOMALI LUNCH	plates	99999999	0%	Yes	Active
+0456	Biryani Fish		Fish	plates	0	0%	Yes	Active
+0455	Biryani Chicken		Chicken	pcs	99999999999	0%	Yes	Active
+0454	Coconut Chicken		Fish	plates	0	0%	Yes	Active
+0453	Mashed potato		Chicken	plates	0	0%	Yes	Active
+0452	Sandwitch Hilib		Sandwich	plates	0	0%	Yes	Active
+0451	Shawarma Hilib		Snacks	plates	0	0%	Yes	Active
+0450	Canjeero isbishale		BREAKFAST NASHAAD	plates	999999999	0%	Yes	Active
+0449	Kooto faham		Chicken	pcs	99999999	0%	Yes	Active
+0448	Garaafe Liin Macaan		Juices	juices	0	0%	No	Active
+0447	Garaafe Qare		Juices	juices	0	0%	No	Active
+0446	Faham Half		Chicken	plates	0	0%	No	Active
+0445	Faham Chicken		Chicken	plates	0	0%	No	Active
+0444	Nashaad Buffet		NASHAAD LUNCH	plates	500	0%	Yes	Active
+0443	Nashaad Iftar		NASHAAD LUNCH	plates	0	0%	Yes	Active
+0442	Alfredo Pasta		Pasta	plates	0	0%	Yes	Active
+0441	AC		Extras		0	0%	No	Active
+0440	Canjeero Maraq		Breakfast	plates	0	0%	Yes	Active
+0439	Candle/Shumac		Extras	pcs	0	0%	No	Active
+0438	Garden Salad		Vegetables	plates	500	0%	No	Active
+0436	Extra Cheese		Extras	pcs	0	0%	Yes	Active
+0435	Chicken Finger		Chicken	plates	0	0%	Yes	Active
+0434	Chicken Coconut		Chicken	plates	0	0%	Yes	Active
+0433	Cananas fruit		Fruit Based(salads)	pcs	0	0%	No	Active
+0432	Cananas juice		Fruit Based(salads)	pcs	1000	0%	No	Active
+0431	VIP room hire		Service		5000	0%	No	Active
+0430	Peanut butter		Ingredient	package	0	0%	No	Active
+0429	Take away (tea)		Ingredient	package	0	0%	No	Active
+0428	Pasta		Ingredient	kg	0	0%	No	Active
+0427	Plain youghurt		Ingredient	L	0	0%	No	Active
+0426	Coconut cream		Ingredient	L	0	0%	No	Active
+0425	firewood		Ingredient	unit	0	0%	No	Active
+0424	Hall Hire (Hourly)		Service		1000	0%	No	Active
+0423	take away (food)		Ingredient	package	0	0%	No	Active
+0422	Sareen Saldaato Esbeshaale		Extras	plates	0	0%	Yes	Active
+0421	Hilib oodkac		Ingredient	kg	0	0%	Yes	Active
+0420	Grilled Chicken		Chicken	kg	999999966	0%	Yes	Active
+0419	Teabag box		Ingredient	package	0	0%	No	Active
+0418	Straw		Ingredient	package	0	0%	No	Active
+0417	Black bag (large)		Ingredient	package	0	0%	No	Active
+0416	Black bag (small)		Ingredient	package	0	0%	No	Active
+0415	Sachet powdered milk		Ingredient	package	0	0%	No	Active
+0414	goat meat ingredient		Ingredient	unit	0	0%	No	Active
+0413	Tin milk		Ingredient	package	0	0%	No	Active
+0412	Cinnamon		Ingredient	gram	0	0%	No	Active
+0411	Chicken Masala (for Sale)		Chicken	kg	150	0%	Yes	Active
+0410	Whipping cream		Ingredient	L	0	0%	No	Active
+0409	ice block		Ingredient	block	0	0%	No	Active
+0408	Green peppers		Ingredient	kg	0	0%	No	Active
+0407	Carrots		Ingredient	kg	0	0%	No	Active
+0406	Banana ingredient		Ingredient	pcs	0	0%	No	Active
+0405	Dates ingredient		Ingredient	gram	0	0%	No	Active
+0404	watmelon juice		Juices	L	0	0%	No	Active
+0403	Strawberry mojito ingredient		Ingredient	L	0	0%	No	Active
+0402	lemon ingredient		Ingredient	pcs	0	0%	No	Active
+0401	oranges		Ingredient	cartons	0	0%	No	Active
+0400	tomato		Ingredient	kg	0	0%	No	Active
+0399	Basmati rice		Ingredient	kg	0	0%	No	Active
+0398	Green apple syrup		Boba Drinks	L	0	0%	No	Active
+0397	Green apple poping boba		Boba Drinks	L	0	0%	No	Active
+0396	Blueberry poping boba		Boba Drinks	L	0	0%	No	Active
+0395	Mango syrup		Boba Drinks	L	0	0%	No	Active
+0394	Mango poping boba		Boba Drinks	L	0	0%	No	Active
+0393	Goat meat		Meat Based(salads)	kg	0	0%	No	Active
+0392	Camel meat		Ingredient	kg	0	0%	No	Active
+0391	Spinach		Ingredient	package	0	0%	No	Active
+0390	Lettuce		Ingredient	pcs	0	0%	No	Active
+0389	Oyster sauce		Ingredient	L	0	0%	No	Active
+0388	Dania		Ingredient	package	0	0%	No	Active
+0387	Semolina		Ingredient	package	0	0%	No	Active
+0386	Grapes		Ingredient	package	0	0%	No	Active
+0385	Banana		Ingredient	pcs	0	0%	No	Active
+0384	Mayo		Ingredient	gram	0	0%	No	Active
+0383	Glycerine		Ingredient	package	0	0%	No	Active
+0382	Cling film		Service	package	0	0%	No	Active
+0381	Alminium foil		Ingredient	package	0	0%	No	Active
+0380	Toothpicks		Service	pcs	0	0%	No	Active
+0379	Tank water		Water	L	0	0%	No	Active
+0378	Bottled water		Water	L	0	0%	No	Active
+0377	Printing papers		Service	package	0	0%	No	Active
+0376	Ice cubes		Service	pcs	0	0%	No	Active
+0375	Bluecaracao		Mojitos	L	0	0%	No	Active
+0374	Blueberry mojito		Mojitos	L	0	0%	No	Active
+0373	Caramel mojito		Mojitos	L	0	0%	No	Active
+0372	Lime mojito		Mojitos	L	0	0%	No	Active
+0371	Plain yogurt		Ingredient	gram	0	0%	No	Active
+0370	Cheese		Ingredient	kg	0	0%	No	Active
+0369	Chicken legs		Chicken	kg	0	0%	No	Active
+0368	Chicken breast		Chicken	kg	0	0%	No	Active
+0367	Gram masala		Ingredient	gram	0	0%	No	Active
+0366	Pizza boxes		Service	package	0	0%	No	Active
+0365	Vanilla syrup		Mojitos	L	0	0%	No	Active
+0364	Blueberry syrup		Mojitos	L	0	0%	No	Active
+0363	Vimto		Ingredient	kg	0	0%	No	Active
+0362	Yeast		Ingredient	package	0	0%	No	Active
+0361	Cooking oil		Ingredient	L	0	0%	No	Active
+0360	Condensed milk		Ingredient	package	0	0%	No	Active
+0359	Turmeric		Ingredient	kg	0	0%	No	Active
+0358	Curry powder		Ingredient	package	0	0%	No	Active
+0357	Black pepper		Ingredient	package	0	0%	No	Active
+0356	Ginger		Ingredient	package	0	0%	No	Active
+0355	Baking powder		Ingredient	gram	0	0%	No	Active
+0354	Tuna cans		Fish	package	0	0%	No	Active
+0353	Strawberry mojito		Mojitos	L	99999999	0%	No	Active
+0352	Gloves		Service	pcs	0	0%	No	Active
+0351	Strawberry syrup		Ingredient	L	0	0%	No	Active
+0350	Chocolate syrup		Ingredient	L	0	0%	No	Active
+0349	Lotus biscoff		Ingredient	kg	0	0%	No	Active
+0348	Diet sugar		Ingredient	kg	0	0%	No	Active
+0347	Pure green tea		Herbal Tea	tea	0	0%	No	Active
+0345	Pure hibiscus		Herbal Tea	tea	0	0%	No	Active
+0344	Food color		Ingredient	package	0	0%	No	Active
+0343	Sprite		Ingredient	L	0	0%	No	Active
+0342	Abu walad biscuits		Ingredient	package	0	0%	No	Active
+0341	Black olives		Ingredient	package	0	0%	No	Active
+0340	Simsim oil		Ingredient	L	0	0%	No	Active
+0339	Apples		Ingredient	pcs	0	0%	No	Active
+0338	Fish masala		Ingredient	package	0	0%	Yes	Active
+0337	Chicken masala		Ingredient	package	0	0%	No	Active
+0336	Oreo biscuits		Ingredient	pcs	0	0%	No	Active
+0335	Paprika		Ingredient	package	0	0%	No	Active
+0334	potatoes		Ingredient	kg	0	0%	No	Active
+0333	raw honey		Ingredient	L	0	0%	No	Active
+0332	salt		Ingredient	kg	0	0%	No	Active
+0331	black bag		Ingredient	package	0	0%	No	Active
+0330	blue band		Ingredient	kg	0	0%	No	Active
+0329	icing sugar		Ingredient	kg	0	0%	No	Active
+0328	Camel Milk Ingredient		Ingredient	L	0	0%	No	Active
+0327	Powdered Milk		Ingredient	gram	0	0%	No	Active
+0326	Omo		Ingredient	kg	0	0%	No	Active
+0325	Rice Seasoning		Ingredient	gram	0	0%	No	Active
+0324	Serviettes		Ingredient	cartons	0	0%	No	Active
+0323	Cooking Cream		Ingredient	gram	0	0%	No	Active
+0322	Flour(Bur)		Ingredient	kg	0	0%	No	Active
+0321	Black Tea Ingredient		Ingredient	package	0	0%	No	Active
+0320	Chilli		Ingredient	kg	0	0%	No	Active
+0319	Cabbages		Ingredient	pcs	0	0%	No	Active
+0318	White Onions		Ingredient	kg	0	0%	No	Active
+0317	Red Onions		Ingredient	kg	0	0%	No	Active
+0316	Garlic		Ingredient	kg	0	0%	No	Active
+0315	Capsicum		Ingredient	pcs	0	0%	No	Active
+0314	White Soya Sauce		Ingredient	ml	0	0%	No	Active
+0313	Dark Soya Sauce		Ingredient	L	0	0%	No	Active
+0312	Vinegar		Ingredient	L	0	0%	No	Active
+0311	Ketchup		Ingredient	L	0	0%	No	Active
+0310	Tomato Paste		Ingredient	pcs	0	0%	No	Active
+0309	PawPaw Fruit		Ingredient	pcs	0	0%	No	Active
+0308	Watermelon Fruit		Ingredient	pcs	50000	0%	No	Active
+0307	Mangoes		Ingredient	pcs	0	0%	No	Active
+0306	Cinamon		Ingredient	kg	0	0%	No	Active
+0305	Cardamon		Ingredient	kg	0	0%	No	Active
+0304	Spagheti		Ingredient	pcs	0	0%	No	Active
+0303	Lemon Tea		Herbal Tea	tea	0	0%	No	Active
+0300	Jeex		NASHAAD LUNCH	kg	0	0%	No	Active
+0299	Basbousa		Snacks	pcs	0	0%	No	Active
+0298	Fanta (Yar)		Juices	pcs	0	0%	No	Active
+0297	Mango sheek		Milk Shake Special	juices	0	0%	No	Active
+0296	Hall rent for lunch		Service	pcs	0	0%	No	Active
+0295	Dynamite (small)		Snacks	plates	0	0%	Yes	Active
+0294	Crispy Fried Chicken		Snacks	plates	0	0%	Yes	Active
+0293	Chicken Chips		Snacks	plates	5008	0%	Yes	Active
+0292	Tufaax (Juice)		Juices	juices	0	0%	No	Active
+0291	Cake (35)		Snacks	gram	0	0%	No	Active
+0290	Tea leaves		Ingredient	gram	0	0%	No	Active
+0289	Hamburger		Burgers	pcs	0	0%	Yes	Active
+0288	Kabaab		Seafood(grill)	pcs	0	0%	No	Active
+0287	Kafee Yare		Tea	cup	0	0%	No	Active
+0286	Babaay Fruit		Extras	pcs	0	0%	No	Active
+0285	Honeycomb		Snacks	pcs	0	0%	No	Active
+0284	Mushakal		Juices	juices	580807	0%	No	Active
+0283	Isbarmuuto		Juices	juices	0	0%	No	Active
+0282	Saytuun		Juices	juices	0	0%	No	Active
+0281	Beetroot		Juices	juices	0	0%	No	Active
+0280	Fish		Ingredient	kg	0	0%	No	Active
+0279	Boiled egg		Snacks	pcs	0	0%	Yes	Active
+0278	Blueberry boba		Boba Drinks	cup	0	0%	No	Active
+0277	Mango fruit tea boba		Boba Drinks	cup	0	0%	No	Active
+0276	Vanilla milkshake		Boba Drinks	cup	0	0%	No	Active
+0275	Chocolate milkshake boba		Boba Drinks	cup	0	0%	No	Active
+0274	Fruit tea boba		Boba Drinks	cup	0	0%	No	Active
+0273	Taro		Boba Drinks	cup	0	0%	No	Active
+0272	Caramel milk tea		Boba Drinks	cup	0	0%	No	Active
+0271	Mango boba		Boba Drinks	cup	0	0%	No	Active
+0270	Gotta cake		Snacks	pcs	0	0%	No	Active
+0269	Fanta		Juices	pcs	0	0%	No	Active
+0268	Liin Dhanaan		Juices	ml	0	0%	No	Active
+0267	Cake pcs		Snacks	pcs	0	0%	No	Active
+0266	coke pcs		Snacks	pcs	0	0%	No	Active
+0265	Macha Boba		Snacks	pcs	0	0%	No	Active
+0264	waffle		Snacks	pcs	0	0%	No	Active
+0263	donats		Snacks	plates	0	0%	No	Active
+0262	cupcale		Snacks	pcs	0	0%	No	Active
+0261	SPECIAL sareen		Extras	plates	0	0%	Yes	Active
+0260	full maharage		BREAKFAST NASHAAD	plates	0	0%	Yes	Active
+0259	WATER		Extras	tea	0	0%	No	Active
+0258	SAREN		NASHAAD SOMALI LUNCH	plates	0	0%	Yes	Active
+0257	kando kando		Coffee	cup	0	0%	No	Active
+0256	ice coffee		Coffee	cup	0	0%	No	Active
+0255	UKUUN		Snacks	pcs	0	0%	Yes	Active
+0254	MISHARYO		BREAKFAST NASHAAD	plates	0	0%	Yes	Active
+0253	MISHARYO MALAB		BREAKFAST NASHAAD	plates	0	0%	No	Active
+0252	half ceek		Snacks	pcs	0	0%	No	Active
+0251	FRUITLATO		BREAKFAST NASHAAD	cup	0	0%	No	Active
+0250	maciato coffee		BREAKFAST NASHAAD	cup	0	0%	No	Active
+0249	black coffee		Coffee	cup	0	0%	No	Active
+0248	fish skolobo		NASHAAD LUNCH	plates	0	0%	Yes	Active
+0247	Federeshin		NASHAAD LUNCH	plates	0	0%	Yes	Active
+0246	fetereshan especialle		NASHAAD LUNCH	plates	0	0%	Yes	Active
+0245	hilib itho		NASHAAD LUNCH	plates	0	0%	Yes	Active
+0244	kalankal		NASHAAD LUNCH	plates	0	0%	Yes	Active
+0243	Canjeero (Plain)		BREAKFAST NASHAAD	plates	0	0%	Yes	Active
+0242	rooti		Snacks	plates	0	0%	No	Active
+0241	Sugar(sonkor)		Ingredient	gram	0	0%	No	Active
+0240	Caano Geel		Ingredient	L	100000000001	0%	No	Active
+0239	ceke fuul		Snacks	pcs	0	0%	No	Active
+0238	timir shake		Snacks	cup	0	0%	No	Active
+0237	Basto saldato		NASHAAD LUNCH	plates	0	0%	Yes	Active
+0236	fruit watermelon		Fruit Based(salads)	plates	500000	0%	No	Active
+0235	fruit pawpaw		Fruit Based(salads)	plates	0	0%	No	Active
+0234	qaxwo		Tea	cup	0	0%	No	Active
+0233	big cup tea		Tea	cup	0	0%	No	Active
+0232	capcake		Snacks	pcs	0	0%	No	Active
+0231	miik 1		Extras	juices	0	0%	No	Active
+0230	Boardroom Services		Service	package	500	0%	No	Active
+0229	odkac		Somali	pcs	0	0%	Yes	Active
+0228	eggs		Ingredient	pcs	0	0%	No	Active
+0227	meatby		Snacks	plates	0	0%	No	Active
+0226	cruisone		Snacks	pcs	0	0%	No	Active
+0225	Galaas Caano		NASHAAD LUNCH	cup	0	0%	No	Active
+0224	ugali saldato		NASHAAD LUNCH	plates	0	0%	No	Active
+0223	Baris Saldato		NASHAAD SOMALI LUNCH	plates	0	0%	Yes	Active
+0222	koosto 1		Extras	pcs	0	0%	No	Active
+0221	koosto		Extras	pcs	0	0%	No	Active
+0220	ugali calooley		Extras	pcs	0	0%	Yes	Active
+0219	coke		Juices	pcs	0	0%	No	Active
+0218	omlette		BREAKFAST NASHAAD	pcs	0	0%	Yes	Active
+0217	mandazi		BREAKFAST NASHAAD	pcs	0	0%	Yes	Active
+0214	sanbuus		Somali	pcs	0	0%	Yes	Active
+0213	faniila		Juices	juices	0	0%	No	Active
+0212	Feeto kharo		Somali	juices	0	0%	No	Active
+0211	Basto		NASHAAD LUNCH	plates	0	0%	Yes	Active
+0210	CAANO LOOS		Juices	cup	500000	0%	No	Active
+0209	Waslad Hilib Ari		NASHAAD SOMALI LUNCH	plates	0	0%	Yes	Active
+0208	Dawa Tea		Tea	tea	0	0%	No	Active
+0207	Baris Saldato Isbishal Kaluun		NASHAAD SOMALI LUNCH	plates	0	0%	Yes	Active
+0206	FISH GRILLED		NASHAAD SOMALI LUNCH	plates	0	0%	Yes	Active
+0204	MALAWAX		BREAKFAST NASHAAD	pcs	0	0%	Yes	Active
+0203	ANJERO FULL		BREAKFAST NASHAAD	plates	0	0%	Yes	Active
+0202	Feeto Qare		Somali	tea	0	0%	No	Active
+0201	Biryani Rice		Fish	plates	0	0%	Yes	Active
+0200	ugali special		Somali	plates	0	0%	Yes	Active
+0199	caad hilib		Somali	plates	0	0%	Yes	Active
+0198	ugali		Somali	plates	0	0%	Yes	Active
+0197	Chicken Leg (Lug Dooro)		Chicken	pcs	0	0%	Yes	Active
+0196	Malawax Isbishal Kaluun		Breakfast	plates	0	0%	Yes	Active
+0195	Suqaar		Somali	plates	0	0%	Yes	Active
+0194	Shawarma Fish		Fish	pcs	0	0%	Yes	Active
+0193	Chips Masala		Fries	plates	0	0%	Yes	Active
+0192	Shawarma Chicken		Chicken	pcs	0	0%	Yes	Active
+0191	Chapati Saldato		Breakfast	plates	0	0%	Yes	Active
+0189	Malawah (Malawax)		Extras	pcs	0	0%	Yes	Active
+0187	SPECIAL RICE ARI		Somali	plates	0	0%	Yes	Active
+0186	MOOS		Somali	pcs	0	0%	Yes	Active
+0185	Basto Special Hilib		Somali	plates	0	0%	Yes	Active
+0184	LAXMANDI		Somali	pcs	70000	0%	Yes	Active
+0183	Bris Special Hilib		NASHAAD SOMALI LUNCH	plates	0	0%	Yes	Active
+0182	Baris Plain		NASHAAD SOMALI LUNCH	pcs	0	0%	Yes	Active
+0181	FIATA KHARO		Juices	plates	0	0%	No	Active
+0180	Baris Special Kaluun		NASHAAD SOMALI LUNCH	plates	0	0%	Yes	Active
+0179	Shukshuko		Breakfast	plates	0	0%	Yes	Active
+0178	CANO MOSS		Juices	cup	0	0%	No	Active
+0177	LARGE PIZZA-CHICKEN		Pizza	plates	0	0%	Yes	Active
+0176	B LUE BERRY		Mojitos	cup	0	0%	No	Active
+0175	MEDIUM PIZZA-CHICKEN		Pizza	plates	0	0%	Yes	Active
+0174	STRAW BERRY		Juices	cup	0	0%	No	Active
+0173	CHIPS		Fries	plates	0	0%	Yes	Active
+0172	ORANGE		Juices	cup	90000707	0%	No	Active
+0171	SMALL PIZZA-CHICKEN		Pizza	plates	0	0%	Yes	Active
+0169	MILK SHEK		Juices	juices	0	0%	No	Active
+0168	LIPTON TEA		Tea	cup	0	0%	No	Active
+0167	FRUIT SALAD		Fruit Based(salads)	plates	0	0%	No	Active
+0166	Black tea		Tea	cup	0	0%	No	Active
+0165	latte		Coffee	cup	0	0%	No	Active
+PROD_0164	Water 1L		Water	pcs	20	0%	No	Active
+PROD_0163	Water 0.5L		Water	pcs	17	0%	No	Active
+PROD_0161	Special Tea		Tea	cup	0	0%	No	Active
+PROD_0160	Masala Tea		Tea	pcs	0	0%	No	Active
+PROD_0158	Somali Tea		Tea	pcs	0	0%	No	Active
+PROD_0157	Hot Chocolate		Coffee	pcs	0	0%	No	Active
+PROD_0156	Mochas (Caramel/Vanilla		Coffee	pcs	0	0%	No	Active
+PROD_0155	Affogato		Coffee	pcs	0	0%	No	Active
+PROD_0154	Americano		Coffee	pcs	0	0%	No	Active
+PROD_0153	Espresso		Coffee	pcs	0	0%	No	Active
+PROD_0152	Flavoured Latte (Vanilla/Caramel/Hazelnut)		Coffee	pcs	0	0%	No	Active
+PROD_0151	Capuchino		Coffee	pcs	0	0%	No	Active
+PROD_0150	Brownie		Ice Cream Sundae	pcs	0	0%	No	Active
+PROD_0149	Coconut Cookie		Ice Cream Sundae	pcs	0	0%	No	Active
+PROD_0148	Vanilla		Boba Drinks	pcs	0	0%	No	Active
+PROD_0147	Caramel		Boba Drinks	pcs	0	0%	No	Active
+PROD_0146	Kiwi		Boba Drinks	pcs	0	0%	No	Active
+PROD_0145	Green Apple		Boba Drinks	pcs	0	0%	No	Active
+PROD_0144	Mango		Boba Drinks	pcs	0	0%	No	Active
+PROD_0143	Peach		Boba Drinks	pcs	0	0%	No	Active
+PROD_0142	Strawberry		Boba Drinks	pcs	0	0%	No	Active
+PROD_0141	Blueberry		Boba Drinks	pcs	0	0%	No	Active
+PROD_0140	Passion		Boba Drinks	pcs	0	0%	No	Active
+PROD_0139	Tropical		Smoothies	pcs	0	0%	No	Active
+PROD_0138	Strawberry		Smoothies	pcs	0	0%	No	Active
+PROD_0137	Mango		Smoothies	pcs	0	0%	No	Active
+PROD_0136	Furulaato		Smoothies	pcs	0	0%	No	Active
+PROD_0135	Banana Smoothie		Smoothies	pcs	0	0%	No	Active
+PROD_0134	Avocado		Smoothies	pcs	0	0%	No	Active
+PROD_0133	Chocolate		Freak Sake	pcs	0	0%	No	Active
+PROD_0132	Vanilla		Freak Sake	pcs	0	0%	No	Active
+PROD_0131	Strawberry		Freak Sake	pcs	0	0%	No	Active
+PROD_0130	Snickers		Milk Shake Special	pcs	0	0%	No	Active
+PROD_0129	Dates		Milk Shake Special	pcs	0	0%	No	Active
+PROD_0128	Banana Milkshake		Milk Shake Special	pcs	0	0%	No	Active
+PROD_0127	Oreo		Milk Shake Special	pcs	0	0%	No	Active
+PROD_0126	Mango		Milk Shake Special	pcs	0	0%	No	Active
+PROD_0125	Tea Chocolate		Extras	tea	0	0%	No	Active
+PROD_0124	Vanilla		Classic Milk Shake	pcs	0	0%	No	Active
+PROD_0123	Strawberry		Classic Milk Shake	pcs	0	0%	No	Active
+PROD_0122	Ginger/Honey/Lemon		Dawa	pcs	0	0%	No	Active
+PROD_0121	Ginger/Honey/Lemon(Iced Tea)		Dawa	pcs	0	0%	No	Active
+PROD_0120	Lemon		Iced Tea	pcs	0	0%	No	Active
+PROD_0119	Peach		Iced Tea	pcs	0	0%	No	Active
+PROD_0118	Strawberry		Iced Tea	pcs	0	0%	No	Active
+PROD_0117	Blueberry		Iced Tea	pcs	0	0%	No	Active
+PROD_0116	Passion		Iced Tea	pcs	0	0%	No	Active
+PROD_0115	Paw Paw		Juices	pcs	0	0%	No	Active
+PROD_0114	Mango		Juices	pcs	0	0%	No	Active
+PROD_0113	Avocado		Juices	pcs	0	0%	No	Active
+PROD_0112	Mint Pineade		Juices	pcs	0	0%	No	Active
+PROD_0111	Pineapple		Juices	pcs	0	0%	No	Active
+PROD_0110	Passion		Juices	pcs	0	0%	No	Active
+PROD_0109	Watermelon		Juices	pcs	555454542	0%	No	Active
+PROD_0108	Frappes		Coladas	pcs	0	0%	No	Active
+PROD_0107	Strawberry		Coladas	pcs	0	0%	No	Active
+PROD_0106	Pina Colada		Coladas	pcs	0	0%	No	Active
+PROD_0105	Sunset		Mocktails	pcs	0	0%	No	Active
+PROD_0104	Blue Lagoon		Mocktails	pcs	0	0%	No	Active
+PROD_0103	Strawberry Lemonade		Lemonade	pcs	0	0%	No	Active
+PROD_0102	Classic Lemonade		Lemonade	pcs	0	0%	No	Active
+PROD_0101	Passion Mojitos		Mojitos	pcs	0	0%	No	Active
+PROD_0100	Blueberry Mojitos		Mojitos	pcs	0	0%	No	Active
+PROD_0099	Kiwi Mojitos		Mojitos	pcs	0	0%	No	Active
+PROD_0098	Classic Mojitos		Mojitos	pcs	0	0%	No	Active
+PROD_0097	Iced Vanilla Latte		Iced Coffee	pcs	0	0%	No	Active
+PROD_0096	Iced Matcha Latte		Iced Coffee	pcs	0	0%	No	Active
+PROD_0095	Iced Caramel		Iced Coffee	pcs	0	0%	No	Active
+PROD_0094	Iced Matcha		Iced Coffee	pcs	0	0%	No	Active
+PROD_0093	Iced Latte		Iced Coffee	pcs	0	0%	No	Active
+PROD_0092	Iced Mocha		Iced Coffee	pcs	0	0%	No	Active
+PROD_0091	Banana(Moos)		Extras	pcs	0	0%	No	Active
+PROD_0090	Honey		Extras	pcs	0	0%	No	Active
+PROD_0089	Yoghurt		Extras	pcs	0	0%	No	Active
+PROD_0088	Milk		Extras	pcs	0	0%	No	Active
+PROD_0087	Mix Veges Steamed		Vegetables	pcs	0	0%	No	Active
+PROD_0086	Steamed Cabbage		Vegetables	pcs	0	0%	No	Active
+PROD_0085	Steamed Spinanch		Extras	pcs	0	0%	No	Active
+PROD_0084	Steamed Veges		Extras	pcs	0	0%	No	Active
+PROD_0083	Rice		Extras	pcs	0	0%	No	Active
+PROD_0082	Ice Cream Fruit Bowl		Salads	pcs	0	0%	No	Active
+PROD_0081	Mixed Fruit		Fruit Based(salads)	pcs	0	0%	No	Active
+PROD_0080	Nashad Fruit Platter		Fruit Based(salads)	pcs	0	0%	No	Active
+PROD_0079	Cajun Fish Salad		Meat Based(salads)	pcs	0	0%	No	Active
+PROD_0078	Tuna Salad		Meat Based(salads)	pcs	0	0%	No	Active
+PROD_0077	Mexican Chicken Salad		Meat Based(salads)	pcs	0	0%	No	Active
+PROD_0076	Avo Chicken Salad		Meat Based(salads)	pcs	0	0%	No	Active
+PROD_0075	Oatmeal Porridge		Breakfast	pcs	0	0%	Yes	Active
+PROD_0074	Nashaad Dheylo		Breakfast	pcs	0	0%	Yes	Active
+PROD_0073	Beer (Liver)		Breakfast	pcs	0	0%	Yes	Active
+PROD_0072	Full Breakfast		Breakfast	pcs	0	0%	Yes	Active
+PROD_0071	Chapati		Snacks	pcs	0	0%	Yes	Active
+PROD_0069	Bhajia		Snacks	pcs	0	0%	Yes	Active
+PROD_0068	Mahamri		Snacks	pcs	0	0%	Yes	Active
+PROD_0067	Viazi Karai		Snacks	pcs	0	0%	Yes	Active
+PROD_0066	Masala Fries		Fries	pcs	0	0%	Yes	Active
+PROD_0065	Onion Garlic Fries		Snacks	pcs	0	0%	No	Active
+PROD_0064	Plain Fries		Fries	pcs	0	0%	Yes	Active
+PROD_0063	Beef Sausage		Snacks	pcs	0	0%	No	Active
+PROD_0062	Chicken Nuggets		Snacks	pcs	0	0%	Yes	Active
+PROD_0061	Fish Fingers		Fish	pcs	0	0%	Yes	Active
+PROD_0060	Beef Samosa		Snacks	pcs	0	0%	Yes	Active
+PROD_0059	Veggie Currry		Curries	pcs	0	0%	No	Active
+PROD_0058	Fish Curry		Curries	pcs	0	0%	Yes	Active
+PROD_0057	Chicken Curry		Curries	pcs	0	0%	Yes	Active
+PROD_0056	Beef Curry		Curries	pcs	0	0%	Yes	Active
+PROD_0053	Rigatoni		Pasta	pcs	0	0%	Yes	Active
+PROD_0050	Creamy Chicken Pasta		Pasta	pcs	0	0%	Yes	Active
+PROD_0049	Spesso		Somali	pcs	0	0%	Yes	Active
+PROD_0048	Goat Mandi		Somali	pcs	0	0%	Yes	Active
+PROD_0047	Kostato		Somali	pcs	0	0%	Yes	Active
+PROD_0046	Deilo		Somali	pcs	0	0%	Yes	Active
+PROD_0045	Arosto		Somali	pcs	0	0%	Yes	Active
+PROD_0044	Chicken Kebab		Chicken	pcs	0	0%	Yes	Active
+PROD_0043	Chicken Skewers		Skewers	pcs	0	0%	Yes	Active
+PROD_0042	Chicken Broth		Chicken	pcs	0	0%	Yes	Active
+PROD_0041	Chicken Madhi		Chicken	pcs	0	0%	Yes	Active
+PROD_0040	Chicken Tikka		Chicken	pcs	0	0%	Yes	Active
+PROD_0039	Beef Sizzler		Sizzlings	pcs	0	0%	Yes	Active
+PROD_0038	Fish Sizzler		Sizzlings	pcs	0	0%	Yes	Active
+PROD_0037	Chicken Sizzler		Sizzlings	pcs	0	0%	Yes	Active
+PROD_0036	Lamb Chops		Steaks	pcs	0	0%	Yes	Active
+PROD_0035	Pepper Steak		Steaks	pcs	0	0%	Yes	Active
+PROD_0034	Chicken Shawarma		Grillers Wraps	pcs	0	0%	Yes	Active
+PROD_0033	Beef		Grillers Wraps	pcs	0	0%	Yes	Active
+PROD_0032	Bufallo Wings		Grillers Wings	pcs	0	0%	Yes	Active
+PROD_0031	Bbq Wings		Grillers Wings	pcs	0	0%	Yes	Active
+PROD_0030	White Soup		Soups	pcs	0	0%	Yes	Active
+PROD_0029	Chicken Soup		Soups	pcs	0	0%	Yes	Active
+PROD_0028	Butternut Soup		Soups	pcs	0	0%	Yes	Active
+PROD_0027	Club Sandwich		Sandwich	pcs	1000000	0%	Yes	Active
+PROD_0026	Hulk Sandwich		Sandwich	pcs	100000	0%	Yes	Active
+PROD_0025	Bbq Chicken Sandwich		Sandwich	pcs	0	0%	Yes	Active
+PROD_0024	Tuna Sandwich		Sandwich	pcs	0	0%	Yes	Active
+PROD_0023	Grilled Cheese Sandwich		Sandwich	pcs	0	0%	Yes	Active
+PROD_0022	Crispy Chicken Burger		Burgers	pcs	0	0%	Yes	Active
+PROD_0021	Double Delish		Burgers	pcs	0	0%	Yes	Active
+PROD_0020	Texan Beef Burger		Burgers	pcs	0	0%	Yes	Active
+PROD_0019	Chicken Cheese Burger		Burgers	pcs	0	0%	Yes	Active
+PROD_0018	Chicken Mandhi		Coastal	pcs	0	0%	Yes	Active
+PROD_0017	Coconut Fish		Coastal	pcs	0	0%	Yes	Active
+PROD_0016	Samaki Wa Kupaka		Coastal	pcs	0	0%	Yes	Active
+PROD_0015	Coconut Rice		Coastal	pcs	0	0%	Yes	Active
+PROD_0014	Mutton/ Beef Pilau		Coastal	pcs	0	0%	Yes	Active
+PROD_0013	Chicken/ Mutton Biryani		Coastal	pcs	0	0%	Yes	Active
+PROD_0011	Fish Tikka		Fish	pcs	0	0%	Yes	Active
+PROD_0010	Smoked Salmon		Fish	pcs	0	0%	Yes	Active
+PROD_0009	Grilled Fish		Fish	pcs	9000000	0%	Yes	Active
+PROD_0008	Shrimps		Seafood(grill)	pcs	0	0%	Yes	Active
+PROD_0007	Lobster		Seafood(grill)	pcs	0	0%	Yes	Active
+PROD_0006	Spicy Crab Plate		Seafood(grill)	pcs	0	0%	Yes	Active
+PROD_0005	Seafood Chowder Soup		Seafood(grill)	pcs	0	0%	Yes	Active
+PROD_0004	Barracuda Spread		Seafood(grill)	pcs	0	0%	Yes	Active
+PROD_0003	Tuna Fest		Seafood(grill)	pcs	0	0%	Yes	Active
+PROD_0002	Red Snapper Spread		Seafood(grill)	pcs	0	0%	Yes	Active
+PROD_0001	Nashaad Grill Platter		Seafood(grill)	pcs	0	0%	Yes	Active
