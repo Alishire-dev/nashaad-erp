@@ -96,6 +96,57 @@
             outline:none; border-color:#e88a2e; box-shadow:0 0 0 3px #e88a2e22;
         }
 
+        .topbar .left { display:flex; align-items:center; gap:16px; }
+        .hamburger { cursor:pointer; font-size:20px; opacity:.9; }
+        .links-dropdown { position:relative; }
+        .links-btn {
+            background:#2c2f38; color:#fff; border:none; padding:8px 14px; border-radius:6px;
+            cursor:pointer; font-size:13px; display:flex; align-items:center; gap:6px;
+        }
+        .links-menu {
+            display:none; position:absolute; left:0; top:110%; background:#fff; color:#2c3038;
+            border-radius:6px; box-shadow:0 6px 20px rgba(0,0,0,.18); min-width:160px; z-index:60;
+        }
+        .links-menu.open { display:block; }
+        .links-menu a { display:block; padding:10px 16px; color:#2c3038; text-decoration:none; font-size:14px; }
+        .links-menu a:hover { background:#f4f5f7; }
+        .branch-select {
+            background:rgba(255,255,255,.15); color:#fff; border:1px solid rgba(255,255,255,.3);
+            padding:7px 12px; border-radius:6px; font-size:13px;
+        }
+        .branch-select option { color:#2c3038; }
+        .topbar .right { display:flex; align-items:center; gap:10px; }
+        .topbar .right a.icon-btn {
+            background:rgba(255,255,255,.15); padding:8px 14px; border-radius:6px;
+            margin-left:0; display:flex; align-items:center; gap:6px; opacity:1;
+        }
+        .topbar .right a.icon-btn:hover { background:rgba(255,255,255,.28); text-decoration:none; }
+        .topbar .right a.logout-btn {
+            background:#c0392b; padding:8px 14px; border-radius:6px; margin-left:0;
+        }
+        .topbar .right a.logout-btn:hover { background:#a93226; text-decoration:none; }
+
+        .user-block { text-align:center; padding:20px 16px; border-bottom:1px solid #2a3150; margin-bottom:8px; }
+        .user-avatar {
+            width:64px; height:64px; border-radius:50%; background:#e88a2e; color:#fff;
+            display:flex; align-items:center; justify-content:center; font-size:24px; font-weight:600;
+            margin:0 auto 10px auto;
+        }
+        .user-name { color:#fff; font-size:14px; font-weight:600; }
+
+        .quick-links-btn {
+            background:#b8956a; color:#fff; border:none; padding:9px 16px; border-radius:6px;
+            cursor:pointer; font-size:13px; font-weight:500; display:inline-flex; align-items:center; gap:6px;
+            margin-bottom:18px;
+        }
+        .quick-links-menu {
+            display:none; background:#fff; border-radius:6px; box-shadow:0 4px 14px rgba(0,0,0,.15);
+            padding:6px 0; margin-bottom:18px; max-width:220px;
+        }
+        .quick-links-menu.open { display:block; }
+        .quick-links-menu a { display:block; padding:9px 16px; color:#2c3038; text-decoration:none; font-size:14px; }
+        .quick-links-menu a:hover { background:#f4f5f7; }
+
         .flash-success {
             background:#e3f7ea; color:#1c7c43; padding:12px 16px; border-radius:8px;
             margin-bottom:18px; border-left:4px solid #2fae63; font-size:14px;
@@ -104,15 +155,37 @@
 </head>
 <body>
 <div class="topbar">
-    <div class="brand">NASHAAD</div>
+    <div class="left">
+        <span class="hamburger" onclick="document.getElementById('sidebar').classList.toggle('collapsed')">&#9776;</span>
+        <div class="links-dropdown">
+            <button class="links-btn" onclick="toggleLinksMenu()">+ Links</button>
+            <div class="links-menu" id="linksMenu">
+                <a href="<?= site_url('purchase/add') ?>">+ Purchase</a>
+                <a href="#" class="nav-pending" onclick="return false;">+ Sales</a>
+                <a href="#" class="nav-pending" onclick="return false;">+ Customer</a>
+                <a href="<?= site_url('suppliers/add') ?>">+ Supplier</a>
+                <a href="<?= site_url('items/add') ?>">+ Item</a>
+                <a href="#" class="nav-pending" onclick="return false;">+ Expense</a>
+            </div>
+        </div>
+        <div class="brand">NASHAAD</div>
+    </div>
     <div class="right">
-        <a href="<?= site_url('pos') ?>">POS</a>
-        <a href="<?= site_url('dashboard') ?>">Dashboard</a>
-        <a href="<?= site_url('logout') ?>">Logout</a>
+        <select class="branch-select" disabled>
+            <option>Main Branch</option>
+        </select>
+        <a class="icon-btn" href="<?= site_url('pos') ?>">🛒 POS</a>
+        <a class="icon-btn" href="<?= site_url('dashboard') ?>">📊 Dashboard</a>
+        <a class="logout-btn" href="<?= site_url('logout') ?>">⏻ Logout</a>
     </div>
 </div>
 <div class="layout">
     <div class="sidebar" id="sidebar">
+        <?php $sessionUser = session()->get('user') ?? []; ?>
+        <div class="user-block">
+            <div class="user-avatar"><?= esc(strtoupper(substr($sessionUser['full_name'] ?? 'U', 0, 1))) ?></div>
+            <div class="user-name"><?= esc($sessionUser['full_name'] ?? 'User') ?></div>
+        </div>
         <a href="<?= site_url('dashboard') ?>">Dashboard</a>
 
         <div class="nav-group open">
@@ -185,6 +258,18 @@
         <a class="nav-pending" href="#" title="Not yet scheduled" onclick="return false;">Settings <span class="soon-badge">soon</span></a>
     </div>
     <div class="content">
+        <div class="links-dropdown" style="display:inline-block;">
+            <button class="quick-links-btn" onclick="toggleQuickLinks()">☰ Quick Links</button>
+            <div class="quick-links-menu" id="quickLinksMenu">
+                <a href="<?= site_url('purchase/add') ?>">+ Purchase</a>
+                <a href="#" class="nav-pending" onclick="return false;">+ Sales</a>
+                <a href="#" class="nav-pending" onclick="return false;">+ Customer</a>
+                <a href="<?= site_url('suppliers/add') ?>">+ Supplier</a>
+                <a href="<?= site_url('items/add') ?>">+ Item</a>
+                <a href="#" class="nav-pending" onclick="return false;">+ Expense</a>
+            </div>
+        </div>
+        <br>
         <?php if (session()->getFlashdata('success')): ?>
             <div class="flash-success"><?= esc(session()->getFlashdata('success')) ?></div>
         <?php endif; ?>
@@ -196,4 +281,15 @@
 function toggleGroup(el) {
     el.parentElement.classList.toggle('open');
 }
+function toggleLinksMenu() {
+    document.getElementById('linksMenu').classList.toggle('open');
+}
+function toggleQuickLinks() {
+    document.getElementById('quickLinksMenu').classList.toggle('open');
+}
+document.addEventListener('click', function (e) {
+    if (!e.target.closest('.links-dropdown')) {
+        document.querySelectorAll('.links-menu.open, .quick-links-menu.open').forEach(m => m.classList.remove('open'));
+    }
+});
 </script>

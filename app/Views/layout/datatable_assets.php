@@ -65,9 +65,18 @@ function initDataTable(selector, options) {
     // This is the fix for the exact failure mode that broke every page last
     // time: one bad dependency (wrong CDN path) threw inside DataTable()
     // and took the WHOLE table down with it, not just that one button.
-    const buttons = ['copy', 'csv', 'print', 'colvis'];
-    if (typeof JSZip !== 'undefined') buttons.splice(1, 0, 'excelHtml5');
-    if (typeof pdfMake !== 'undefined') buttons.splice(buttons.indexOf('csv') + 1, 0, 'pdfHtml5');
+    // exportOptions excludes the checkbox column (always first) and Action
+    // column (always last) from every export — nobody wants an "Action"
+    // column full of buttons/emoji showing up garbled in a PDF or Excel file.
+    const exportOptions = { columns: ':not(:first-child):not(:last-child)' };
+    const buttons = [
+        { extend: 'copy', exportOptions },
+        { extend: 'csv', exportOptions },
+        { extend: 'print', exportOptions },
+        'colvis',
+    ];
+    if (typeof JSZip !== 'undefined') buttons.splice(1, 0, { extend: 'excelHtml5', exportOptions });
+    if (typeof pdfMake !== 'undefined') buttons.splice(2, 0, { extend: 'pdfHtml5', exportOptions });
 
     return $(selector).DataTable(Object.assign({
         dom: 'Bfrtip',
