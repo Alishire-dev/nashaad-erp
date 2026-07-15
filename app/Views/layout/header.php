@@ -145,11 +145,10 @@
         .quick-links-btn {
             background:#b8956a; color:#fff; border:none; padding:9px 16px; border-radius:6px;
             cursor:pointer; font-size:13px; font-weight:500; display:inline-flex; align-items:center; gap:6px;
-            margin-bottom:18px;
         }
         .quick-links-menu {
-            display:none; background:#fff; border-radius:6px; box-shadow:0 4px 14px rgba(0,0,0,.15);
-            padding:6px 0; margin-bottom:18px; max-width:220px;
+            display:none; position:absolute; left:0; top:110%; background:#fff; border-radius:6px;
+            box-shadow:0 6px 20px rgba(0,0,0,.18); padding:6px 0; min-width:220px; z-index:60;
         }
         .quick-links-menu.open { display:block; }
         .quick-links-menu a { display:block; padding:9px 16px; color:#2c3038; text-decoration:none; font-size:14px; }
@@ -267,8 +266,9 @@
     </div>
     <div class="content">
         <?php if (isset($quickLinksView)): ?>
-            <?= view($quickLinksView) ?>
-            <br>
+            <div style="margin-bottom:16px;">
+                <?= view($quickLinksView) ?>
+            </div>
         <?php endif; ?>
         <?php if (session()->getFlashdata('success')): ?>
             <div class="flash-success"><?= esc(session()->getFlashdata('success')) ?></div>
