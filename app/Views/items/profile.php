@@ -1,19 +1,19 @@
 <style>
     .profile-card { background:#fff; border-radius:6px; overflow:hidden; margin-bottom:20px; }
-    .profile-card h3 { background:#e07b1e; color:#fff; padding:10px 16px; margin:0; font-size:15px; }
+    .profile-card h3 { background:#e88a2e; color:#fff; padding:10px 16px; margin:0; font-size:15px; }
     .profile-body { padding:16px; }
     .profile-row { display:flex; flex-wrap:wrap; gap:24px; margin-bottom:10px; }
     .profile-field { min-width:180px; }
-    .profile-field label { color:#e07b1e; font-weight:bold; font-size:13px; display:block; }
+    .profile-field label { color:#e88a2e; font-weight:bold; font-size:13px; display:block; }
     .profile-field span { font-size:14px; }
     .modal-backdrop { display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:100; align-items:center; justify-content:center; }
     .modal-backdrop.show { display:flex; }
     .modal-box { background:#fff; padding:0; border-radius:6px; width:600px; max-width:90vw; }
-    .modal-header { background:#e07b1e; color:#fff; padding:14px 20px; display:flex; justify-content:space-between; align-items:center; }
+    .modal-header { background:#e88a2e; color:#fff; padding:14px 20px; display:flex; justify-content:space-between; align-items:center; }
     .modal-body { padding:20px; }
     .tab-buttons { display:flex; gap:8px; border-bottom:2px solid #eee; margin-bottom:16px; }
     .tab-buttons button { background:none; border:none; padding:10px 4px; cursor:pointer; font-size:14px; color:#666; }
-    .tab-buttons button.active { color:#e07b1e; border-bottom:2px solid #e07b1e; margin-bottom:-2px; }
+    .tab-buttons button.active { color:#e88a2e; border-bottom:2px solid #e88a2e; margin-bottom:-2px; }
     .tab-pane { display:none; }
     .tab-pane.active { display:block; }
 </style>

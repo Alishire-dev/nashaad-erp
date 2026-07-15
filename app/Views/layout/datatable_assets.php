@@ -16,13 +16,27 @@
 <style>
     /* Keep DataTables' default look close to the rest of the app rather than its stock blue theme */
     .dt-buttons .dt-button {
-        background:#2980b9; color:#fff; border:none; border-radius:4px;
-        padding:6px 12px; margin-right:6px; cursor:pointer; font-size:13px;
+        background:#3a8fd6; color:#fff; border:none; border-radius:6px;
+        padding:7px 14px; margin-right:6px; cursor:pointer; font-size:13px; font-weight:500;
+        box-shadow:0 1px 3px rgba(0,0,0,.12); transition: background .15s ease;
     }
-    .dt-buttons .dt-button:hover { background:#21618c; }
-    .dataTables_filter input { padding:6px; border:1px solid #ccc; border-radius:4px; margin-left:6px; }
-    .dataTables_length select { padding:4px; border:1px solid #ccc; border-radius:4px; }
-    table.dataTable thead th { background:#e07b1e; color:#fff; }
+    .dt-buttons .dt-button:hover { background:#2f7ac0; }
+    .dataTables_filter input {
+        padding:8px 10px; border:1px solid #dde1e8; border-radius:6px; margin-left:8px;
+        transition: border-color .15s ease, box-shadow .15s ease;
+    }
+    .dataTables_filter input:focus {
+        outline:none; border-color:#e88a2e; box-shadow:0 0 0 3px #e88a2e22;
+    }
+    .dataTables_length select { padding:5px 8px; border:1px solid #dde1e8; border-radius:6px; }
+    table.dataTable thead th { background:#e88a2e; color:#fff; }
+    table.dataTable tbody tr:hover { background:#fafbfc; }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+        background:#e88a2e !important; color:#fff !important; border-radius:5px; border:none !important;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        background:#fbeadb !important; border:none !important; color:#1a2036 !important;
+    }
 </style>
 
 <script>

@@ -43,5 +43,5 @@
     </div>
 
     <button class="btn green" type="submit"><?= $category ? 'Update' : 'Save' ?></button>
-    <a class="btn" style="background:#e07b1e;" href="<?= site_url('category/view') ?>">Close</a>
+    <a class="btn" style="background:#e88a2e;" href="<?= site_url('category/view') ?>">Close</a>
 </form>
