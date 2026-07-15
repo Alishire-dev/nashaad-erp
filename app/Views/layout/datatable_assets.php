@@ -1,19 +1,27 @@
 <!-- Shared DataTables setup: search, sort, pagination, and Copy/Excel/PDF/CSV/Print export.
      Include this once per list page (after the table markup), then call:
          initDataTable('#yourTableId');
-     Excel/PDF need JSZip/pdfmake (loaded below) — real weight, but included
-     since matching the original's exact export set was explicitly requested. -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.13.11/css/jquery.dataTables.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables-buttons/2.4.3/css/buttons.dataTables.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.13.11/js/jquery.dataTables.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables-buttons/2.4.3/dataTables.buttons.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables-buttons/2.4.3/buttons.html5.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables-buttons/2.4.3/buttons.print.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables-buttons/2.4.3/buttons.colVis.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
+     IMPORTANT: these URLs were previously wrong — "datatables" on cdnjs only
+     goes up to v2.3.7, so the v1.13.11 path 404'd silently, jQuery loaded
+     fine but DataTables never attached to it, and every DataTables page
+     quietly fell back to a plain unenhanced table with no visible error.
+     Switched to the OFFICIAL DataTables CDN (cdn.datatables.net) for the
+     core + Buttons extension, which is guaranteed to have every version
+     path it advertises. jQuery via its own official CDN (code.jquery.com).
+     JSZip/pdfmake versions below are a combination independently confirmed
+     working together on the DataTables forums, not a guess. -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.11/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.11/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 
 <style>
     /* Keep DataTables' default look close to the rest of the app rather than its stock blue theme */
@@ -45,9 +53,25 @@
 
 <script>
 function initDataTable(selector, options) {
+    // Defensive: if DataTables itself never loaded (e.g. a CDN hiccup), fail
+    // loudly in the console but don't throw — leave the plain table visible
+    // and usable rather than a half-broken page.
+    if (typeof $.fn.DataTable !== 'function') {
+        console.error('DataTables failed to load — showing plain table for ' + selector);
+        return null;
+    }
+
+    // Only offer Excel/PDF buttons if their libraries actually attached.
+    // This is the fix for the exact failure mode that broke every page last
+    // time: one bad dependency (wrong CDN path) threw inside DataTable()
+    // and took the WHOLE table down with it, not just that one button.
+    const buttons = ['copy', 'csv', 'print', 'colvis'];
+    if (typeof JSZip !== 'undefined') buttons.splice(1, 0, 'excelHtml5');
+    if (typeof pdfMake !== 'undefined') buttons.splice(buttons.indexOf('csv') + 1, 0, 'pdfHtml5');
+
     return $(selector).DataTable(Object.assign({
         dom: 'Bfrtip',
-        buttons: ['copy', 'excelHtml5', 'pdfHtml5', 'csv', 'print', 'colvis'],
+        buttons: buttons,
         pageLength: 25,
         lengthMenu: [[10, 25, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 1000, 1500, 2000],
                      [10, 25, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 1000, 1500, 2000]],
