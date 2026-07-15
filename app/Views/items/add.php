@@ -185,6 +185,17 @@
             <input type="number" step="0.01" name="profit_margin" id="profitMargin" value="<?= esc($item['profit_margin'] ?? '0') ?>">
         </div>
         <div class="form-group" style="flex:1;">
+            <label>Price Change Affect All Branches?* <span class="info-icon" title="Single-branch setup right now — stored for when multi-branch is enabled">ⓘ</span></label>
+            <?php $priceChangeAll = $item['price_change_all_branches'] ?? 0; ?>
+            <select name="price_change_all_branches" required>
+                <option value="no" <?= $priceChangeAll == 0 ? 'selected' : '' ?>>No</option>
+                <option value="yes" <?= $priceChangeAll == 1 ? 'selected' : '' ?>>Yes</option>
+            </select>
+        </div>
+    </div>
+
+    <div style="display:flex; gap:16px;">
+        <div class="form-group" style="flex:1;">
             <label>Sales Commission(%)</label>
             <input type="number" step="0.01" name="sales_commission" value="<?= esc($item['sales_commission'] ?? '0') ?>">
         </div>

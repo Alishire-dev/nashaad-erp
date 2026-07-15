@@ -21,6 +21,9 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->post('items/add', 'Items::add');
     $routes->get('items/edit/(:num)', 'Items::edit/$1');
     $routes->post('items/edit/(:num)', 'Items::edit/$1');
+    $routes->get('items/profile/(:num)', 'Items::profile/$1');
+    $routes->post('items/conversion-create/(:num)', 'Items::conversionCreate/$1');
+    $routes->post('items/delete/(:num)', 'Items::delete/$1');
 
     // Categories
     $routes->get('category/view', 'Categories::index');

@@ -71,6 +71,7 @@ class Items extends BaseController
                 'wholesale_price'     => $this->request->getPost('wholesale_price') ?: 0,
                 'minimum_price'       => $this->request->getPost('minimum_price') ?: 0,
                 'profit_margin'       => $this->request->getPost('profit_margin') ?: 0,
+                'price_change_all_branches' => $this->request->getPost('price_change_all_branches') === 'yes' ? 1 : 0,
                 'sales_commission'    => $this->request->getPost('sales_commission') ?: 0,
                 'description'         => $this->request->getPost('description'),
             ];
@@ -103,6 +104,78 @@ class Items extends BaseController
         }
 
         return $this->renderForm($itemId, $existing);
+    }
+
+    /**
+     * Item Profile — basic info + purchase batch history + conversion children.
+     */
+    public function profile($id)
+    {
+        $this->requirePermission('items', 'view');
+
+        $itemModel = model(ItemModel::class);
+        $item = $itemModel->getProfileData((int) $id);
+
+        if (! $item) {
+            return redirect()->to('/items/list');
+        }
+
+        $data = [
+            'title'    => 'Item Profile',
+            'item'     => $item,
+            'batches'  => $itemModel->getPurchaseBatches((int) $id),
+            'children' => $itemModel->getConversionChildren((int) $id),
+            'units'    => model(UnitModel::class)->getForBranch($this->branchId),
+        ];
+
+        return view('layout/header', $data)
+            . view('items/profile', $data)
+            . view('layout/footer');
+    }
+
+    /**
+     * Item Conversion — "Create Conversion" tab creates a real child item + recipe;
+     * "Conversion List" tab shows existing ones. Both rendered inline on the
+     * Items List page via a modal, not a separate route — this action just
+     * handles the Create Conversion form POST and redirects back.
+     */
+    public function conversionCreate($id)
+    {
+        $this->requirePermission('items', 'add');
+
+        $itemModel = model(ItemModel::class);
+        $parent = $itemModel->find((int) $id);
+
+        if (! $parent) {
+            return redirect()->to('/items/list');
+        }
+
+        model(\App\Models\ItemConversionModel::class)->createConversion($parent, [
+            'name'            => $this->request->getPost('name'),
+            'unit_id'         => $this->request->getPost('unit_id'),
+            'conversion_rate' => $this->request->getPost('conversion_rate'),
+            'sales_price'     => $this->request->getPost('sales_price'),
+            'description'     => $this->request->getPost('description'),
+        ], (int) $this->currentUser['id']);
+
+        $this->session->setFlashdata('success', 'Conversion child item created.');
+        return redirect()->to('/items/list');
+    }
+
+    /**
+     * Soft delete — sets status=inactive rather than removing the row.
+     * Items already referenced by purchases/sales/stock movements can't be
+     * hard-deleted without breaking those records' history, so "Delete"
+     * here means "remove from active use", not "erase".
+     */
+    public function delete($id)
+    {
+        $this->requirePermission('items', 'delete');
+
+        model(ItemModel::class)->update((int) $id, ['status' => 'inactive']);
+
+        $this->session->setFlashdata('success', 'Item deleted (marked inactive).');
+        return redirect()->to('/items/list');
     }
 
     private function renderForm(?int $itemId, ?array $existing, ?array $validation = null)
