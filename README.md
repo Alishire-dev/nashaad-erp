@@ -90,15 +90,12 @@ Items/Categories/Units CRUD, Dashboard.
 **Day 3 — DONE, tested**: Suppliers, Purchases (with tax/discount math),
 Purchase Returns.
 
-**Day 4 — POS & Sales**
-- `sales` + `sale_items` + `customers` migrations
-- POS screen: category tabs, item grid, cart, hold/recall
-  (`sales.status = 'hold'`), discount, payment; checkout calls
-  `StockAdjustmentModel::record($item, $qty, 'out', 'sale', ...)` per line —
-  reuse the exact same model Purchase already uses, don't touch
-  `ItemModel::adjustStock()` directly.
-- Invoice numbering: `INV/YYYY/NNNNN` sequence — same pattern as your
-  existing `RCP/YYYY/NNNNN` receipt design, reuse that logic here.
+**Day 4 — DONE, tested**: `sales`/`sale_items`/`customers` tables, POS
+screen (category tabs, item grid, cart, discount, payment, hold/recall),
+`INV/YYYY/NNNNN` invoice numbering, Customers CRUD. Checkout goes through
+`StockAdjustmentModel::record()` exactly like Purchase does — verified
+live: stock deducted correctly, invoice number format correct, hold/recall
+round-trips without ever touching stock until actual checkout.
 
 **Day 5 — Accounting**
 - `accounts_type`, `sub_accounts_type`, `chart_of_accounts` migrations

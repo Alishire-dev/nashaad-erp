@@ -168,8 +168,8 @@
             <button class="links-btn" onclick="toggleLinksMenu()">+ Links</button>
             <div class="links-menu" id="linksMenu">
                 <a href="<?= site_url('purchase/add') ?>">+ Purchase</a>
-                <a href="#" class="nav-pending" onclick="return false;">+ Sales</a>
-                <a href="#" class="nav-pending" onclick="return false;">+ Customer</a>
+                <a href="<?= site_url('pos') ?>">+ Sales</a>
+                <a href="<?= site_url('customers/add') ?>">+ Customer</a>
                 <a href="<?= site_url('suppliers/add') ?>">+ Supplier</a>
                 <a href="<?= site_url('items/add') ?>">+ Item</a>
                 <a href="#" class="nav-pending" onclick="return false;">+ Expense</a>
@@ -226,8 +226,8 @@
             <div class="nav-toggle" onclick="toggleGroup(this)">Sales <span class="chevron">&#9656;</span></div>
             <div class="nav-children">
                 <a href="<?= site_url('pos') ?>">POS</a>
-                <a class="nav-pending" href="#" title="Coming Day 4" onclick="return false;">Sales List <span class="soon-badge">soon</span></a>
-                <a class="nav-pending" href="#" title="Coming Day 4" onclick="return false;">Sales Return <span class="soon-badge">soon</span></a>
+                <a href="<?= site_url('sales/list') ?>">Sales List</a>
+                <a class="nav-pending" href="#" title="Not yet scheduled" onclick="return false;">Sales Return <span class="soon-badge">soon</span></a>
             </div>
         </div>
 
@@ -242,7 +242,7 @@
         <div class="nav-group">
             <div class="nav-toggle" onclick="toggleGroup(this)">Customers <span class="chevron">&#9656;</span></div>
             <div class="nav-children">
-                <a class="nav-pending" href="#" title="Coming Day 4" onclick="return false;">Customers List <span class="soon-badge">soon</span></a>
+                <a href="<?= site_url('customers') ?>">Customers List</a>
             </div>
         </div>
 

@@ -77,4 +77,21 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->get('purchase/return/add', 'Purchase::returnAdd');
     $routes->post('purchase/return/add', 'Purchase::returnAdd');
     $routes->get('purchase/lines-json/(:num)', 'Purchase::linesJson/$1');
+
+    // POS
+    $routes->get('pos', 'Pos::index');
+    $routes->post('pos/checkout', 'Pos::checkout');
+    $routes->post('pos/hold', 'Pos::hold');
+    $routes->get('pos/held-list', 'Pos::heldList');
+    $routes->get('pos/recall/(:num)', 'Pos::recall/$1');
+
+    // Sales
+    $routes->get('sales/list', 'Sales::index');
+    $routes->get('sales/view/(:num)', 'Sales::view/$1');
+
+    // Customers
+    $routes->get('customers', 'Customers::index');
+    $routes->get('customers/add', 'Customers::add');
+    $routes->post('customers/add', 'Customers::add');
+    $routes->post('customers/quick-add', 'Customers::quickAdd');
 });
