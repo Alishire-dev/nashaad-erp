@@ -43,7 +43,7 @@ class Items extends BaseController
         ];
 
         return view('layout/header', $data)
-            . view('items/list', $data)
+            . view('items/archived', $data)
             . view('layout/footer');
     }
 
@@ -88,8 +88,14 @@ class Items extends BaseController
     {
         $this->requirePermission('items', 'add');
 
-        return view('layout/header', ['title' => 'Bulk Items Upload', 'quickLinksView' => 'items/_quick_links'])
-            . view('items/bulk_upload')
+        $data = [
+            'title'             => 'Bulk Items Upload',
+            'quickLinksView'    => 'items/_quick_links',
+            'migrationAccounts' => model(\App\Models\MigrationControlAccountModel::class)->getActive(),
+        ];
+
+        return view('layout/header', $data)
+            . view('items/bulk_upload', $data)
             . view('layout/footer');
     }
 

@@ -25,11 +25,11 @@
 
 <style>
     /* Keep DataTables' default look close to the rest of the app rather than its stock blue theme */
-    .dt-toolbar-length { margin-bottom: 10px; }
+    .dt-toolbar-length { margin-bottom: 10px; overflow: hidden; } /* clearfix: DataTables floats this internally */
     .dt-toolbar-length select { padding:5px 8px; border:1px solid #dde1e8; border-radius:6px; }
     .dt-toolbar-actions {
         display:flex; justify-content:space-between; align-items:center;
-        margin-bottom:12px; flex-wrap:wrap; gap:8px;
+        margin-bottom:12px; flex-wrap:wrap; gap:8px; overflow:hidden;
     }
     .dt-toolbar-actions .dt-buttons { display:flex; gap:6px; flex-wrap:wrap; }
     .dt-buttons .dt-button {
