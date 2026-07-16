@@ -108,12 +108,20 @@ a real purchase posted a Cash-out entry, a real sale posted a Cash-in
 entry against the pay-mode-matched account, and both manual Make/Receive
 Payment forms work end-to-end.
 
-**Day 6 — Dashboard polish, Reports, Deploy**
-- Sales/purchase/expense bar chart, top-5 fast movers, pending
-  sales/accounts-receivable table
-- Issued Products / Damaged Products (both call
-  `StockAdjustmentModel::record(..., 'out', 'issued'|'damaged', ...)`)
-- Full regression pass, deploy to client's live server, credential handover.
+**Day 6 — DONE, tested**: Dashboard now has a real Purchase/Sales bar
+chart (last 7 days, Chart.js), Top 5 Fast Moving Items, Pending Sales/
+Accounts Receivable table, and a Today's Sales Summary card — all backed
+by real query methods on SaleModel/PurchaseModel, not placeholder data.
+Issued Products and Damaged Products both go through
+`StockAdjustmentModel::record()` exactly like Purchase/Sale do. Price
+Change Log surfaces data that's been tracked since Day 1 (Stock Manager's
+Update Price) but never had a page until now.
+
+Verified live: issued 5 units + damaged 3 units of a test item, confirmed
+stock landed exactly right (50 -> 42); changed a price via Stock Manager,
+confirmed it appeared in Price Change Log with the correct delta; made a
+partial-payment sale (35.00 total, 20.00 paid) and confirmed the
+Dashboard's Pending Sales table showed exactly 15.00 due.
 
 
 ## Explicitly deferred (not in this 6-day build)

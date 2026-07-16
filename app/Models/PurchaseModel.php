@@ -141,4 +141,31 @@ class PurchaseModel extends Model
 
         return $db->transStatus() ? $purchaseId : false;
     }
+
+    /**
+     * Daily purchase totals for the last N days — Dashboard bar chart's
+     * purchase series, same shape as SaleModel::getDailyTotals().
+     */
+    public function getDailyTotals(int $branchId, int $days = 7): array
+    {
+        $rows = $this->select('purchase_date, SUM(grand_total) as total')
+            ->where('branch_id', $branchId)
+            ->where('purchase_date >=', date('Y-m-d', strtotime("-{$days} days")))
+            ->groupBy('purchase_date')
+            ->orderBy('purchase_date', 'ASC')
+            ->findAll();
+
+        $byDate = [];
+        foreach ($rows as $r) {
+            $byDate[$r['purchase_date']] = (float) $r['total'];
+        }
+
+        $result = [];
+        for ($i = $days - 1; $i >= 0; $i--) {
+            $date = date('Y-m-d', strtotime("-{$i} days"));
+            $result[] = ['date' => $date, 'total' => $byDate[$date] ?? 0.0];
+        }
+
+        return $result;
+    }
 }

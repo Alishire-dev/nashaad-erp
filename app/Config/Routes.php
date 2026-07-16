@@ -113,4 +113,11 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->post('accounting/money/make-payment', 'Money::makePayment');
     $routes->get('accounting/money/receive-payment', 'Money::receivePayment');
     $routes->post('accounting/money/receive-payment', 'Money::receivePayment');
+
+    // Issued / Damaged Products, Price Change Log
+    $routes->get('issued-products', 'IssuedProducts::index');
+    $routes->post('issued-products/add', 'IssuedProducts::add');
+    $routes->get('damaged-products', 'DamagedProducts::index');
+    $routes->post('damaged-products/add', 'DamagedProducts::add');
+    $routes->get('price-change-log', 'PriceChangeLog::index');
 });

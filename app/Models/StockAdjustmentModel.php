@@ -73,4 +73,21 @@ class StockAdjustmentModel extends Model
             ->limit($limit)
             ->findAll();
     }
+
+    /**
+     * Filtered by reason — powers Issued Products and Damaged Products,
+     * which are really just this same audit trail viewed through a filter.
+     */
+    public function getByReason(int $branchId, string $reason): array
+    {
+        return $this->select('stock_adjustments.*, items.name as item_name, items.item_code,
+                units.short_name as unit_short, users.full_name as user_name')
+            ->join('items', 'items.id = stock_adjustments.item_id')
+            ->join('units', 'units.id = items.unit_id', 'left')
+            ->join('users', 'users.id = stock_adjustments.created_by', 'left')
+            ->where('stock_adjustments.branch_id', $branchId)
+            ->where('stock_adjustments.reason', $reason)
+            ->orderBy('stock_adjustments.created_at', 'DESC')
+            ->findAll();
+    }
 }

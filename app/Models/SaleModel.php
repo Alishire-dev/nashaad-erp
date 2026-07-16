@@ -232,4 +232,95 @@ class SaleModel extends Model
 
         return $sale;
     }
+
+    /**
+     * Daily sales totals for the last N days — used for the Dashboard bar
+     * chart. Only counts completed sales (held/cancelled don't count as
+     * real revenue).
+     */
+    public function getDailyTotals(int $branchId, int $days = 7): array
+    {
+        $rows = $this->select('sale_date, SUM(grand_total) as total')
+            ->where('branch_id', $branchId)
+            ->where('status', 'completed')
+            ->where('sale_date >=', date('Y-m-d', strtotime("-{$days} days")))
+            ->groupBy('sale_date')
+            ->orderBy('sale_date', 'ASC')
+            ->findAll();
+
+        $byDate = [];
+        foreach ($rows as $r) {
+            $byDate[$r['sale_date']] = (float) $r['total'];
+        }
+
+        $result = [];
+        for ($i = $days - 1; $i >= 0; $i--) {
+            $date = date('Y-m-d', strtotime("-{$i} days"));
+            $result[] = ['date' => $date, 'total' => $byDate[$date] ?? 0.0];
+        }
+
+        return $result;
+    }
+
+    /**
+     * Top 5 fast-moving items by quantity sold, all-time for this branch.
+     */
+    public function getTopMovers(int $branchId, int $limit = 5): array
+    {
+        return $this->db->table('sale_items')
+            ->select('items.name as item_name, SUM(sale_items.quantity) as total_qty')
+            ->join('sales', 'sales.id = sale_items.sale_id')
+            ->join('items', 'items.id = sale_items.item_id')
+            ->where('sales.branch_id', $branchId)
+            ->where('sales.status', 'completed')
+            ->groupBy('sale_items.item_id')
+            ->orderBy('total_qty', 'DESC')
+            ->limit($limit)
+            ->get()->getResultArray();
+    }
+
+    /**
+     * Pending sales — completed sales where amount_paid is less than
+     * grand_total (matches the original's "Accounts Receivable" concept).
+     */
+    public function getPendingSales(int $branchId): array
+    {
+        return $this->select('sales.*, customers.name as customer_name')
+            ->join('customers', 'customers.id = sales.customer_id', 'left')
+            ->where('sales.branch_id', $branchId)
+            ->where('sales.status', 'completed')
+            ->where('sales.amount_paid <', 'sales.grand_total', false)
+            ->orderBy('sales.id', 'DESC')
+            ->findAll();
+    }
+
+    /**
+     * Today's Sales Summary card data.
+     */
+    public function getTodaySummary(int $branchId): array
+    {
+        $today = date('Y-m-d');
+
+        $completed = $this->where('branch_id', $branchId)
+            ->where('sale_date', $today)
+            ->where('status', 'completed')
+            ->findAll();
+
+        $totalSales   = array_sum(array_column($completed, 'grand_total'));
+        $paidSales    = array_sum(array_map(static fn ($s) => min((float) $s['amount_paid'], (float) $s['grand_total']), $completed));
+        $pendingSales = $totalSales - $paidSales;
+
+        $cancelledTotal = (float) ($this->where('branch_id', $branchId)
+            ->where('sale_date', $today)
+            ->where('status', 'cancelled')
+            ->selectSum('grand_total')
+            ->first()['grand_total'] ?? 0);
+
+        return [
+            'total_sales'     => $totalSales,
+            'paid_sales'      => $paidSales,
+            'pending_sales'   => $pendingSales,
+            'cancelled_sales' => $cancelledTotal,
+        ];
+    }
 }

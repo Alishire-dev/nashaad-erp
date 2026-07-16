@@ -205,9 +205,9 @@
                 <a href="<?= site_url('brands') ?>">Brands List</a>
                 <a href="<?= site_url('units') ?>">Unit List (UOM)</a>
                 <a href="<?= site_url('items/print-labels') ?>">Print Labels</a>
-                <a class="nav-pending" href="#" title="Coming Day 6" onclick="return false;">Issued Products <span class="soon-badge">soon</span></a>
-                <a class="nav-pending" href="#" title="Coming Day 6" onclick="return false;">Damaged Products <span class="soon-badge">soon</span></a>
-                <a class="nav-pending" href="#" title="Not yet scheduled" onclick="return false;">Price Change Log <span class="soon-badge">soon</span></a>
+                <a href="<?= site_url('issued-products') ?>">Issued Products</a>
+                <a href="<?= site_url('damaged-products') ?>">Damaged Products</a>
+                <a href="<?= site_url('price-change-log') ?>">Price Change Log</a>
                 <a class="nav-pending" href="#" title="Not yet scheduled" onclick="return false;">Stock Conversion <span class="soon-badge">soon</span></a>
                 <a href="<?= site_url('stock/alerts') ?>">Stock Alert</a>
             </div>
