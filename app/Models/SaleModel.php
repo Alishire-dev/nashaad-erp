@@ -108,6 +108,27 @@ class SaleModel extends Model
             }
         }
 
+        // Every sale posts a cash-in ledger entry against the account
+        // matching how it was paid — cash/mpesa/card map to Cash/EVC/Bank
+        // respectively (Bank is seeded inactive by default; still postable,
+        // just not offered as a NEW selection elsewhere until activated).
+        $accountByPayMode = ['cash' => 'Cash', 'mpesa' => 'EVC', 'card' => 'Bank'];
+        $account = $accountByPayMode[$header['pay_mode'] ?? 'cash'] ?? 'Cash';
+
+        model(MoneyTransactionModel::class)->post(
+            $header['branch_id'],
+            $userId,
+            $header['sale_date'],
+            $account,
+            (float) ($header['amount_paid'] ?? 0),
+            0,
+            'Sale ' . $header['invoice_no'],
+            $header['pay_mode'] ?? 'cash',
+            'sale',
+            $saleId,
+            $header['invoice_no']
+        );
+
         $db->transComplete();
 
         return $db->transStatus() ? $saleId : false;

@@ -119,6 +119,24 @@ class PurchaseModel extends Model
             ]);
         }
 
+        // Every purchase posts a Cash-out ledger entry. Simplified on purpose:
+        // this assumes full payment via Cash at purchase time — there's no
+        // partial-payment/accounts-payable flow yet (the "amount_paid"
+        // column exists on purchases but nothing collects it in the form
+        // yet). Real AP aging is future work, not silently faked here.
+        model(MoneyTransactionModel::class)->post(
+            $header['branch_id'],
+            $userId,
+            $header['purchase_date'],
+            'Cash',
+            0,
+            $header['grand_total'],
+            'Purchase #' . $purchaseId . (! empty($header['reference_no']) ? ' (' . $header['reference_no'] . ')' : ''),
+            'cash',
+            'purchase',
+            $purchaseId
+        );
+
         $db->transComplete();
 
         return $db->transStatus() ? $purchaseId : false;

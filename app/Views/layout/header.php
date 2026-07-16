@@ -251,10 +251,11 @@
         <div class="nav-group">
             <div class="nav-toggle" onclick="toggleGroup(this)">Accounting <span class="chevron">&#9656;</span></div>
             <div class="nav-children">
-                <a class="nav-pending" href="#" title="Coming Day 5" onclick="return false;">Accounts Type <span class="soon-badge">soon</span></a>
-                <a class="nav-pending" href="#" title="Coming Day 5" onclick="return false;">Chart of Accounts <span class="soon-badge">soon</span></a>
-                <a class="nav-pending" href="#" title="Coming Day 5" onclick="return false;">Money <span class="soon-badge">soon</span></a>
-                <a class="nav-pending" href="#" title="Coming Day 5" onclick="return false;">Journal Entry <span class="soon-badge">soon</span></a>
+                <a href="<?= site_url('accounting/account-types') ?>">Accounts Type</a>
+                <a href="<?= site_url('accounting/sub-account-types') ?>">Sub-Accounts Type</a>
+                <a href="<?= site_url('accounting/chart-of-accounts') ?>">Chart of Accounts</a>
+                <a href="<?= site_url('accounting/money') ?>">Money</a>
+                <a class="nav-pending" href="#" title="Not yet scheduled" onclick="return false;">Journal Entry <span class="soon-badge">soon</span></a>
             </div>
         </div>
 

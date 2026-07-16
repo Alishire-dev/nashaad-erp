@@ -94,4 +94,23 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->get('customers/add', 'Customers::add');
     $routes->post('customers/add', 'Customers::add');
     $routes->post('customers/quick-add', 'Customers::quickAdd');
+
+    // Accounting
+    $routes->get('accounting/account-types', 'AccountTypes::index');
+    $routes->get('accounting/account-types/add', 'AccountTypes::add');
+    $routes->post('accounting/account-types/add', 'AccountTypes::add');
+
+    $routes->get('accounting/sub-account-types', 'SubAccountTypes::index');
+    $routes->get('accounting/sub-account-types/add', 'SubAccountTypes::add');
+    $routes->post('accounting/sub-account-types/add', 'SubAccountTypes::add');
+
+    $routes->get('accounting/chart-of-accounts', 'ChartOfAccounts::index');
+    $routes->get('accounting/chart-of-accounts/add', 'ChartOfAccounts::add');
+    $routes->post('accounting/chart-of-accounts/add', 'ChartOfAccounts::add');
+
+    $routes->get('accounting/money', 'Money::index');
+    $routes->get('accounting/money/make-payment', 'Money::makePayment');
+    $routes->post('accounting/money/make-payment', 'Money::makePayment');
+    $routes->get('accounting/money/receive-payment', 'Money::receivePayment');
+    $routes->post('accounting/money/receive-payment', 'Money::receivePayment');
 });

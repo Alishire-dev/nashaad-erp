@@ -97,12 +97,16 @@ screen (category tabs, item grid, cart, discount, payment, hold/recall),
 live: stock deducted correctly, invoice number format correct, hold/recall
 round-trips without ever touching stock until actual checkout.
 
-**Day 5 — Accounting**
-- `accounts_type`, `sub_accounts_type`, `chart_of_accounts` migrations
-  (3-tier structure matching the reference screenshots)
-- `money_transactions` migration — every sale/purchase auto-posts a
-  transaction row against the right GL account, so the UI stays simple
-  while the ledger underneath is real double-entry-ready.
+**Day 5 — DONE, tested**: `account_types`/`sub_account_types`/`chart_of_accounts`
+(3-tier, seeded with real data matching the reference: ASSETS/LIABILITIES/
+Equity Capital/Income-Revenue/EXPENSES, Cash & Cash Equivalent etc.,
+GL0002-GL0014 including Sales Revenue/Cost Of Goods Sold/Cash/EVC/Bank).
+`money_transactions` ledger + Manage Money screen (Payments list, Make
+Payment, Receive Payment). Purchase and Sale checkout both auto-post a
+real ledger entry via `MoneyTransactionModel::post()` — verified live:
+a real purchase posted a Cash-out entry, a real sale posted a Cash-in
+entry against the pay-mode-matched account, and both manual Make/Receive
+Payment forms work end-to-end.
 
 **Day 6 — Dashboard polish, Reports, Deploy**
 - Sales/purchase/expense bar chart, top-5 fast movers, pending
