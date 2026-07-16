@@ -24,24 +24,34 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 
 <style>
-    /* Keep DataTables' default look close to the rest of the app rather than its stock blue theme */
-    .dt-toolbar-length { margin-bottom: 10px; overflow: hidden; } /* clearfix: DataTables floats this internally */
-    .dt-toolbar-length select { padding:5px 8px; border:1px solid #dde1e8; border-radius:6px; }
-    .dt-toolbar-actions {
-        display:flex; justify-content:space-between; align-items:center;
-        margin-bottom:12px; flex-wrap:wrap; gap:8px; overflow:hidden;
+    /* The actual root cause of the 3-line wrap: this app's global form
+       styles (label{display:block}, select/input{width:100%}) bleed into
+       DataTables' own internal "Show <select> entries" and search markup,
+       since those are real <label>/<select>/<input> elements too. Previous
+       attempts added clearfix/flex wrappers around the SYMPTOM without
+       neutralizing this at the source — these targeted overrides do that
+       directly, with !important since the global rule also has none but
+       loads earlier in the cascade. */
+    .dataTables_length label, .dataTables_filter label {
+        display:inline-block !important; font-weight:normal !important;
+        margin:0 !important; color:#2c3038 !important; font-size:14px !important;
     }
-    .dt-toolbar-actions .dt-buttons { display:flex; gap:6px; flex-wrap:wrap; }
+    .dataTables_length select { width:auto !important; display:inline-block !important; margin:0 4px; }
+    .dataTables_filter input { width:200px !important; display:inline-block !important; margin-left:6px; }
+
+    /* Single row, matching the original: length (left) + buttons (left,
+       right after) + search (far right) all share one line via float. */
+    .dataTables_wrapper .dataTables_length { float:left; }
+    .dataTables_wrapper .dataTables_filter { float:right; }
+    .dt-buttons { float:left; margin-left:20px; }
+    .dataTables_wrapper::after { content:""; display:table; clear:both; }
+
     .dt-buttons .dt-button {
         background:#3a8fd6; color:#fff; border:none; border-radius:5px;
         padding:5px 10px; cursor:pointer; font-size:12px; font-weight:500;
-        box-shadow:0 1px 3px rgba(0,0,0,.12); transition: background .15s ease;
+        margin-right:6px; box-shadow:0 1px 3px rgba(0,0,0,.12); transition: background .15s ease;
     }
     .dt-buttons .dt-button:hover { background:#2f7ac0; }
-    .dataTables_filter input {
-        padding:7px 10px; border:1px solid #dde1e8; border-radius:6px; margin-left:8px;
-        transition: border-color .15s ease, box-shadow .15s ease;
-    }
     .dataTables_filter input:focus {
         outline:none; border-color:#e88a2e; box-shadow:0 0 0 3px #e88a2e22;
     }
@@ -67,13 +77,6 @@ function initDataTable(selector, options) {
         return null;
     }
 
-    // Only offer Excel/PDF buttons if their libraries actually attached.
-    // This is the fix for the exact failure mode that broke every page last
-    // time: one bad dependency (wrong CDN path) threw inside DataTable()
-    // and took the WHOLE table down with it, not just that one button.
-    // exportOptions excludes the checkbox column (always first) and Action
-    // column (always last) from every export — nobody wants an "Action"
-    // column full of buttons/emoji showing up garbled in a PDF or Excel file.
     const exportOptions = { columns: ':not(:first-child):not(:last-child)' };
     const buttons = [
         { extend: 'copy', exportOptions },
@@ -85,11 +88,11 @@ function initDataTable(selector, options) {
     if (typeof pdfMake !== 'undefined') buttons.splice(2, 0, { extend: 'pdfHtml5', exportOptions });
 
     return $(selector).DataTable(Object.assign({
-        // Custom layout, not the default 'Bfrtip': 'l' (Show X entries) was
-        // MISSING entirely before, not just misplaced — this restores it on
-        // its own row, then Buttons (left) + Search (right) share the row
-        // below, matching the original's two-row toolbar arrangement.
-        dom: '<"dt-toolbar-length"l><"dt-toolbar-actions"Bf>rtip',
+        // Plain dom, no custom wrapper divs — those added fragility across
+        // two prior attempts. DataTables' own float-based default layout
+        // for l/B/f works correctly once the global CSS bleed (above) is
+        // actually neutralized at the source.
+        dom: 'lBfrtip',
         buttons: buttons,
         pageLength: 25,
         lengthMenu: [[10, 25, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 1000, 1500, 2000],
