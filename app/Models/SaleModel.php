@@ -12,7 +12,7 @@ class SaleModel extends Model
     protected $allowedFields = [
         'branch_id', 'customer_id', 'sales_person_id', 'invoice_no', 'sale_date', 'due_date',
         'lpo_number', 'note', 'status', 'subtotal', 'discount_pct', 'discount_type', 'discount_amt',
-        'tax_amount', 'grand_total', 'amount_paid', 'pay_status', 'pay_mode', 'created_by',
+        'tax_amount', 'grand_total', 'amount_paid', 'pay_status', 'pay_mode', 'created_by', 'created_at',
     ];
 
     protected $useTimestamps = false;

@@ -10,6 +10,11 @@ namespace App\Libraries;
  */
 class PurchasePdf
 {
+    public function __construct()
+    {
+        helper('pdf');
+    }
+
     private const ORANGE = [232, 138, 46]; // matches the app's #e88a2e brand color
 
     /**
@@ -197,19 +202,4 @@ class PurchasePdf
             $pdf->Cell(30, 6, number_format((float) $line['quantity'], 0), 1, 1, 'C');
         }
     }
-}
-
-/**
- * FPDF's core fonts only support Windows-1252 — item names, supplier
- * names etc. may contain UTF-8 (é, Somali names with diacritics are rare
- * but possible). Converts safely, falling back to stripping anything
- * unconvertible rather than letting FPDF throw or emit garbage bytes.
- */
-function esc_pdf(?string $text): string
-{
-    if ($text === null) {
-        return '';
-    }
-    $converted = @iconv('UTF-8', 'CP1252//TRANSLIT//IGNORE', $text);
-    return $converted !== false ? $converted : preg_replace('/[^\x20-\x7E]/', '', $text);
 }

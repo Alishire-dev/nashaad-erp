@@ -102,6 +102,9 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     // Sales
     $routes->get('sales/list', 'Sales::index');
     $routes->get('sales/view/(:num)', 'Sales::view/$1');
+    $routes->get('sales/pos-invoice/(:num)', 'Sales::posInvoice/$1');
+    $routes->get('sales/a4-invoice/(:num)', 'Sales::a4Invoice/$1');
+    $routes->get('sales/dispatch-list/(:num)', 'Sales::dispatchList/$1');
     $routes->post('sales/update-details/(:num)', 'Sales::updateDetails/$1');
     $routes->post('sales/apply-discount/(:num)', 'Sales::applyDiscount/$1');
     $routes->post('sales/cancel/(:num)', 'Sales::cancel/$1');

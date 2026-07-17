@@ -13,7 +13,7 @@
 <div style="background:#fff; border-radius:8px; padding:24px;">
     <div style="display:flex; justify-content:space-between; align-items:flex-start; border-bottom:2px solid #eee; padding-bottom:12px; margin-bottom:16px;">
         <h3 style="margin:0;">🌐 Sales Invoice</h3>
-        <span style="color:#666;">Date: <?= esc(date('d-m-Y H:i:s', strtotime($sale['created_at']))) ?></span>
+        <span style="color:#666;">Date: <?= esc(date('d-m-Y H:i:s', strtotime($sale['created_at'] ?? $sale['sale_date']))) ?></span>
     </div>
 
     <div style="display:flex; gap:30px; flex-wrap:wrap; margin-bottom:20px;">
@@ -90,6 +90,9 @@
         <button class="btn" style="background:#17a2b8;" onclick="openDiscountModal()">✎ Apply Discount</button>
         <a class="btn" style="background:#2c2f38;" href="<?= site_url('sales/payments/' . $sale['id']) ?>">💳 View Payments</a>
         <a class="btn" style="background:#3a8fd6;" href="<?= site_url('sales/return/' . $sale['id']) ?>">🔄 Sales Return</a>
+        <a class="btn" style="background:#2c2f38;" href="<?= site_url('sales/pos-invoice/' . $sale['id']) ?>" target="_blank">🖨 POS Invoice</a>
+        <a class="btn" style="background:#3a8fd6;" href="<?= site_url('sales/a4-invoice/' . $sale['id']) ?>" target="_blank">📄 A4 Invoice</a>
+        <a class="btn" style="background:#3a8fd6;" href="<?= site_url('sales/dispatch-list/' . $sale['id']) ?>" target="_blank">📄 Dispatch List</a>
         <?php if ($sale['status'] !== 'cancelled'): ?>
         <form method="post" action="<?= site_url('sales/cancel/' . $sale['id']) ?>" onsubmit="return confirm('Cancel this sale? Stock will be restored.');">
             <?= csrf_field() ?>

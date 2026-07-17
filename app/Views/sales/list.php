@@ -34,7 +34,7 @@
         <tr>
             <td><input type="checkbox"></td>
             <td>
-                <?= esc(date('d-m-Y H:i:s', strtotime($s['created_at']))) ?>
+                <?= esc(date('d-m-Y H:i:s', strtotime($s['created_at'] ?? $s['sale_date']))) ?>
                 <?php if (! empty($s['due_date'])): ?><br><small style="color:#999;">Due: <?= esc($s['due_date']) ?></small><?php endif; ?>
             </td>
             <td><a href="<?= site_url('sales/view/' . $s['id']) ?>"><?= esc($s['invoice_no']) ?></a></td>
@@ -53,6 +53,9 @@
                         <a href="<?= site_url('sales/view/' . $s['id']) ?>">👁 View Sale</a>
                         <a href="<?= site_url('sales/payments/' . $s['id']) ?>">💳 View Payments</a>
                         <a href="<?= site_url('sales/return/' . $s['id']) ?>">🔄 Sales Return</a>
+                        <a href="<?= site_url('sales/pos-invoice/' . $s['id']) ?>" target="_blank">🖨 POS Invoice</a>
+                        <a href="<?= site_url('sales/a4-invoice/' . $s['id']) ?>" target="_blank">📄 A4 Invoice</a>
+                        <a href="<?= site_url('sales/dispatch-list/' . $s['id']) ?>" target="_blank">📄 Dispatch List</a>
                         <form method="post" action="<?= site_url('sales/cancel/' . $s['id']) ?>"
                               onsubmit="return confirm('Cancel this sale? Stock will be restored.');">
                             <?= csrf_field() ?>

@@ -97,6 +97,49 @@ class Sales extends BaseController
             . view('layout/footer');
     }
 
+    public function posInvoice($id)
+    {
+        $this->requirePermission('sales', 'view');
+        return $this->outputSalePdf((int) $id, 'pos');
+    }
+
+    public function a4Invoice($id)
+    {
+        $this->requirePermission('sales', 'view');
+        return $this->outputSalePdf((int) $id, 'a4');
+    }
+
+    public function dispatchList($id)
+    {
+        $this->requirePermission('sales', 'view');
+        return $this->outputSalePdf((int) $id, 'dispatch');
+    }
+
+    private function outputSalePdf(int $id, string $type)
+    {
+        $sale = model(SaleModel::class)->getWithLines($id);
+        if (! $sale) {
+            return redirect()->to('/sales/list');
+        }
+
+        $sale['payments'] = model(SalePaymentModel::class)->getForSale($id);
+        $branch = \Config\Database::connect()->table('branches')->where('id', $sale['branch_id'])->get()->getRowArray() ?: [];
+
+        $pdfLib = new \App\Libraries\SalesPdf();
+        $content = match ($type) {
+            'pos'      => $pdfLib->posInvoice($sale),
+            'a4'       => $pdfLib->a4Invoice($sale, $branch),
+            'dispatch' => $pdfLib->dispatchList($sale),
+        };
+
+        $filename = $type . '-' . $sale['invoice_no'] . '.pdf';
+
+        return $this->response
+            ->setHeader('Content-Type', 'application/pdf')
+            ->setHeader('Content-Disposition', 'inline; filename="' . $filename . '"')
+            ->setBody($content);
+    }
+
     // ---------------- Payments ----------------
 
     public function viewPayments($id)
