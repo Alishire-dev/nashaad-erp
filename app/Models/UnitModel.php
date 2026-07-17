@@ -9,7 +9,7 @@ class UnitModel extends Model
     protected $table         = 'units';
     protected $primaryKey    = 'id';
     protected $returnType    = 'array';
-    protected $allowedFields = ['branch_id', 'name', 'short_name', 'description', 'status'];
+    protected $allowedFields = ['branch_id', 'name', 'short_name', 'conversion_factor', 'base_unit_id', 'description', 'status'];
 
     protected $useTimestamps = false;
     protected $createdField  = 'created_at';
@@ -21,7 +21,11 @@ class UnitModel extends Model
 
     public function getForBranch(int $branchId): array
     {
-        return $this->where('branch_id', $branchId)->orderBy('id', 'ASC')->findAll();
+        return $this->select('units.*, base.name as base_unit_name')
+            ->join('units as base', 'base.id = units.base_unit_id', 'left')
+            ->where('units.branch_id', $branchId)
+            ->orderBy('units.id', 'ASC')
+            ->findAll();
     }
 
     public function createForBranch(array $data): int|string|false

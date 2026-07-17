@@ -14,7 +14,6 @@ class IssuedProducts extends BaseController
         $data = [
             'title'  => 'Issued Products',
             'issued' => model(StockAdjustmentModel::class)->getByReason($this->branchId, 'issued'),
-            'items'  => model(ItemModel::class)->getForBranch($this->branchId),
         ];
 
         return view('layout/header', $data)
@@ -22,24 +21,56 @@ class IssuedProducts extends BaseController
             . view('layout/footer');
     }
 
+    public function addForm()
+    {
+        $this->requirePermission('items', 'add');
+
+        $data = [
+            'title' => 'Add Issued Products',
+            'items' => model(ItemModel::class)->getForBranch($this->branchId),
+        ];
+
+        return view('layout/header', $data)
+            . view('items/issued_add', $data)
+            . view('layout/footer');
+    }
+
+    /**
+     * Accepts multiple lines in one submission (item_id, quantity, unit_price,
+     * note per row) — matches the original's multi-row "+" cart form, not a
+     * single-item form.
+     */
     public function add()
     {
         $this->requirePermission('items', 'add');
 
-        if ($this->request->getMethod() === 'POST') {
-            model(StockAdjustmentModel::class)->record(
+        $lines = json_decode((string) $this->request->getPost('lines_json'), true) ?: [];
+        $stockModel = model(StockAdjustmentModel::class);
+
+        foreach ($lines as $line) {
+            $stockModel->record(
                 $this->branchId,
-                (int) $this->request->getPost('item_id'),
-                (float) $this->request->getPost('quantity'),
+                (int) $line['item_id'],
+                (float) $line['quantity'],
                 'out',
                 'issued',
                 (int) $this->currentUser['id'],
-                $this->request->getPost('note')
+                $line['note'] ?? null,
+                $line['date'] ?? null,
+                null,
+                isset($line['unit_price']) ? (float) $line['unit_price'] : null
             );
-
-            $this->session->setFlashdata('success', 'Item issued and stock updated.');
         }
 
+        $this->session->setFlashdata('success', 'Items issued and stock updated.');
+        return redirect()->to('/issued-products');
+    }
+
+    public function delete($id)
+    {
+        $this->requirePermission('items', 'delete');
+        model(StockAdjustmentModel::class)->deleteAndReverse((int) $id);
+        $this->session->setFlashdata('success', 'Issued record deleted and stock restored.');
         return redirect()->to('/issued-products');
     }
 }

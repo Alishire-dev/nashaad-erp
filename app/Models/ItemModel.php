@@ -104,9 +104,12 @@ class ItemModel extends Model
 
     public function lowStock(int $branchId): array
     {
-        return $this->where('branch_id', $branchId)
-            ->where('manage_stock', 1)
-            ->where('current_stock <= alert_qty', null, false)
+        return $this->select('items.*, categories.name as category_name, brands.name as brand_name')
+            ->join('categories', 'categories.id = items.category_id', 'left')
+            ->join('brands', 'brands.id = items.brand_id', 'left')
+            ->where('items.branch_id', $branchId)
+            ->where('items.manage_stock', 1)
+            ->where('items.current_stock <= items.alert_qty', null, false)
             ->findAll();
     }
 

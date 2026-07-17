@@ -23,23 +23,60 @@ class Units extends BaseController
     public function add()
     {
         $this->requirePermission('items', 'add');
+        return $this->form(null);
+    }
 
+    public function edit($id)
+    {
+        $this->requirePermission('items', 'edit');
+        return $this->form((int) $id);
+    }
+
+    private function form(?int $unitId)
+    {
         $unitModel = model(UnitModel::class);
+        $existing  = $unitId ? $unitModel->find($unitId) : null;
+
+        if ($unitId && ! $existing) {
+            return redirect()->to('/units');
+        }
 
         if ($this->request->getMethod() === 'POST') {
-            $unitModel->createForBranch([
-                'branch_id'   => $this->branchId,
-                'name'        => $this->request->getPost('name'),
-                'short_name'  => $this->request->getPost('short_name'),
-                'description' => $this->request->getPost('description'),
-            ]);
+            $data = [
+                'branch_id'         => $this->branchId,
+                'name'              => $this->request->getPost('name'),
+                'short_name'        => $this->request->getPost('short_name'),
+                'conversion_factor' => $this->request->getPost('conversion_factor') ?: null,
+                'base_unit_id'      => $this->request->getPost('base_unit_id') ?: null,
+                'description'       => $this->request->getPost('description'),
+            ];
+
+            if ($unitId) {
+                $unitModel->update($unitId, $data);
+            } else {
+                $unitModel->createForBranch($data);
+            }
 
             return redirect()->to('/units');
         }
 
-        return view('layout/header', ['title' => 'Add Unit'])
-            . view('units/add')
+        $data = [
+            'title'      => $unitId ? 'Edit Unit' : 'Add Unit',
+            'unit'       => $existing,
+            'allUnits'   => array_filter($unitModel->getForBranch($this->branchId), static fn ($u) => $u['id'] !== $unitId),
+        ];
+
+        return view('layout/header', $data)
+            . view('units/add', $data)
             . view('layout/footer');
+    }
+
+    public function delete($id)
+    {
+        $this->requirePermission('items', 'delete');
+        model(UnitModel::class)->update((int) $id, ['status' => 'inactive']);
+        $this->session->setFlashdata('success', 'Unit deleted.');
+        return redirect()->to('/units');
     }
 
     /**

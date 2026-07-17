@@ -42,6 +42,9 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->get('units', 'Units::index');
     $routes->get('units/add', 'Units::add');
     $routes->post('units/add', 'Units::add');
+    $routes->get('units/edit/(:num)', 'Units::edit/$1');
+    $routes->post('units/edit/(:num)', 'Units::edit/$1');
+    $routes->post('units/delete/(:num)', 'Units::delete/$1');
     $routes->post('units/quick-add', 'Units::quickAdd');
 
     // Brands
@@ -116,8 +119,18 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
 
     // Issued / Damaged Products, Price Change Log
     $routes->get('issued-products', 'IssuedProducts::index');
+    $routes->get('issued-products/add', 'IssuedProducts::addForm');
     $routes->post('issued-products/add', 'IssuedProducts::add');
+    $routes->post('issued-products/delete/(:num)', 'IssuedProducts::delete/$1');
+
     $routes->get('damaged-products', 'DamagedProducts::index');
+    $routes->get('damaged-products/add', 'DamagedProducts::addForm');
     $routes->post('damaged-products/add', 'DamagedProducts::add');
+    $routes->post('damaged-products/delete/(:num)', 'DamagedProducts::delete/$1');
+
+    // Stock Conversion
+    $routes->get('stock-conversion', 'StockConversion::index');
+    $routes->get('stock-conversion/add', 'StockConversion::addForm');
+    $routes->post('stock-conversion/add', 'StockConversion::add');
     $routes->get('price-change-log', 'PriceChangeLog::index');
 });

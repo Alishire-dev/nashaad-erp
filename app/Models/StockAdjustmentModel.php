@@ -10,7 +10,7 @@ class StockAdjustmentModel extends Model
     protected $primaryKey    = 'id';
     protected $returnType    = 'array';
     protected $allowedFields = [
-        'branch_id', 'adjustment_date', 'item_id', 'direction', 'quantity', 'reason',
+        'branch_id', 'adjustment_date', 'item_id', 'direction', 'quantity', 'unit_cost', 'reason',
         'migration_control_account_id', 'note', 'created_by',
     ];
 
@@ -34,7 +34,8 @@ class StockAdjustmentModel extends Model
         int $userId,
         ?string $note = null,
         ?string $adjustmentDate = null,
-        ?int $migrationControlAccountId = null
+        ?int $migrationControlAccountId = null,
+        ?float $unitCost = null
     ): bool {
         $this->insert([
             'branch_id'                    => $branchId,
@@ -42,6 +43,7 @@ class StockAdjustmentModel extends Model
             'item_id'                      => $itemId,
             'direction'                    => $direction,
             'quantity'                     => abs($qty),
+            'unit_cost'                    => $unitCost,
             'reason'                       => $reason,
             'migration_control_account_id' => $migrationControlAccountId,
             'note'                         => $note,
@@ -89,5 +91,24 @@ class StockAdjustmentModel extends Model
             ->where('stock_adjustments.reason', $reason)
             ->orderBy('stock_adjustments.created_at', 'DESC')
             ->findAll();
+    }
+
+    /**
+     * Deletes an adjustment row AND reverses its effect on current_stock —
+     * otherwise deleting a record that already decremented stock would
+     * leave a permanent, invisible stock discrepancy.
+     */
+    public function deleteAndReverse(int $adjustmentId): bool
+    {
+        $row = $this->find($adjustmentId);
+        if (! $row) {
+            return false;
+        }
+
+        // Reverse: an 'out' becomes an 'in' and vice versa.
+        $reverseDirection = $row['direction'] === 'out' ? 'in' : 'out';
+        model(ItemModel::class)->adjustStock((int) $row['item_id'], (float) $row['quantity'], $reverseDirection);
+
+        return (bool) $this->delete($adjustmentId);
     }
 }

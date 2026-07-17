@@ -208,7 +208,7 @@
                 <a href="<?= site_url('issued-products') ?>">Issued Products</a>
                 <a href="<?= site_url('damaged-products') ?>">Damaged Products</a>
                 <a href="<?= site_url('price-change-log') ?>">Price Change Log</a>
-                <a class="nav-pending" href="#" title="Not yet scheduled" onclick="return false;">Stock Conversion <span class="soon-badge">soon</span></a>
+                <a href="<?= site_url('stock-conversion') ?>">Stock Conversion</a>
                 <a href="<?= site_url('stock/alerts') ?>">Stock Alert</a>
             </div>
         </div>
