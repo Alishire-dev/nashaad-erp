@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\SaleModel;
 use App\Models\SalePaymentModel;
 use App\Models\SaleReturnModel;
+use App\Models\CustomerModel;
 use App\Models\UserModel;
 
 class Sales extends BaseController
@@ -42,6 +43,43 @@ class Sales extends BaseController
         return view('layout/header', $data)
             . view('sales/view', $data)
             . view('layout/footer');
+    }
+
+    public function transferBillForm($id)
+    {
+        $this->requirePermission('sales', 'edit');
+
+        $sale = model(SaleModel::class)->getWithLines((int) $id);
+        if (! $sale) {
+            return redirect()->to('/sales/list');
+        }
+
+        $data = [
+            'title'     => 'Transfer Bill',
+            'sale'      => $sale,
+            'customers' => model(CustomerModel::class)->getForBranch($this->branchId),
+        ];
+
+        return view('layout/header', $data)
+            . view('sales/transfer_bill', $data)
+            . view('layout/footer');
+    }
+
+    public function transferBill($id)
+    {
+        $this->requirePermission('sales', 'edit');
+
+        $newCustomerId = (int) $this->request->getPost('to_customer_id');
+        $narrative     = $this->request->getPost('narrative');
+
+        $sale = model(SaleModel::class)->find((int) $id);
+        if ($sale) {
+            $note = trim(($sale['note'] ?? '') . "\nTransferred from customer #{$sale['customer_id']}: " . $narrative);
+            model(SaleModel::class)->update((int) $id, ['customer_id' => $newCustomerId, 'note' => $note]);
+        }
+
+        $this->session->setFlashdata('success', 'Bill transferred.');
+        return redirect()->to('/sales/view/' . $id);
     }
 
     public function updateDetails($id)
@@ -97,6 +135,12 @@ class Sales extends BaseController
             . view('layout/footer');
     }
 
+    public function printPreview($id)
+    {
+        $this->requirePermission('sales', 'view');
+        return $this->outputSalePdf((int) $id, 'print');
+    }
+
     public function posInvoice($id)
     {
         $this->requirePermission('sales', 'view');
@@ -130,6 +174,7 @@ class Sales extends BaseController
             'pos'      => $pdfLib->posInvoice($sale),
             'a4'       => $pdfLib->a4Invoice($sale, $branch),
             'dispatch' => $pdfLib->dispatchList($sale),
+            'print'    => $pdfLib->printPreview($sale, $branch),
         };
 
         $filename = $type . '-' . $sale['invoice_no'] . '.pdf';

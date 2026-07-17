@@ -104,16 +104,24 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->get('sales/list', 'Sales::index');
     $routes->get('sales/view/(:num)', 'Sales::view/$1');
     $routes->get('sales/pos-invoice/(:num)', 'Sales::posInvoice/$1');
+    $routes->get('sales/print-preview/(:num)', 'Sales::printPreview/$1');
     $routes->get('sales/a4-invoice/(:num)', 'Sales::a4Invoice/$1');
     $routes->get('sales/dispatch-list/(:num)', 'Sales::dispatchList/$1');
     $routes->post('sales/update-details/(:num)', 'Sales::updateDetails/$1');
     $routes->post('sales/apply-discount/(:num)', 'Sales::applyDiscount/$1');
     $routes->post('sales/cancel/(:num)', 'Sales::cancel/$1');
+    $routes->get('sales/transfer-bill/(:num)', 'Sales::transferBillForm/$1');
+    $routes->post('sales/transfer-bill/(:num)', 'Sales::transferBill/$1');
     $routes->get('sales/cancelled', 'Sales::cancelled');
     $routes->get('sales/credit-notes', 'CreditNotes::index');
     $routes->get('sales/credit-notes/raise', 'CreditNotes::raiseForm');
     $routes->post('sales/credit-notes/raise', 'CreditNotes::raise');
     $routes->get('sales/credit-notes/from-cancelled/(:num)/(:segment)', 'CreditNotes::fromCancelledSale/$1/$2');
+
+    // Invoices (standalone, distinct from POS Sales)
+    $routes->get('invoices', 'Invoices::index');
+    $routes->get('invoices/add', 'Invoices::addForm');
+    $routes->post('invoices/add', 'Invoices::add');
     $routes->get('sales/payments/(:num)', 'Sales::viewPayments/$1');
     $routes->post('sales/payments/(:num)/add', 'Sales::addPayment/$1');
     $routes->post('sales/payments/delete/(:num)', 'Sales::deletePayment/$1');

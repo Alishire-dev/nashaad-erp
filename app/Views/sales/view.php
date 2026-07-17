@@ -90,6 +90,8 @@
         <button class="btn" style="background:#17a2b8;" onclick="openDiscountModal()">✎ Apply Discount</button>
         <a class="btn" style="background:#2c2f38;" href="<?= site_url('sales/payments/' . $sale['id']) ?>">💳 View Payments</a>
         <a class="btn" style="background:#3a8fd6;" href="<?= site_url('sales/return/' . $sale['id']) ?>">🔄 Sales Return</a>
+        <a class="btn" style="background:#3a8fd6;" href="<?= site_url('sales/transfer-bill/' . $sale['id']) ?>">🔀 Transfer Bill</a>
+        <a class="btn" style="background:#2c2f38;" href="<?= site_url('sales/print-preview/' . $sale['id']) ?>" target="_blank">🖨 Print</a>
         <a class="btn" style="background:#2c2f38;" href="<?= site_url('sales/pos-invoice/' . $sale['id']) ?>" target="_blank">🖨 POS Invoice</a>
         <a class="btn" style="background:#3a8fd6;" href="<?= site_url('sales/a4-invoice/' . $sale['id']) ?>" target="_blank">📄 A4 Invoice</a>
         <a class="btn" style="background:#3a8fd6;" href="<?= site_url('sales/dispatch-list/' . $sale['id']) ?>" target="_blank">📄 Dispatch List</a>

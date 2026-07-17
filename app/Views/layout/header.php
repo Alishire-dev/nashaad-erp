@@ -228,6 +228,7 @@
             <div class="nav-children">
                 <a href="<?= site_url('pos') ?>">POS</a>
                 <a href="<?= site_url('sales/list') ?>">Sales List</a>
+                <a href="<?= site_url('invoices') ?>">Invoices</a>
                 <a href="<?= site_url('sales/returns') ?>">Sales Return</a>
                 <a href="<?= site_url('sales/cancelled') ?>">Cancelled Sales (Voids)</a>
                 <a href="<?= site_url('sales/credit-notes') ?>">Credit Notes</a>

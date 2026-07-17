@@ -360,4 +360,90 @@ class SalesPdf
 
         return $pdf->Output('S');
     }
+
+    /**
+     * Print Preview — the plain print-ready template (section 8), distinct
+     * from the branded "INVOICE"/"BILL TO" a4Invoice() above: side-by-side
+     * Customer Details / Sales Invoice boxes, simple items table, and two
+     * signature lines at the bottom.
+     */
+    public function printPreview(array $sale, array $branch): string
+    {
+        $pdf = new \FPDF();
+        $pdf->AddPage();
+        $pdf->SetMargins(15, 15, 15);
+        [$r, $g, $b] = self::ORANGE;
+
+        $pdf->SetFont('Arial', 'B', 14);
+        $pdf->SetTextColor($r, $g, $b);
+        $pdf->Cell(0, 8, esc_pdf(strtoupper($branch['name'] ?? 'NASHAAD')) . ' RESTAURANT & BAKERY', 0, 1, 'C');
+        $pdf->SetTextColor(0, 0, 0);
+        $pdf->SetFont('Arial', '', 9);
+        if (! empty($branch['address'])) {
+            $pdf->Cell(0, 5, esc_pdf($branch['address']), 0, 1, 'R');
+        }
+        $contact = trim((! empty($branch['phone']) ? 'Phone: ' . $branch['phone'] . '  ' : '') . ($branch['email'] ?? ''));
+        if ($contact !== '') {
+            $pdf->Cell(0, 5, esc_pdf($contact), 0, 1, 'R');
+        }
+        $pdf->Ln(6);
+
+        $y = $pdf->GetY();
+        $pdf->SetFont('Arial', 'B', 10);
+        $pdf->Cell(90, 7, 'Customer Details', 1);
+        $pdf->Cell(90, 7, 'Sales Invoice (Order)', 1, 1);
+        $pdf->SetFont('Arial', '', 9);
+        $pdf->Cell(90, 6, 'Name: ' . esc_pdf($sale['customer_name'] ?? 'WALK-IN'), 1);
+        $pdf->Cell(45, 6, 'Invoice Number:', 1);
+        $pdf->Cell(45, 6, esc_pdf($sale['invoice_no']), 1, 1);
+        $pdf->Cell(90, 6, 'Mobile: ' . esc_pdf($sale['customer_phone'] ?? ''), 1);
+        $pdf->Cell(45, 6, 'Date:', 1);
+        $pdf->Cell(45, 6, esc_pdf($sale['sale_date']), 1, 1);
+        $pdf->Cell(90, 6, 'Address: ' . esc_pdf($sale['customer_address'] ?? ''), 1, 1);
+        $pdf->Ln(4);
+
+        $pdf->SetFillColor($r, $g, $b);
+        $pdf->SetTextColor(255, 255, 255);
+        $pdf->SetFont('Arial', 'B', 9);
+        $pdf->Cell(10, 7, '#', 1, 0, 'C', true);
+        $pdf->Cell(95, 7, 'Item Name', 1, 0, 'L', true);
+        $pdf->Cell(30, 7, 'Unit Price', 1, 0, 'R', true);
+        $pdf->Cell(25, 7, 'Quantity', 1, 0, 'C', true);
+        $pdf->Cell(30, 7, 'Total', 1, 1, 'R', true);
+
+        $pdf->SetTextColor(0, 0, 0);
+        $pdf->SetFont('Arial', '', 9);
+        $totalQty = 0;
+        foreach ($sale['lines'] as $i => $line) {
+            $pdf->Cell(10, 6, (string) ($i + 1), 1, 0, 'C');
+            $pdf->Cell(95, 6, esc_pdf($line['item_name']), 1, 0);
+            $pdf->Cell(30, 6, number_format((float) $line['unit_price'], 2), 1, 0, 'R');
+            $pdf->Cell(25, 6, number_format((float) $line['quantity'], 0), 1, 0, 'C');
+            $pdf->Cell(30, 6, number_format((float) $line['total_amount'], 2), 1, 1, 'R');
+            $totalQty += (float) $line['quantity'];
+        }
+        $pdf->SetFont('Arial', 'B', 9);
+        $pdf->Cell(105, 7, 'Total', 1, 0, 'C');
+        $pdf->Cell(25, 7, number_format($totalQty, 0), 1, 0, 'C');
+        $pdf->Cell(30, 7, number_format((float) $sale['grand_total'], 2), 1, 1, 'R');
+
+        $pdf->Ln(4);
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->Cell(150, 6, 'Subtotal', 0, 0, 'R');
+        $pdf->Cell(30, 6, number_format((float) $sale['subtotal'], 2), 0, 1, 'R');
+        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->Cell(150, 8, 'Grand Total', 0, 0, 'R');
+        $pdf->Cell(30, 8, number_format((float) $sale['grand_total'], 2), 0, 1, 'R');
+
+        $pdf->Ln(16);
+        $pdf->SetFont('Arial', '', 9);
+        $sigY = $pdf->GetY();
+        $pdf->Cell(90, 5, 'Supplier Signature');
+        $pdf->Cell(90, 5, 'Authorised Signature', 0, 1);
+        $pdf->SetY($sigY + 10);
+        $pdf->Cell(90, 0, '', 'T');
+        $pdf->Cell(90, 0, '', 'T', 1);
+
+        return $pdf->Output('S');
+    }
 }

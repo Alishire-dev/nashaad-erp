@@ -53,6 +53,7 @@
                         <a href="<?= site_url('sales/view/' . $s['id']) ?>">👁 View Sale</a>
                         <a href="<?= site_url('sales/payments/' . $s['id']) ?>">💳 View Payments</a>
                         <a href="<?= site_url('sales/return/' . $s['id']) ?>">🔄 Sales Return</a>
+                        <a href="<?= site_url('sales/transfer-bill/' . $s['id']) ?>">🔀 Transfer Bill</a>
                         <a href="<?= site_url('sales/pos-invoice/' . $s['id']) ?>" target="_blank">🖨 POS Invoice</a>
                         <a href="<?= site_url('sales/a4-invoice/' . $s['id']) ?>" target="_blank">📄 A4 Invoice</a>
                         <a href="<?= site_url('sales/dispatch-list/' . $s['id']) ?>" target="_blank">📄 Dispatch List</a>
