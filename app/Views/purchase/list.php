@@ -53,9 +53,9 @@
                     <div class="action-dropdown-menu">
                         <a href="<?= site_url('purchase/view/' . $p['id']) ?>">👁 View Purchase</a>
                         <a href="<?= site_url('purchase/payments/' . $p['id']) ?>">👁 View Payments</a>
-                        <a href="#" class="nav-pending" onclick="return false;" title="Not yet scheduled">📄 Purchase Order <span class="soon-badge">soon</span></a>
-                        <a href="#" class="nav-pending" onclick="return false;" title="Not yet scheduled">📄 Purchase Order (No Price) <span class="soon-badge">soon</span></a>
-                        <a href="#" class="nav-pending" onclick="return false;" title="Not yet scheduled">🖨 Thermal Print <span class="soon-badge">soon</span></a>
+                        <a href="<?= site_url('purchase/lpo/' . $p['id']) ?>" target="_blank">📄 Purchase Order</a>
+                        <a href="<?= site_url('purchase/lpo-no-price/' . $p['id']) ?>" target="_blank">📄 Purchase Order (No Price)</a>
+                        <a href="<?= site_url('purchase/thermal/' . $p['id']) ?>" target="_blank">🖨 Thermal Print</a>
                     </div>
                 </div>
             </td>

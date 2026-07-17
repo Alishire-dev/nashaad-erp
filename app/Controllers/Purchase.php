@@ -89,6 +89,44 @@ class Purchase extends BaseController
         return redirect()->to('/purchase/payments/' . $purchaseId);
     }
 
+    public function lpo($id)
+    {
+        $this->requirePermission('purchase', 'view');
+        return $this->outputPdf((int) $id, true, false);
+    }
+
+    public function lpoNoPrice($id)
+    {
+        $this->requirePermission('purchase', 'view');
+        return $this->outputPdf((int) $id, false, false);
+    }
+
+    public function thermalPrint($id)
+    {
+        $this->requirePermission('purchase', 'view');
+        return $this->outputPdf((int) $id, true, true);
+    }
+
+    private function outputPdf(int $id, bool $withPrices, bool $thermal)
+    {
+        $purchase = model(PurchaseModel::class)->getWithLines($id);
+        if (! $purchase) {
+            return redirect()->to('/purchase/list');
+        }
+
+        $branch = \Config\Database::connect()->table('branches')->where('id', $purchase['branch_id'])->get()->getRowArray() ?: [];
+
+        $pdfLib = new \App\Libraries\PurchasePdf();
+        $content = $thermal ? $pdfLib->thermal($purchase) : $pdfLib->lpo($purchase, $branch, $withPrices);
+
+        $filename = ($thermal ? 'receipt' : 'purchase-order') . '-' . ($purchase['reference_no'] ?? $id) . '.pdf';
+
+        return $this->response
+            ->setHeader('Content-Type', 'application/pdf')
+            ->setHeader('Content-Disposition', 'inline; filename="' . $filename . '"')
+            ->setBody($content);
+    }
+
     public function add()
     {
         $this->requirePermission('purchase', 'add');

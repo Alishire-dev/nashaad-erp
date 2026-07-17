@@ -80,6 +80,9 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->get('purchase/return/add', 'Purchase::returnAdd');
     $routes->post('purchase/return/add', 'Purchase::returnAdd');
     $routes->get('purchase/lines-json/(:num)', 'Purchase::linesJson/$1');
+    $routes->get('purchase/lpo/(:num)', 'Purchase::lpo/$1');
+    $routes->get('purchase/lpo-no-price/(:num)', 'Purchase::lpoNoPrice/$1');
+    $routes->get('purchase/thermal/(:num)', 'Purchase::thermalPrint/$1');
 
     // Purchase Payments
     $routes->get('purchase/payments/(:num)', 'Purchase::viewPayments/$1');
