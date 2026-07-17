@@ -235,16 +235,6 @@ function closeQuickAddStock() { document.getElementById('quickAddStockModal').cl
 function toggleAll(source) {
     document.querySelectorAll('.row-check').forEach(cb => cb.checked = source.checked);
 }
-function toggleDropdown(btn) {
-    const dropdown = btn.closest('.action-dropdown');
-    document.querySelectorAll('.action-dropdown.open').forEach(d => { if (d !== dropdown) d.classList.remove('open'); });
-    dropdown.classList.toggle('open');
-}
-document.addEventListener('click', function (e) {
-    if (!e.target.closest('.action-dropdown')) {
-        document.querySelectorAll('.action-dropdown.open').forEach(d => d.classList.remove('open'));
-    }
-});
 
 function openAdjustModal(id, name, currentStock) {
     document.getElementById('adjustItemId').value = id;

@@ -297,4 +297,56 @@ document.addEventListener('click', function (e) {
         document.querySelectorAll('.links-menu.open, .quick-links-menu.open').forEach(m => m.classList.remove('open'));
     }
 });
+
+/**
+ * Shared Action-dropdown toggle, used by every DataTables list page
+ * (Sales List, Purchase List, Items List, Cancelled Sales, etc.).
+ *
+ * Real bug this fixes: the menu was position:absolute inside a table
+ * cell that's the LAST column of a wide table — DataTables' wrapper
+ * scrolls that table horizontally, and overflow clipping on a scroll
+ * container clips absolutely-positioned descendants regardless of
+ * z-index. The dropdown WAS opening (the .open class was toggling
+ * correctly) — it just rendered invisible/clipped, which looked
+ * identical to "nothing happens when clicked".
+ *
+ * Fix: instead of moving the menu in the DOM, reposition the EXISTING
+ * menu element with position:fixed, computed from the button's real
+ * screen coordinates via getBoundingClientRect(). Fixed positioning is
+ * relative to the viewport, not the scrolling ancestor, so it escapes
+ * the clipping entirely — and since the element never moves in the
+ * DOM, every onclick/form inside it (Delete, Cancel, etc.) keeps
+ * working exactly as before.
+ */
+function toggleDropdown(btn) {
+    const dropdown = btn.closest('.action-dropdown');
+    const menu = dropdown.querySelector('.action-dropdown-menu');
+    const wasOpen = dropdown.classList.contains('open');
+
+    document.querySelectorAll('.action-dropdown.open').forEach(d => {
+        d.classList.remove('open');
+        const m = d.querySelector('.action-dropdown-menu');
+        m.style.position = '';
+        m.style.top = '';
+        m.style.left = '';
+        m.style.right = '';
+    });
+
+    if (!wasOpen) {
+        dropdown.classList.add('open');
+        const rect = btn.getBoundingClientRect();
+        menu.style.position = 'fixed';
+        menu.style.top = (rect.bottom + 2) + 'px';
+        menu.style.right = (window.innerWidth - rect.right) + 'px';
+        menu.style.left = 'auto';
+    }
+}
+document.addEventListener('click', function (e) {
+    if (!e.target.closest('.action-dropdown')) {
+        document.querySelectorAll('.action-dropdown.open').forEach(d => d.classList.remove('open'));
+    }
+});
+document.addEventListener('scroll', function () {
+    document.querySelectorAll('.action-dropdown.open').forEach(d => d.classList.remove('open'));
+}, true);
 </script>
