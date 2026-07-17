@@ -16,9 +16,6 @@
             <td><?= ucfirst($c['status']) ?></td>
         </tr>
         <?php endforeach; ?>
-        <?php if (empty($customers)): ?>
-        <tr><td colspan="5">No customers yet.</td></tr>
-        <?php endif; ?>
     </tbody>
 </table>
 

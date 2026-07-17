@@ -16,9 +16,6 @@
             <td><?= ucfirst($s['status']) ?></td>
         </tr>
         <?php endforeach; ?>
-        <?php if (empty($suppliers)): ?>
-        <tr><td colspan="5">No suppliers yet.</td></tr>
-        <?php endif; ?>
     </tbody>
 </table>
 

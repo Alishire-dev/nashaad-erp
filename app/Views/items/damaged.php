@@ -50,9 +50,6 @@
             </td>
         </tr>
         <?php endforeach; ?>
-        <?php if (empty($damaged)): ?>
-        <tr><td colspan="9">No data available in table</td></tr>
-        <?php endif; ?>
     </tbody>
 </table>
 

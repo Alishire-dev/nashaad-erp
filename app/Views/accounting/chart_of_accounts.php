@@ -23,9 +23,6 @@
             </td>
         </tr>
         <?php endforeach; ?>
-        <?php if (empty($accounts)): ?>
-        <tr><td colspan="6">No accounts yet.</td></tr>
-        <?php endif; ?>
     </tbody>
 </table>
 

@@ -19,9 +19,6 @@
             <td><?= esc($log['changed_at']) ?></td>
         </tr>
         <?php endforeach; ?>
-        <?php if (empty($logs)): ?>
-        <tr><td colspan="6">No price changes recorded yet.</td></tr>
-        <?php endif; ?>
     </tbody>
 </table>
 

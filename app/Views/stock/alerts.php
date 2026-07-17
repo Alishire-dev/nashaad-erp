@@ -21,9 +21,6 @@
             <td><?= number_format((float) $item['current_stock'], 2) ?></td>
         </tr>
         <?php endforeach; ?>
-        <?php if (empty($lowStock)): ?>
-        <tr><td colspan="6">No items running low.</td></tr>
-        <?php endif; ?>
     </tbody>
 </table>
 

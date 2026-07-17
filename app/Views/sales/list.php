@@ -16,9 +16,6 @@
             <td><a class="btn" href="<?= site_url('sales/view/' . $s['id']) ?>">View</a></td>
         </tr>
         <?php endforeach; ?>
-        <?php if (empty($sales)): ?>
-        <tr><td colspan="7">No sales yet.</td></tr>
-        <?php endif; ?>
     </tbody>
 </table>
 

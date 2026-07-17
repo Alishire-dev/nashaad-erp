@@ -62,9 +62,6 @@
             </td>
         </tr>
         <?php endforeach; ?>
-        <?php if (empty($items)): ?>
-        <tr><td colspan="13">No archived items.</td></tr>
-        <?php endif; ?>
     </tbody>
 </table>
 

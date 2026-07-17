@@ -79,9 +79,6 @@
             </td>
         </tr>
         <?php endforeach; ?>
-        <?php if (empty($items)): ?>
-        <tr><td colspan="11">No items yet.</td></tr>
-        <?php endif; ?>
     </tbody>
 </table>
 

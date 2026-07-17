@@ -14,9 +14,6 @@
             <td><?= ucfirst($b['status']) ?></td>
         </tr>
         <?php endforeach; ?>
-        <?php if (empty($brands)): ?>
-        <tr><td colspan="3">No brands yet.</td></tr>
-        <?php endif; ?>
     </tbody>
 </table>
 

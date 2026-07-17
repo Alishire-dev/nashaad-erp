@@ -16,9 +16,6 @@
             <td><?= number_format((float) $r['grand_total'], 2) ?></td>
         </tr>
         <?php endforeach; ?>
-        <?php if (empty($returns)): ?>
-        <tr><td colspan="5">No purchase returns yet.</td></tr>
-        <?php endif; ?>
     </tbody>
 </table>
 

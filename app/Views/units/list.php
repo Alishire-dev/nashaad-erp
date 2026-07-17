@@ -43,9 +43,6 @@
             </td>
         </tr>
         <?php endforeach; ?>
-        <?php if (empty($units)): ?>
-        <tr><td colspan="6">No units yet.</td></tr>
-        <?php endif; ?>
     </tbody>
 </table>
 

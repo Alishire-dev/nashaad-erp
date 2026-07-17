@@ -42,9 +42,6 @@
             <td style="color:#c0392b; font-weight:600;"><?= number_format((float) $t['amount_out'], 2) ?></td>
         </tr>
         <?php endforeach; ?>
-        <?php if (empty($transactions)): ?>
-        <tr><td colspan="9">No transactions yet.</td></tr>
-        <?php endif; ?>
     </tbody>
 </table>
 

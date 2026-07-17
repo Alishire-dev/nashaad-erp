@@ -97,9 +97,6 @@
         <td><?= esc($r['user_name'] ?? '-') ?></td>
     </tr>
     <?php endforeach; ?>
-    <?php if (empty($recent)): ?>
-    <tr><td colspan="8">No stock movements yet.</td></tr>
-    <?php endif; ?>
 </table>
 
 <!-- Adjust Stock modal -->

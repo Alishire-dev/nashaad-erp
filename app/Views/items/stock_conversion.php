@@ -21,9 +21,6 @@
             <td><?= esc($c['user_name'] ?? '-') ?></td>
         </tr>
         <?php endforeach; ?>
-        <?php if (empty($conversions)): ?>
-        <tr><td colspan="7">No data available in table</td></tr>
-        <?php endif; ?>
     </tbody>
 </table>
 
