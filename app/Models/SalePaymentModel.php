@@ -47,6 +47,40 @@ class SalePaymentModel extends Model
         return $this->db->transStatus() ? $id : false;
     }
 
+    /**
+     * Bulk version for the repeatable-payment-row UI — one submission can
+     * record several rows (e.g. part cash, part M-Pesa) in a single trip,
+     * recalculating the sale's amount_paid/pay_status once at the end
+     * rather than once per row.
+     *
+     * @param array $rows each: ['date','amount','payment_type','note']
+     */
+    public function addPayments(int $saleId, array $rows, int $userId): bool
+    {
+        $this->db->transStart();
+
+        foreach ($rows as $row) {
+            $amount = (float) ($row['amount'] ?? 0);
+            if ($amount <= 0) {
+                continue; // skip blank/zero rows rather than rejecting the whole batch
+            }
+            $this->insert([
+                'sale_id'      => $saleId,
+                'payment_date' => $row['date'] ?? date('Y-m-d'),
+                'amount'       => $amount,
+                'payment_type' => $row['payment_type'] ?? 'cash',
+                'payment_note' => $row['note'] ?? null,
+                'created_by'   => $userId,
+                'created_at'   => date('Y-m-d H:i:s'),
+            ]);
+        }
+
+        $this->recalculateSale($saleId);
+        $this->db->transComplete();
+
+        return $this->db->transStatus();
+    }
+
     public function deletePayment(int $paymentId): bool
     {
         $row = $this->find($paymentId);

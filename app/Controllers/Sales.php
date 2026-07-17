@@ -14,14 +14,37 @@ class Sales extends BaseController
     {
         $this->requirePermission('sales', 'view');
 
+        $range  = $this->request->getGet('range') ?: 'today';
+        $merged = $this->request->getGet('merged') === '1';
+
+        [$from, $to] = $this->resolveDateRange($range);
+
         $data = [
-            'title' => 'Sales List',
-            'sales' => model(SaleModel::class)->getForBranch($this->branchId),
+            'title'  => 'Sales List',
+            'sales'  => model(SaleModel::class)->getForBranchFiltered($this->branchId, $from, $to, $merged),
+            'range'  => $range,
+            'merged' => $merged,
         ];
 
         return view('layout/header', $data)
             . view('sales/list', $data)
             . view('layout/footer');
+    }
+
+    /**
+     * Maps the Sales List date-range dropdown to actual from/to bounds.
+     * 'all' returns [null, null] — no date filtering at all.
+     */
+    private function resolveDateRange(string $range): array
+    {
+        $today = date('Y-m-d');
+        return match ($range) {
+            'yesterday'  => [date('Y-m-d', strtotime('-1 day')), date('Y-m-d', strtotime('-1 day'))],
+            'this_week'  => [date('Y-m-d', strtotime('monday this week')), $today],
+            'this_month' => [date('Y-m-01'), $today],
+            'all'        => [null, null],
+            default      => [$today, $today], // 'today'
+        };
     }
 
     public function view($id)
@@ -211,14 +234,22 @@ class Sales extends BaseController
     {
         $this->requirePermission('sales', 'add');
 
-        model(SalePaymentModel::class)->addPayment(
-            (int) $id,
-            $this->request->getPost('payment_date') ?: date('Y-m-d'),
-            (float) $this->request->getPost('amount'),
-            $this->request->getPost('payment_type') ?: 'cash',
-            $this->request->getPost('payment_note'),
-            (int) $this->currentUser['id']
-        );
+        $rows = json_decode((string) $this->request->getPost('rows_json'), true);
+
+        if (is_array($rows) && ! empty($rows)) {
+            // Repeatable-row submission from the Payments modal
+            model(SalePaymentModel::class)->addPayments((int) $id, $rows, (int) $this->currentUser['id']);
+        } else {
+            // Fallback: single-field submission (e.g. a simpler quick-add elsewhere)
+            model(SalePaymentModel::class)->addPayment(
+                (int) $id,
+                $this->request->getPost('payment_date') ?: date('Y-m-d'),
+                (float) $this->request->getPost('amount'),
+                $this->request->getPost('payment_type') ?: 'cash',
+                $this->request->getPost('payment_note'),
+                (int) $this->currentUser['id']
+            );
+        }
 
         $this->session->setFlashdata('success', 'Payment recorded.');
         return redirect()->to('/sales/payments/' . $id);

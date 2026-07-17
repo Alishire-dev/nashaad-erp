@@ -10,7 +10,7 @@
 
     <div class="form-group" style="max-width:400px;">
         <label>Supplier*</label>
-        <select name="supplier_id" required>
+        <select name="supplier_id" data-searchable required>
             <option value="">-Select-</option>
             <?php foreach ($suppliers as $s): ?>
                 <option value="<?= $s['id'] ?>"><?= esc($s['name']) ?></option>

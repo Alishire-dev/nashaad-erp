@@ -158,6 +158,24 @@
             background:#e3f7ea; color:#1c7c43; padding:12px 16px; border-radius:8px;
             margin-bottom:18px; border-left:4px solid #2fae63; font-size:14px;
         }
+
+        .searchable-select-wrapper { position:relative; }
+        .searchable-select-display {
+            width:100%; padding:9px 10px; border:1px solid #dde1e8; border-radius:6px;
+            cursor:pointer; background:#fff;
+        }
+        .searchable-select-dropdown {
+            display:none; position:absolute; top:100%; left:0; right:0; background:#fff;
+            border:1px solid #dde1e8; border-radius:6px; box-shadow:0 6px 20px rgba(0,0,0,.15);
+            z-index:50; max-height:280px; overflow:hidden; margin-top:4px;
+        }
+        .searchable-select-dropdown.open { display:block; }
+        .searchable-select-search {
+            width:100%; padding:9px 10px; border:none; border-bottom:1px solid #eee;
+        }
+        .searchable-select-options { max-height:230px; overflow-y:auto; }
+        .searchable-select-option { padding:9px 12px; cursor:pointer; font-size:14px; }
+        .searchable-select-option:hover { background:#fdeee0; }
     </style>
 </head>
 <body>
@@ -349,4 +367,81 @@ document.addEventListener('click', function (e) {
 document.addEventListener('scroll', function () {
     document.querySelectorAll('.action-dropdown.open').forEach(d => d.classList.remove('open'));
 }, true);
+
+/**
+ * Searchable-select component: turns any <select data-searchable> into
+ * a type-to-filter dropdown. Used for long lists (customers, accounts,
+ * sales persons) where a plain <select> is slow to scroll through.
+ * The underlying <select> stays in the DOM (just hidden) and keeps its
+ * value in sync, so existing form-submission code needs no changes —
+ * this is purely a presentation layer on top of the real element.
+ */
+function makeSearchable(select) {
+    if (select.dataset.searchableApplied === '1') return;
+    select.dataset.searchableApplied = '1';
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'searchable-select-wrapper';
+    select.parentNode.insertBefore(wrapper, select);
+    wrapper.appendChild(select);
+    select.style.display = 'none';
+
+    const display = document.createElement('input');
+    display.type = 'text';
+    display.className = 'searchable-select-display';
+    display.readOnly = true;
+    display.placeholder = 'Click to select...';
+    wrapper.appendChild(display);
+
+    const dropdown = document.createElement('div');
+    dropdown.className = 'searchable-select-dropdown';
+    wrapper.appendChild(dropdown);
+
+    const searchInput = document.createElement('input');
+    searchInput.type = 'text';
+    searchInput.className = 'searchable-select-search';
+    searchInput.placeholder = 'Search...';
+    dropdown.appendChild(searchInput);
+
+    const optionsList = document.createElement('div');
+    optionsList.className = 'searchable-select-options';
+    dropdown.appendChild(optionsList);
+
+    function renderOptions(filter) {
+        optionsList.innerHTML = '';
+        Array.from(select.options).forEach(opt => {
+            if (filter && !opt.text.toLowerCase().includes(filter.toLowerCase())) return;
+            const item = document.createElement('div');
+            item.className = 'searchable-select-option';
+            item.textContent = opt.text;
+            item.addEventListener('click', () => {
+                select.value = opt.value;
+                display.value = opt.text;
+                dropdown.classList.remove('open');
+                select.dispatchEvent(new Event('change'));
+            });
+            optionsList.appendChild(item);
+        });
+    }
+
+    display.addEventListener('click', () => {
+        document.querySelectorAll('.searchable-select-dropdown.open').forEach(d => { if (d !== dropdown) d.classList.remove('open'); });
+        dropdown.classList.add('open');
+        searchInput.value = '';
+        renderOptions('');
+        searchInput.focus();
+    });
+    searchInput.addEventListener('input', () => renderOptions(searchInput.value));
+    document.addEventListener('click', (e) => {
+        if (!wrapper.contains(e.target)) dropdown.classList.remove('open');
+    });
+
+    renderOptions('');
+    if (select.selectedIndex >= 0 && select.options[select.selectedIndex]) {
+        display.value = select.options[select.selectedIndex].text;
+    }
+}
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('select[data-searchable]').forEach(makeSearchable);
+});
 </script>

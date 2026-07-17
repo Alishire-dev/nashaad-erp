@@ -8,7 +8,7 @@
     </div>
     <div class="form-group">
         <label>To*</label>
-        <select name="to_customer_id" required>
+        <select name="to_customer_id" data-searchable required>
             <option value="">Select To Account</option>
             <?php foreach ($customers as $c): ?>
                 <?php if ($c['id'] != $sale['customer_id']): ?>

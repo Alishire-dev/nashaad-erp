@@ -227,6 +227,32 @@ class SaleModel extends Model
             ->findAll();
     }
 
+    /**
+     * Sales List with real filters: date range (matched against sale_date)
+     * and the "Merged List" toggle, which — per the spec's naming and the
+     * adjacent "All Branches" filter — merges held tickets into the same
+     * view alongside completed sales, rather than requiring staff to check
+     * a separate screen for what's still open.
+     */
+    public function getForBranchFiltered(int $branchId, ?string $fromDate, ?string $toDate, bool $merged): array
+    {
+        $query = $this->select('sales.*, customers.name as customer_name, salesperson.full_name as sales_person_name')
+            ->join('customers', 'customers.id = sales.customer_id', 'left')
+            ->join('users as salesperson', 'salesperson.id = sales.sales_person_id', 'left')
+            ->where('sales.branch_id', $branchId);
+
+        $query = $merged ? $query->whereNotIn('sales.status', ['cancelled']) : $query->whereNotIn('sales.status', ['hold', 'cancelled']);
+
+        if ($fromDate) {
+            $query->where('sales.sale_date >=', $fromDate);
+        }
+        if ($toDate) {
+            $query->where('sales.sale_date <=', $toDate);
+        }
+
+        return $query->orderBy('sales.id', 'DESC')->findAll();
+    }
+
     public function getCancelledSales(int $branchId): array
     {
         return $this->select('sales.*, customers.name as customer_name, creator.full_name as created_by_name')

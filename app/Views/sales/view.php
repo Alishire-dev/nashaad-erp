@@ -113,7 +113,7 @@
                 <?= csrf_field() ?>
                 <div class="form-group">
                     <label>Sales Person*</label>
-                    <select name="sales_person_id">
+                    <select name="sales_person_id" data-searchable>
                         <option value="">-Select-</option>
                         <?php foreach ($salesPersons as $u): ?>
                             <option value="<?= $u['id'] ?>" <?= $u['id'] == $sale['sales_person_id'] ? 'selected' : '' ?>><?= esc($u['full_name']) ?></option>

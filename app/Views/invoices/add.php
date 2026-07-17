@@ -9,7 +9,7 @@
         </div>
         <div class="form-group" style="flex:1;">
             <label>Customer Name*</label>
-            <select name="customer_id" required>
+            <select name="customer_id" data-searchable required>
                 <option value="">~Select Customer~</option>
                 <?php foreach ($customers as $c): ?>
                     <option value="<?= $c['id'] ?>"><?= esc($c['name']) ?></option>
@@ -33,7 +33,7 @@
     <div style="display:flex; gap:20px; align-items:flex-end;">
         <div class="form-group" style="flex:1;">
             <label>Select Revenue/Income Account</label>
-            <select name="revenue_account_id">
+            <select name="revenue_account_id" data-searchable>
                 <option value="">~Select Revenue/Income Account~</option>
                 <?php foreach ($accounts as $a): ?>
                     <option value="<?= $a['id'] ?>"><?= esc($a['account_name']) ?> (<?= esc($a['gl_code']) ?>)</option>

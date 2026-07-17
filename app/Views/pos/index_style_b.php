@@ -35,7 +35,7 @@
         <div class="form-group">
             <label>Customer</label>
             <div style="display:flex; gap:6px;">
-                <select id="customerId" style="flex:1;">
+                <select id="customerId" data-searchable style="flex:1;">
                     <?php foreach ($customers as $c): ?>
                         <option value="<?= $c['id'] ?>" <?= $c['id'] == $walkIn['id'] ? 'selected' : '' ?>><?= esc($c['name']) ?></option>
                     <?php endforeach; ?>
@@ -292,6 +292,8 @@ async function submitQuickCustomer() {
     const opt = document.createElement('option');
     opt.value = data.id; opt.text = data.name; opt.selected = true;
     select.appendChild(opt);
+    const display = select.parentElement.querySelector('.searchable-select-display');
+    if (display) display.value = data.name;
     closeCustomerModal();
 }
 

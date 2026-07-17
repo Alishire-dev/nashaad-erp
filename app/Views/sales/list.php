@@ -18,8 +18,26 @@
 </style>
 
 <h2>Sales List</h2>
-<a class="btn green" href="<?= site_url('pos') ?>">+ New Sales</a>
-<br><br>
+
+<form method="get" action="<?= site_url('sales/list') ?>" style="display:flex; gap:16px; margin-bottom:16px; flex-wrap:wrap;">
+    <select name="range" onchange="this.form.submit()">
+        <option value="today" <?= $range === 'today' ? 'selected' : '' ?>>Today <?= date('Y-m-d') ?></option>
+        <option value="yesterday" <?= $range === 'yesterday' ? 'selected' : '' ?>>Yesterday</option>
+        <option value="this_week" <?= $range === 'this_week' ? 'selected' : '' ?>>This Week</option>
+        <option value="this_month" <?= $range === 'this_month' ? 'selected' : '' ?>>This Month</option>
+        <option value="all" <?= $range === 'all' ? 'selected' : '' ?>>All Time</option>
+    </select>
+    <select disabled><option>All Branches</option></select>
+    <?php if ($merged): ?><input type="hidden" name="merged" value="1"><?php endif; ?>
+</form>
+
+<div style="display:flex; justify-content:space-between; margin-bottom:16px;">
+    <a class="btn" style="background:#e88a2e;"
+       href="<?= site_url('sales/list') ?>?range=<?= esc($range) ?>&merged=<?= $merged ? '0' : '1' ?>">
+        📋 <?= $merged ? 'Show Completed Only' : 'Merged List' ?>
+    </a>
+    <a class="btn green" href="<?= site_url('pos') ?>">+ New Sales</a>
+</div>
 
 <table id="salesTable" class="display" style="width:100%;">
     <thead>

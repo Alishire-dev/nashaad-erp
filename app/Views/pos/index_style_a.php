@@ -57,7 +57,7 @@
         <div class="posA-row">
             <select disabled><option>Main Branch</option></select>
             <div style="display:flex; gap:4px;">
-                <select id="customerId" style="flex:1;">
+                <select id="customerId" data-searchable style="flex:1;">
                     <?php foreach ($customers as $c): ?>
                         <option value="<?= $c['id'] ?>" <?= $c['id'] == $walkIn['id'] ? 'selected' : '' ?>><?= esc($c['name']) ?></option>
                     <?php endforeach; ?>
@@ -327,6 +327,11 @@ async function submitQuickCustomer() {
     const opt = document.createElement('option');
     opt.value = data.id; opt.text = data.name; opt.selected = true;
     select.appendChild(opt);
+    // Keep the searchable-select's visible display in sync — it's a
+    // separate input layered over the real (now-hidden) select, so
+    // appending an option to the select alone doesn't update what's shown.
+    const display = select.parentElement.querySelector('.searchable-select-display');
+    if (display) display.value = data.name;
     closeCustomerModal();
 }
 
