@@ -19,11 +19,13 @@ class SaleReturnModel extends Model
         return $this->db->table('sale_return_items')
             ->select('sale_return_items.*, sale_returns.return_date, sale_returns.narrative, sale_returns.receipt_ref,
                     sales.invoice_no, items.name as item_name, customers.name as customer_name,
+                    salesperson.full_name as sales_person_name,
                     returner.full_name as returned_by')
             ->join('sale_returns', 'sale_returns.id = sale_return_items.sale_return_id')
             ->join('sales', 'sales.id = sale_returns.sale_id')
             ->join('items', 'items.id = sale_return_items.item_id')
             ->join('customers', 'customers.id = sales.customer_id', 'left')
+            ->join('users as salesperson', 'salesperson.id = sales.sales_person_id', 'left')
             ->join('users as returner', 'returner.id = sale_returns.created_by', 'left')
             ->where('sale_returns.branch_id', $branchId)
             ->orderBy('sale_returns.id', 'DESC')

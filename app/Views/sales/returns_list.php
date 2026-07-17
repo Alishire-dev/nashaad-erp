@@ -4,7 +4,7 @@
     <thead>
         <tr>
             <th>Invoice No</th><th>Return Date</th><th>Item Name</th><th>Qty</th>
-            <th>Total</th><th>Condition</th><th>Narrative</th><th>Returned By</th><th>Customer</th>
+            <th>Total</th><th>Condition</th><th>Narrative</th><th>Sales Person</th><th>Returned By</th><th>Customer</th>
         </tr>
     </thead>
     <tbody>
@@ -17,6 +17,7 @@
             <td><?= number_format((float) $r['total_amount'], 2) ?></td>
             <td><?= $r['good_condition'] === 'yes' ? 'Good' : 'Damaged' ?></td>
             <td><?= esc($r['narrative'] ?? '') ?></td>
+            <td><?= esc($r['sales_person_name'] ?? '-') ?></td>
             <td><?= esc($r['returned_by'] ?? '-') ?></td>
             <td><?= esc($r['customer_name'] ?? 'WALK-IN') ?></td>
         </tr>

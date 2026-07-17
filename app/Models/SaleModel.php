@@ -229,8 +229,9 @@ class SaleModel extends Model
 
     public function getCancelledSales(int $branchId): array
     {
-        return $this->select('sales.*, customers.name as customer_name')
+        return $this->select('sales.*, customers.name as customer_name, creator.full_name as created_by_name')
             ->join('customers', 'customers.id = sales.customer_id', 'left')
+            ->join('users as creator', 'creator.id = sales.created_by', 'left')
             ->where('sales.branch_id', $branchId)
             ->where('sales.status', 'cancelled')
             ->orderBy('sales.id', 'DESC')
@@ -354,7 +355,17 @@ class SaleModel extends Model
             );
         }
 
-        $this->update($saleId, ['status' => 'cancelled', 'pay_status' => 'cancelled']);
+        // Flag it BEFORE overwriting pay_status below — a sale that was
+        // paid/partial (money already collected) getting cancelled is the
+        // case worth a manager's attention; a never-paid order being
+        // cancelled is routine and shouldn't be flagged.
+        $wasAlreadyPaid = in_array($sale['pay_status'], ['paid', 'partial'], true);
+
+        $this->update($saleId, [
+            'status'     => 'cancelled',
+            'pay_status' => 'cancelled',
+            'flagged'    => $wasAlreadyPaid ? 1 : 0,
+        ]);
 
         $this->db->transComplete();
 

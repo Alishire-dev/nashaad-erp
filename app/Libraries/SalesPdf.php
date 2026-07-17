@@ -266,4 +266,98 @@ class SalesPdf
 
         return $pdf->Output('S');
     }
+
+    /**
+     * Credit Note — thermal 80mm, issued against a cancelled (and
+     * already-paid) sale.
+     */
+    public function creditNoteThermal(array $creditNote, array $sale): string
+    {
+        $pdf = new \FPDF('P', 'mm', [80, 200]);
+        $pdf->AddPage();
+        $pdf->SetMargins(4, 4, 4);
+        $pdf->SetAutoPageBreak(true, 4);
+
+        $pdf->SetFont('Courier', 'B', 11);
+        $pdf->Cell(0, 5, 'NASHAAD', 0, 1, 'C');
+        $pdf->SetFont('Courier', 'B', 9);
+        $pdf->Cell(0, 5, 'CREDIT NOTE', 0, 1, 'C');
+        $pdf->SetFont('Courier', '', 8);
+        $pdf->Cell(0, 4, esc_pdf($creditNote['serial_no']), 0, 1, 'C');
+        $pdf->Cell(0, 4, 'Ref Invoice: ' . esc_pdf($creditNote['invoice_no'] ?? '-'), 0, 1, 'C');
+        $pdf->Cell(0, 4, esc_pdf($creditNote['credit_date']), 0, 1, 'C');
+        $pdf->Cell(0, 4, str_repeat('-', 32), 0, 1, 'C');
+
+        $pdf->Cell(0, 4, 'Customer: ' . esc_pdf($sale['customer_name'] ?? 'WALK-IN'), 0, 1);
+        $pdf->Cell(0, 4, str_repeat('-', 32), 0, 1, 'C');
+
+        foreach ($sale['lines'] ?? [] as $line) {
+            $pdf->Cell(0, 4, esc_pdf($line['item_name']), 0, 1);
+            $pdf->Cell(40, 4, number_format((float) $line['quantity'], 2) . ' x ' . number_format((float) $line['unit_price'], 2));
+            $pdf->Cell(0, 4, number_format((float) $line['total_amount'], 2), 0, 1, 'R');
+        }
+
+        $pdf->Cell(0, 4, str_repeat('-', 32), 0, 1, 'C');
+        $pdf->SetFont('Courier', 'B', 9);
+        $pdf->Cell(40, 5, 'CREDIT AMOUNT');
+        $pdf->Cell(0, 5, number_format((float) $creditNote['total_amount'], 2), 0, 1, 'R');
+
+        return $pdf->Output('S');
+    }
+
+    /**
+     * Credit Note — A4, same branded header style as a4Invoice().
+     */
+    public function creditNoteA4(array $creditNote, array $sale, array $branch): string
+    {
+        $pdf = new \FPDF();
+        $pdf->AddPage();
+        $pdf->SetMargins(15, 15, 15);
+        [$r, $g, $b] = self::ORANGE;
+
+        $pdf->SetFont('Arial', 'B', 20);
+        $pdf->SetTextColor($r, $g, $b);
+        $pdf->Cell(95, 12, esc_pdf(strtoupper($branch['name'] ?? 'NASHAAD')), 0, 0);
+        $pdf->SetFont('Arial', 'B', 22);
+        $pdf->Cell(95, 12, 'CREDIT NOTE', 0, 1, 'R');
+
+        $pdf->SetTextColor(0, 0, 0);
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->Cell(95, 6, 'Customer: ' . esc_pdf($sale['customer_name'] ?? 'WALK-IN'));
+        $pdf->Cell(95, 6, 'Credit Note No: ' . esc_pdf($creditNote['serial_no']), 0, 1, 'R');
+        $pdf->Cell(95, 6, '');
+        $pdf->Cell(95, 6, 'Ref Invoice: ' . esc_pdf($creditNote['invoice_no'] ?? '-'), 0, 1, 'R');
+        $pdf->Cell(95, 6, '');
+        $pdf->Cell(95, 6, 'Date: ' . esc_pdf($creditNote['credit_date']), 0, 1, 'R');
+        $pdf->Ln(6);
+
+        $pdf->SetFillColor($r, $g, $b);
+        $pdf->SetTextColor(255, 255, 255);
+        $pdf->SetFont('Arial', 'B', 9);
+        $pdf->Cell(90, 7, 'DESCRIPTION', 1, 0, 'L', true);
+        $pdf->Cell(30, 7, 'QTY', 1, 0, 'C', true);
+        $pdf->Cell(35, 7, 'UNIT PRICE', 1, 0, 'R', true);
+        $pdf->Cell(35, 7, 'AMOUNT', 1, 1, 'R', true);
+
+        $pdf->SetTextColor(0, 0, 0);
+        $pdf->SetFont('Arial', '', 9);
+        foreach ($sale['lines'] ?? [] as $line) {
+            $pdf->Cell(90, 6, esc_pdf($line['item_name']), 1, 0);
+            $pdf->Cell(30, 6, number_format((float) $line['quantity'], 0), 1, 0, 'C');
+            $pdf->Cell(35, 6, number_format((float) $line['unit_price'], 2), 1, 0, 'R');
+            $pdf->Cell(35, 6, number_format((float) $line['total_amount'], 2), 1, 1, 'R');
+        }
+
+        $pdf->SetFont('Arial', 'B', 11);
+        $pdf->Cell(155, 8, 'TOTAL CREDIT', 1, 0, 'R');
+        $pdf->Cell(35, 8, number_format((float) $creditNote['total_amount'], 2), 1, 1, 'R');
+
+        if (! empty($creditNote['note'])) {
+            $pdf->Ln(4);
+            $pdf->SetFont('Arial', '', 9);
+            $pdf->Cell(0, 6, 'Note: ' . esc_pdf($creditNote['note']));
+        }
+
+        return $pdf->Output('S');
+    }
 }

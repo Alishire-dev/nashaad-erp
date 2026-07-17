@@ -110,6 +110,10 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->post('sales/apply-discount/(:num)', 'Sales::applyDiscount/$1');
     $routes->post('sales/cancel/(:num)', 'Sales::cancel/$1');
     $routes->get('sales/cancelled', 'Sales::cancelled');
+    $routes->get('sales/credit-notes', 'CreditNotes::index');
+    $routes->get('sales/credit-notes/raise', 'CreditNotes::raiseForm');
+    $routes->post('sales/credit-notes/raise', 'CreditNotes::raise');
+    $routes->get('sales/credit-notes/from-cancelled/(:num)/(:segment)', 'CreditNotes::fromCancelledSale/$1/$2');
     $routes->get('sales/payments/(:num)', 'Sales::viewPayments/$1');
     $routes->post('sales/payments/(:num)/add', 'Sales::addPayment/$1');
     $routes->post('sales/payments/delete/(:num)', 'Sales::deletePayment/$1');
