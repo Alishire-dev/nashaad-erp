@@ -102,6 +102,16 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     // Sales
     $routes->get('sales/list', 'Sales::index');
     $routes->get('sales/view/(:num)', 'Sales::view/$1');
+    $routes->post('sales/update-details/(:num)', 'Sales::updateDetails/$1');
+    $routes->post('sales/apply-discount/(:num)', 'Sales::applyDiscount/$1');
+    $routes->post('sales/cancel/(:num)', 'Sales::cancel/$1');
+    $routes->get('sales/cancelled', 'Sales::cancelled');
+    $routes->get('sales/payments/(:num)', 'Sales::viewPayments/$1');
+    $routes->post('sales/payments/(:num)/add', 'Sales::addPayment/$1');
+    $routes->post('sales/payments/delete/(:num)', 'Sales::deletePayment/$1');
+    $routes->get('sales/returns', 'Sales::returns');
+    $routes->get('sales/return/(:num)', 'Sales::returnForm/$1');
+    $routes->post('sales/return/add', 'Sales::returnAdd');
 
     // Customers
     $routes->get('customers', 'Customers::index');

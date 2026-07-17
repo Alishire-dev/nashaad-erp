@@ -228,7 +228,8 @@
             <div class="nav-children">
                 <a href="<?= site_url('pos') ?>">POS</a>
                 <a href="<?= site_url('sales/list') ?>">Sales List</a>
-                <a class="nav-pending" href="#" title="Not yet scheduled" onclick="return false;">Sales Return <span class="soon-badge">soon</span></a>
+                <a href="<?= site_url('sales/returns') ?>">Sales Return</a>
+                <a href="<?= site_url('sales/cancelled') ?>">Cancelled Sales (Voids)</a>
             </div>
         </div>
 
