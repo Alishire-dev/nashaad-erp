@@ -11,7 +11,7 @@ class PurchaseModel extends Model
     protected $returnType    = 'array';
     protected $allowedFields = [
         'branch_id', 'supplier_id', 'reference_no', 'purchase_date', 'due_date',
-        'status', 'subtotal', 'grand_total', 'amount_paid', 'note', 'created_by',
+        'status', 'subtotal', 'grand_total', 'amount_paid', 'pay_status', 'note', 'created_by',
     ];
 
     protected $useTimestamps = false;
@@ -19,8 +19,9 @@ class PurchaseModel extends Model
 
     public function getForBranch(int $branchId): array
     {
-        return $this->select('purchases.*, suppliers.name as supplier_name')
+        return $this->select('purchases.*, suppliers.name as supplier_name, users.full_name as created_by_name')
             ->join('suppliers', 'suppliers.id = purchases.supplier_id', 'left')
+            ->join('users', 'users.id = purchases.created_by', 'left')
             ->where('purchases.branch_id', $branchId)
             ->orderBy('purchases.id', 'DESC')
             ->findAll();
@@ -79,6 +80,8 @@ class PurchaseModel extends Model
 
         $header['subtotal']    = round($subtotal, 2);
         $header['grand_total'] = round($subtotal, 2); // round-off/expenses can extend this later
+        $header['amount_paid'] = $header['grand_total']; // matches the full-cash-payment assumption below
+        $header['pay_status']  = 'paid';
         $header['created_by']  = $userId;
         $header['created_at']  = date('Y-m-d H:i:s');
 
