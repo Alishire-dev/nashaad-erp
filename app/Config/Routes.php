@@ -94,6 +94,7 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
 
     // POS
     $routes->get('pos', 'Pos::index');
+    $routes->get('pos/toggle-theme', 'Pos::toggleTheme');
     $routes->post('pos/checkout', 'Pos::checkout');
     $routes->post('pos/hold', 'Pos::hold');
     $routes->get('pos/held-list', 'Pos::heldList');

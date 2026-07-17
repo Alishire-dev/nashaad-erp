@@ -29,9 +29,30 @@ class Pos extends BaseController
             'heldCount'  => count($saleModel->getHeldSales($this->branchId)),
         ];
 
+        $branch = \Config\Database::connect()->table('branches')->where('id', $this->branchId)->get()->getRowArray() ?: [];
+        $theme  = $branch['pos_theme'] ?? 'style_b';
+        $data['posTheme'] = $theme;
+
         return view('layout/header', $data)
-            . view('pos/index', $data)
+            . view($theme === 'style_a' ? 'pos/index_style_a' : 'pos/index_style_b', $data)
             . view('layout/footer');
+    }
+
+    /**
+     * Simple toggle between the two POS visual themes — no full Settings
+     * module yet, so this is reachable directly from a link on the POS
+     * screen itself rather than a dedicated settings page.
+     */
+    public function toggleTheme()
+    {
+        $this->requirePermission('pos', 'view');
+
+        $branch = \Config\Database::connect()->table('branches')->where('id', $this->branchId)->get()->getRowArray();
+        $newTheme = ($branch['pos_theme'] ?? 'style_b') === 'style_a' ? 'style_b' : 'style_a';
+
+        \Config\Database::connect()->table('branches')->where('id', $this->branchId)->update(['pos_theme' => $newTheme]);
+
+        return redirect()->to('/pos');
     }
 
     /**

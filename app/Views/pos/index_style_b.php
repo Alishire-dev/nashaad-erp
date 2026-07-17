@@ -28,7 +28,7 @@
     .modal-body { padding:20px; max-height:70vh; overflow-y:auto; }
 </style>
 
-<h2>POS</h2>
+<h2>POS <a href="<?= site_url('pos/toggle-theme') ?>" style="font-size:13px; font-weight:normal; color:#3a8fd6;">(switch to image-tile theme)</a></h2>
 
 <div class="pos-layout">
     <div class="pos-cart-panel">
