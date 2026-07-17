@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\PurchaseModel;
 use App\Models\PurchaseReturnModel;
+use App\Models\PurchasePaymentModel;
 use App\Models\SupplierModel;
 use App\Models\ItemModel;
 
@@ -35,6 +36,57 @@ class Purchase extends BaseController
         return view('layout/header', ['title' => 'Purchase #' . $id])
             . view('purchase/view', ['purchase' => $purchase])
             . view('layout/footer');
+    }
+
+    public function viewPayments($id)
+    {
+        $this->requirePermission('purchase', 'view');
+
+        $purchase = model(PurchaseModel::class)->getWithLines((int) $id);
+        if (! $purchase) {
+            return redirect()->to('/purchase/list');
+        }
+
+        $data = [
+            'title'    => 'Payments',
+            'purchase' => $purchase,
+            'payments' => model(PurchasePaymentModel::class)->getForPurchase((int) $id),
+        ];
+
+        return view('layout/header', $data)
+            . view('purchase/payments', $data)
+            . view('layout/footer');
+    }
+
+    public function addPayment($id)
+    {
+        $this->requirePermission('purchase', 'add');
+
+        model(PurchasePaymentModel::class)->addPayment(
+            (int) $id,
+            $this->request->getPost('payment_date') ?: date('Y-m-d'),
+            (float) $this->request->getPost('amount'),
+            $this->request->getPost('payment_type') ?: 'cash',
+            $this->request->getPost('voucher_no'),
+            $this->request->getPost('payment_note'),
+            (int) $this->currentUser['id']
+        );
+
+        $this->session->setFlashdata('success', 'Payment recorded.');
+        return redirect()->to('/purchase/payments/' . $id);
+    }
+
+    public function deletePayment($paymentId)
+    {
+        $this->requirePermission('purchase', 'delete');
+
+        $payment = model(PurchasePaymentModel::class)->find((int) $paymentId);
+        $purchaseId = $payment['purchase_id'] ?? null;
+
+        model(PurchasePaymentModel::class)->deletePayment((int) $paymentId);
+
+        $this->session->setFlashdata('success', 'Payment deleted.');
+        return redirect()->to('/purchase/payments/' . $purchaseId);
     }
 
     public function add()

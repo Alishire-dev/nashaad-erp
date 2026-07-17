@@ -219,6 +219,7 @@
                 <a href="<?= site_url('purchase/add') ?>">New Purchase</a>
                 <a href="<?= site_url('purchase/list') ?>">Purchase List</a>
                 <a href="<?= site_url('purchase/returns') ?>">Purchase Return</a>
+                <a href="<?= site_url('purchase/debit-notes') ?>">Debit Notes</a>
             </div>
         </div>
 

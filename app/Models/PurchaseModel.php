@@ -29,7 +29,7 @@ class PurchaseModel extends Model
 
     public function getWithLines(int $purchaseId): ?array
     {
-        $purchase = $this->select('purchases.*, suppliers.name as supplier_name')
+        $purchase = $this->select('purchases.*, suppliers.name as supplier_name, suppliers.phone as supplier_phone, suppliers.email as supplier_email')
             ->join('suppliers', 'suppliers.id = purchases.supplier_id', 'left')
             ->find($purchaseId);
 
@@ -139,6 +139,18 @@ class PurchaseModel extends Model
             'purchase',
             $purchaseId
         );
+
+        // Same full-cash-payment assumption reflected as a real payment
+        // record — otherwise View Payments would show an empty history
+        // for a purchase that's marked Paid, which would be confusing.
+        $this->db->table('purchase_payments')->insert([
+            'purchase_id'  => $purchaseId,
+            'payment_date' => $header['purchase_date'],
+            'amount'       => $header['grand_total'],
+            'payment_type' => 'cash',
+            'created_by'   => $userId,
+            'created_at'   => date('Y-m-d H:i:s'),
+        ]);
 
         $db->transComplete();
 

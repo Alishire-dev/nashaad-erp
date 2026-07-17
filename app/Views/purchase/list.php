@@ -52,7 +52,7 @@
                     <button class="btn" onclick="toggleDropdown(this)">Action ▾</button>
                     <div class="action-dropdown-menu">
                         <a href="<?= site_url('purchase/view/' . $p['id']) ?>">👁 View Purchase</a>
-                        <a href="#" class="nav-pending" onclick="return false;" title="Not yet scheduled">👁 View Payments <span class="soon-badge">soon</span></a>
+                        <a href="<?= site_url('purchase/payments/' . $p['id']) ?>">👁 View Payments</a>
                         <a href="#" class="nav-pending" onclick="return false;" title="Not yet scheduled">📄 Purchase Order <span class="soon-badge">soon</span></a>
                         <a href="#" class="nav-pending" onclick="return false;" title="Not yet scheduled">📄 Purchase Order (No Price) <span class="soon-badge">soon</span></a>
                         <a href="#" class="nav-pending" onclick="return false;" title="Not yet scheduled">🖨 Thermal Print <span class="soon-badge">soon</span></a>

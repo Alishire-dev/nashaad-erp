@@ -81,6 +81,14 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->post('purchase/return/add', 'Purchase::returnAdd');
     $routes->get('purchase/lines-json/(:num)', 'Purchase::linesJson/$1');
 
+    // Purchase Payments
+    $routes->get('purchase/payments/(:num)', 'Purchase::viewPayments/$1');
+    $routes->post('purchase/payments/(:num)/add', 'Purchase::addPayment/$1');
+    $routes->post('purchase/payments/delete/(:num)', 'Purchase::deletePayment/$1');
+
+    // Debit Notes
+    $routes->get('purchase/debit-notes', 'DebitNotes::index');
+
     // POS
     $routes->get('pos', 'Pos::index');
     $routes->post('pos/checkout', 'Pos::checkout');
